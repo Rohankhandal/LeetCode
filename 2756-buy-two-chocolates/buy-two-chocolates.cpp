@@ -1,16 +1,22 @@
+
+//Normal Method
 class Solution {
 public:
     int buyChoco(vector<int>& prices, int money) {
-        sort(prices.begin(),prices.end());
-        for(int i=0;i<prices.size()-1;i++)
-        {
-            int sum=prices[i]+prices[i+1];
-            if(sum<=money)
+        int fMin=INT_MAX;
+        int sMin=INT_MAX;
+        for(auto x:prices){
+            if(x<fMin)
             {
-                money-=sum;
-                break;
+                sMin=fMin;
+                fMin=x;
+            }
+            else
+            {
+                sMin=min(sMin,x);
             }
         }
-        return money;
+        int leftOver=money-fMin-sMin;
+        return leftOver>=0?leftOver:money;
     }
 };
