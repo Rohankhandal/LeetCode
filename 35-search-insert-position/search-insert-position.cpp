@@ -4,20 +4,24 @@ public:
         int s=0;
         int e=nums.size()-1;
         int ans=-1;
-        for(int i=0;i<nums.size();i++)
-        {
-            if(nums[i]==target)
+       while(s<=e)
+       {
+           int mid=(s+e)/2;
+            if(nums[mid]==target)
             {
-                return i;
+                return mid;
             }
-            else 
+            else if(nums[mid] > target)
             {
-                if(nums[i]>target)
-                break;
-
-                ans=i;
+                e = mid - 1;
+                // ans = mid;
+            }
+            else
+            {
+                s = mid + 1;
+                // ans = s;
             }
         }
-        return ans+1;
+        return s;
     }
 };
