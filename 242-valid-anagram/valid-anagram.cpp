@@ -1,19 +1,37 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        int freqTable[256]={0};
-        for( int i=0; i<s.size(); i++)
+        // int freqTable[256]={0};
+        // for( int i=0; i<s.size(); i++)
+        // {
+        //     freqTable[s[i]]++;     //increment by 1 in freqtable along string s characters.
+        // }
+        // for( int i=0; i<t.size(); i++)
+        // {
+        //     freqTable[t[i]]--;      //decrement by 1 in freqtable along string s characters.
+        // }
+        // for( int i=0; i<256; i++)
+        // {
+        //    if(freqTable[i]!=0)
+        //     return false;
+        // }
+        // return true;
+        unordered_map<char,int>mp;
+        for(int i=0;i<s.size();i++)
         {
-            freqTable[s[i]]++;     //increment by 1 in freqtable along string s characters.
+            mp[s[i]]++;
         }
-        for( int i=0; i<t.size(); i++)
+        //compare with t string 
+        for(int i=0;i<t.size();i++)
         {
-            freqTable[t[i]]--;      //decrement by 1 in freqtable along string s characters.
+            mp[t[i]]--;
         }
-        for( int i=0; i<256; i++)
+        for(auto &it:mp)
         {
-           if(freqTable[i]!=0)
-            return false;
+            if(it.second!=0)
+            {
+                return false;
+            }
         }
         return true;
     }
