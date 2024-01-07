@@ -51,10 +51,10 @@ public:
             }
         }
 
-        if(freq1>floor(nums.size()/3))
+        if(freq1>nums.size()/3)
         ans.push_back(maj1);
 
-        if(freq2>floor(nums.size()/3))
+        if(freq2>nums.size()/3)
         ans.push_back(maj2);
         return ans;
     }
