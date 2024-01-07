@@ -8,8 +8,8 @@ public:
             return false;
         }
 
-        string doubleS=s+s;
-        bool ans=doubleS.find(goal)!=string::npos;
+        s=s+s;       //make a big string or append s in s.
+        bool ans=s.find(goal)!=string::npos;
 
 
         return ans;
