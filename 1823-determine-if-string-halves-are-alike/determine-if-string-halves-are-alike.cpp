@@ -2,21 +2,20 @@ class Solution {
 public:
     int isvowel(string str)
     {
-        int count=0;
-        for(int i=0;i<str.size();i++)
-        {
-            if(str[i]=='a'||str[i]=='e'||str[i]=='i'||str[i]=='o'||str[i]=='u'||str[i]=='A'||str[i]=='E'||str[i]=='I'||str[i]=='O'||str[i]=='U')
-            {
-                count++;
+        unordered_set<char> vowels{'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};
+            int count = 0;
+            for (char c : str) {
+                if (vowels.count(c) > 0) {
+                    count++;
+                }
             }
-        }
-        return count;
+            return count;
     }
    
     bool halvesAreAlike(string s) {
         int size=s.size();
         string a=s.substr(0,size/2);
-        string b=s.substr(size/2,size/2);
+        string b=s.substr(size/2);
         
         if(isvowel(a)==isvowel(b))
         {
