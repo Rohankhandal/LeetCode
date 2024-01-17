@@ -24,7 +24,7 @@ public:
         }
              int idx=mp[val];  //access the index which we have to remove
             int lastElement=arr.back();
-            arr.back()=val;
+            // arr.back()=val;
             arr[idx]=lastElement;
             mp[lastElement]=idx;
             arr.pop_back();
