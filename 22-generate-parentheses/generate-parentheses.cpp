@@ -12,12 +12,14 @@ void generate(vector<string>&ans,string output,int open,int close)
     {
         output.push_back('(');
         generate(ans,output,open-1,close);
+        //backtracking
         output.pop_back();
     }
     if(close>open)
     {
         output.push_back(')');
         generate(ans,output,open,close-1);
+        //backtracking
         output.pop_back();
     }
 }
