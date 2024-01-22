@@ -3,17 +3,18 @@ public:
     int maxArea(vector<int>& height) {
         int left=0;
         int right=height.size()-1;
-        int maxi=0;
-        while(left<=right)
+        int maxWater=0;
+        while(left<right)
         {
             int minHeight=min(height[left],height[right]);
             int width=right-left;
-            int area=minHeight*width;
-            cout<<"Area="<<area<<endl;
 
-            maxi=max(maxi,area);
-            cout<<"Maxi="<<maxi<<endl;
-            if(height[left]<=height[right])
+            int area=minHeight*width;
+           
+
+        maxWater=max(maxWater,area);
+            
+            if(height[left]<= height[right])  //greedy appraoch to check maximum height
             {
                 left++;
             }
@@ -26,6 +27,6 @@ public:
             
         }
 
-        return maxi;
+        return maxWater;
     }
 };
