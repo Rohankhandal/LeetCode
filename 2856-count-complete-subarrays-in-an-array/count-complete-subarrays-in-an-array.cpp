@@ -1,35 +1,27 @@
 class Solution {
 public:
     int countCompleteSubarrays(vector<int>& nums) {
-        int distinctEle=0;
-        int n=nums.size();
-        unordered_map<int,int>mp;
-        unordered_map<int,int>temp;
-        for(auto &it:nums)
-        {
-            mp[it]++;
+        int n = nums.size();
+        unordered_set<int> freq;
+        
+        for(int i = 0; i < n; i++) {  //to count distinct ele
+            freq.insert(nums[i]);
         }
-        distinctEle=mp.size();
-        cout<<distinctEle<<endl;
-        int ans=0;
-        for(int i=0;i<n;i++)
-        {
-            int count=0;
-            for(int j=i;j<n;j++)
-            {
-                if(temp.count(nums[j])==0)
-                {
-                    count++;
-                }
-                if(count==distinctEle)
-                {
+        
+        int distinct = freq.size();
+        int ans = 0;
+    
+        for (int i = 0; i < n; i++) {
+            unordered_set<int> temp;
+
+            for(int j = i; j < n; j++) {
+                temp.insert(nums[j]);
+                if (temp.size() == distinct) {
                     ans++;
                 }
-                temp[nums[j]]++;
-
             }
-            temp.clear();
         }
-        return ans;
+    
+    return ans;   
     }
 };
