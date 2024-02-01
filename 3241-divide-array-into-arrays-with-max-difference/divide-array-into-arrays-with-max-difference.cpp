@@ -6,20 +6,11 @@ public:
         sort(nums.begin(),nums.end());
         for(int i=0;i<n-2;i=i+3)
         {
-            if(nums[i+2]-nums[i]<=k)
+            if(nums[i+2]-nums[i]>k)
             {
-                vector<int>temp;
-                for(int j=i;j<=i+2;j++)
-                {
-                    temp.push_back(nums[j]);
-                }
-                ans.push_back(temp);
+                return {};
             }
-            else
-            {
-                 vector<vector<int>>ans;
-                return ans;
-            }
+            ans.push_back({nums[i],nums[i+1],nums[i+2]});
         }
         return ans;
     }
