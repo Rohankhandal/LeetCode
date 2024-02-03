@@ -20,6 +20,8 @@ bool isPossible(vector<int>&arr,int capacity,int days)
 }
     int shipWithinDays(vector<int>& weights, int days) {
         int l=*max_element(weights.begin() , weights.end());
+        // int l=1;  don't start from 1 e.g. 1,2,3,1,1 bcz their no capacity which hold 
+        //max value from array if we take less than capacity from max value of element
         int r=accumulate(weights.begin() , weights.end() , 0);
         int ans=0;
         while(l<=r)
