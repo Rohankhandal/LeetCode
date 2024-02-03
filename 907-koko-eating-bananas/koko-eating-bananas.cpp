@@ -11,7 +11,7 @@ public:
             long long sum=0;
             for(int i=0;i<n;i++)
             {
-                sum+=((piles[i]/mid)+(piles[i]%mid!=0));
+                sum+=((piles[i]/mid)+(piles[i]%mid!=0)); //take ceil value basically
             }
             if(sum<=h)
             {
