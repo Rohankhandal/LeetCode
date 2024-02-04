@@ -20,9 +20,9 @@ public:
             return l;
 
         int ls1 = longestSubstring(s.substr(0, l), k);
-        while (l < n && counts[s[l]] < k)
+        while (l < n && counts[s[l]] < k)  //skip those characters which have less than k frequency
             l++;
-        int ls2 = (l < n) ? longestSubstring(s.substr(l), k) : 0;
+        int ls2 = (l < n) ? longestSubstring(s.substr(l), k) : 0; //remaining part 
         return max(ls1, ls2);
     }
 };
