@@ -1,11 +1,11 @@
 class Solution {
 public:
-vector<int> twoPtrMethod(vector<int>&arr, int k, int x)
+vector<int> twoPtrMethod(vector<int>&arr, int k, int x) 
 {
     int l=0,h=arr.size()-1;
     while(h-l>=k)
     {
-        if(x-arr[l] > arr[h] -x )
+        if(x-arr[l] > arr[h] -x )  //comparsion respect of difference with x
         {
             l++;  //shrink array if diff is greater than the h pointer element diff
         }
