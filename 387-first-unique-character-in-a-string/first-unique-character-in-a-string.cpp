@@ -6,10 +6,7 @@ public:
         {
             mp[it]++;
         }
-        for(auto it:mp)
-        {
-            cout<<it.first<<" "<<it.second<<endl;    
-        }
+
 
         for(int i=0;i<s.size();i++){
             if(mp[s[i]]==1)
