@@ -14,8 +14,7 @@ public:
         if(head==NULL || head->next==NULL){
             return head;
         }
-        ListNode *oddHead=head;
-        ListNode*odd=head;
+        ListNode *odd=head;
         ListNode *evenHead=head->next;
         ListNode *evenTail=evenHead;
         while(evenTail!=NULL && evenTail->next!=NULL)
@@ -27,6 +26,6 @@ public:
             evenTail=evenTail->next;
         }
         odd->next=evenHead;
-        return oddHead;
+        return head;
     }
 };
