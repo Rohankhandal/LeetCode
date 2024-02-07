@@ -19,7 +19,7 @@ public:
         while(temp1!=NULL || temp2!=NULL)
         {
             int sum=carry;
-            if(temp1){
+            if(temp1){  //if temp1 node is not equal null then block is execute
                 sum+=temp1->val;
                 temp1=temp1->next;
             }
