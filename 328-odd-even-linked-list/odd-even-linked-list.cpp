@@ -8,6 +8,7 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+//  T.c:-O(N/2*2)=>O(N)
 class Solution {
 public:
     ListNode* oddEvenList(ListNode* head) {
