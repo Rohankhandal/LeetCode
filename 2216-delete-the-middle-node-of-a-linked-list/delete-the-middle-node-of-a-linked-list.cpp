@@ -16,7 +16,7 @@ public:
             return NULL;
         }
         ListNode*slow=head;
-        ListNode*fast=head->next->next;
+        ListNode*fast=head->next->next;  //skip one move of slow pointer
         while(fast!=NULL)
         {
             fast=fast->next;
@@ -26,7 +26,7 @@ public:
                 slow=slow->next;
             }
         }
-        ListNode*deleteNode=slow->next;
+        ListNode*deleteNode=slow->next;  //slow point to previous node of middle node 
         slow->next=slow->next->next;
         delete deleteNode;
 
