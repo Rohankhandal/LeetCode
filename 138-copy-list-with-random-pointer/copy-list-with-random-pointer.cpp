@@ -16,46 +16,41 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-     Node* temp=head;
-     while(temp!=NULL)
-     {
-         Node* newNode=new Node(temp->val);
-         newNode->next=temp->next;
-         temp->next=newNode;
-        
-        //go to next node in original LL
-         temp=temp->next->next;
-     }
+     Node* temp = head;
+	//step 1  Create deep nodes of all nodes. Instead of storing these nodes in a 
+    // hashmap, we will point it to the next of the original nodes.
+    while(temp != NULL) {
+        Node* newNode = new Node(temp->val);
+        newNode->next = temp->next;
+        temp->next = newNode;
+        temp = temp->next->next;
+    }
+	//step 2Take a pointer, say itr, point it to the head of the list. This will 
+    // help us to point random pointers as per the original list. This can be 
+    // achieved by itr->next->random = itr->random->next
 
-     temp=head;
-     while(temp!=NULL)
-     {
-         if(temp->random)
-          temp->next->random= temp->random->next;
-         else{
-             temp->next->random=NULL;
-         }
-
-        temp=temp->next->next;
-     }
-
-
-     //now split original and copied LL
-     temp=head;
-     Node* dummyNode=new Node(-1);
-     Node *itr=dummyNode;
-     Node *fast;
-     while(temp!=NULL)
-     {
-         fast=temp->next->next;
-         itr->next=temp->next;
-         temp->next=fast;
-
-         temp=temp->next;
-         itr=itr->next;
-     }
-
-     return dummyNode->next;
+    Node* itr = head;
+    while(itr != NULL) {
+        if(itr->random != NULL)
+            itr->next->random = itr->random->next;
+        itr = itr->next->next;
+    }
+	//step 3  Use three pointers. One dummy node whose next node points to the 
+    // first deep node. itr pointer at the head of the original list and fast 
+    // which is two steps ahead of the itr. This will be used to separate the 
+    // original linked list with the deep nodes list.
+    Node* dummy = new Node(0);
+    itr = head;
+    temp = dummy;
+    Node* fast;
+    while(itr != NULL) {
+        fast = itr->next->next;
+        temp->next = itr->next;
+        itr->next = fast;
+        temp = temp->next;
+        itr = fast;
+    }
+    return dummy->next;
     }
 };
 
