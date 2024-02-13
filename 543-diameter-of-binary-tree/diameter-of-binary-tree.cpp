@@ -9,10 +9,10 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-//Fast method:-
+
 class Solution {
 public:
-int D=0;
+
     int height(TreeNode* root)
     {
         if(root==NULL)
@@ -21,18 +21,55 @@ int D=0;
         }
         int lh=height(root->left);
         int  rh=height(root->right);
-        //diameter
-        int currD=lh+rh;
-        D=max(currD,D);
+       
         int ans=max(lh,rh)+1;
         return ans;
     }
-    
+    void findDiameter(TreeNode* root,int &maxi)
+    {
+        if(root==NULL)
+        {
+            return ;
+        }
+        int lh=height(root->left);
+        int rh=height(root->right);
+        maxi=max(lh+rh,maxi);
+
+        findDiameter(root->left,maxi);
+        findDiameter(root->right,maxi);
+    }
     int diameterOfBinaryTree(TreeNode* root) {
-        height(root);
-        return D;
+        int maxi=INT_MIN;
+        findDiameter(root,maxi);
+        return maxi;
     }
 };
+
+
+// //Fast method:-
+// class Solution {
+// public:
+// int D=0;
+//     int height(TreeNode* root)
+//     {
+//         if(root==NULL)
+//         {
+//             return 0;
+//         }
+//         int lh=height(root->left);
+//         int  rh=height(root->right);
+//         //diameter
+//         int currD=lh+rh;
+//         D=max(currD,D);
+//         int ans=max(lh,rh)+1;
+//         return ans;
+//     }
+    
+//     int diameterOfBinaryTree(TreeNode* root) {
+//         height(root);
+//         return D;
+//     }
+// };
 
  //It is slow method bcz Tc:-O(n^2) 
 
