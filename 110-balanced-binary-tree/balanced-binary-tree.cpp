@@ -9,6 +9,7 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+//  T.c:-O(N)
 class Solution {
 public:
     bool isbalanced=true;
