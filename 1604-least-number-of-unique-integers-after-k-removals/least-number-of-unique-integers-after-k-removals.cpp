@@ -6,25 +6,25 @@ public:
         {
             mp[it]++;
         }
-        vector<pair<int,int>>v;
+        vector<int>v;
         for(auto &it:mp)
         {
-            v.push_back({it.second,it.first});
+            v.push_back(it.second);
         }
         sort(v.begin(),v.end());
         for(auto &it:v)
         {
             if(k==0)
             break;
-            int freq=it.first;
-            it.first-=k;
+            int freq=it;
+            it-=k;
             k=abs(k-freq);
 
         }
         int ans=0;
         for(auto &it:v)
         {
-            if(it.first>0)
+            if(it>0)
             {
                 ans++;
             }
