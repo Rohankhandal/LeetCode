@@ -54,6 +54,7 @@ ListNode* reverse(ListNode* head)
                 
             }
             else{
+                //update maximum value
                 maxi=curr->val;
                 prev=curr;
                 curr=curr->next;
