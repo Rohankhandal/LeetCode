@@ -21,10 +21,10 @@ public:
     int maxEvents(vector<vector<int>>& events) {
         
         sort(events.begin(),events.end(),cmp);
-        for(int i=0;i<events.size();i++)
-        {
-           cout<<events[i][0]<<" "<<events[i][1]<<endl;
-        }
+        // for(int i=0;i<events.size();i++)
+        // {
+        //    cout<<events[i][0]<<" "<<events[i][1]<<endl;
+        // }
         int cnt=0;
         set<int>days;
         for(int i=1;i<=100000;i++)  days.insert(i);
