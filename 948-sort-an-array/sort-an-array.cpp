@@ -1,38 +1,39 @@
 class Solution {
 public:
-void merge(vector<int>&v,vector<int>&temp,int start,int mid, int end)
+void mergeInPlace(vector<int>&v,int start,int mid, int end)
 {
-    int i=start,j=mid+1,k=start;
-
-    while(i<=mid && j<=end)
+    int total_len=end-start+1;
+    int gap=total_len/2+total_len%2;  //ceil
+    
+    while(gap>0)
     {
-        if(v[i]<=v[j]) temp[k++]=v[i++];
-        else
-        temp[k++]=v[j++];
-    }
-    while(i<=mid ) temp[k++]=v[i++];
-    while(j<=end)  temp[k++]=v[j++];
-
-    while(start<=end)
-    {
-        v[start]=temp[start];
-        ++start;
+        int i=start,j=start+gap;
+        while(j<=end)
+        {
+            if(v[i]>v[j])
+            {
+                swap(v[i],v[j]);
+            }
+            ++i,++j;
+        }
+        gap=gap<=1? 0 : (gap/2)+(gap%2); 
+        //iterate this way until Gap==1 
     }
 }
-void mergeSort(vector<int>&v,vector<int>&temp,int start,int end)
+void mergeSort(vector<int>&v,int start,int end)
 {
     if(start>=end) return ;
 
     int mid=(start+end)>>1;
     
-    mergeSort(v,temp,start,mid);
-    mergeSort(v,temp,mid+1,end);
+    mergeSort(v,start,mid);
+    mergeSort(v,mid+1,end);
 
-    merge(v,temp,start,mid,end);
+    mergeInPlace(v,start,mid,end);
 }
     vector<int> sortArray(vector<int>& nums) {
-        vector<int>temp(nums.size(),0);
-        mergeSort(nums,temp,0,nums.size()-1);
+       
+        mergeSort(nums,0,nums.size()-1);
         return nums;
     }
 };
