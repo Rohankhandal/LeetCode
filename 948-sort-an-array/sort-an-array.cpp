@@ -1,5 +1,7 @@
 class Solution {
 public:
+// T.c:-O(NlogN)
+// SC:-O(1)
 void mergeInPlace(vector<int>&v,int start,int mid, int end)
 {
     int total_len=end-start+1;
