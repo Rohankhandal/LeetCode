@@ -44,7 +44,9 @@ public:
 						dummy=head;
 						sum/=10;  //carry 
 					}
-					return dummy->val==0? dummy->next:dummy;    //IMP POINT 
+					return dummy->val==0? dummy->next:dummy; 
+                       //IMP POINT 
+                       //if at last time if carry is zero , then ans is dummy->val
     }
 };
 
