@@ -8,6 +8,7 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2)
@@ -43,7 +44,7 @@ public:
 						dummy=head;
 						sum/=10;  //carry 
 					}
-					return dummy->val==0? dummy->next:dummy;   
+					return dummy->val==0? dummy->next:dummy;    //IMP POINT 
     }
 };
 
