@@ -37,11 +37,11 @@ public:
 							sum+=s2.top();;
 							s2.pop();
 						}
-						dummy->val=sum%10;
-						ListNode* head=new ListNode(sum/10);
-						head->next=dummy;
+						dummy->val=sum%10;  //insert data in node if data exist
+						ListNode* head=new ListNode(sum/10);  //insert carry in new node (for future , if next iteration is execute)
+						head->next=dummy;  //insert at start , so that no need to store in stack or reverse it
 						dummy=head;
-						sum/=10;
+						sum/=10;  //carry 
 					}
 					return dummy->val==0? dummy->next:dummy;   
     }
