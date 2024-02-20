@@ -59,21 +59,20 @@ ListNode* reverse(ListNode* head)
             curr=forward;
             count++;
         }
+       
         if(curr)  //if right index is not at last node then update right index next value to NULL
         //for reverse the range nodes
           curr->next=NULL;
 
+         ListNode* subListHead=prev1->next;  //last node after reverse the LL
+
         //now reverse left index to right index  nodes
         prev1->next=reverse(prev1->next);
       
-        //traverse to end node;
-        while(prev1->next!=NULL)
-        {
-            prev1=prev1->next;    
-        }
+        
 
        //piont after right index values to reversed LL tail
-        prev1->next=forward;
+        subListHead->next=forward;
 
 
         return dummy->next;
