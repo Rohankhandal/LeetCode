@@ -31,9 +31,11 @@ ListNode* reverse(ListNode* head)
         // return head;
         ListNode*dummy=new ListNode(-1);
         dummy->next=head;
-        ListNode*prev1=dummy;
+
+        ListNode*prev=dummy;
         ListNode*curr=dummy->next;
         ListNode*forward=curr->next;
+
         int count=1;
         while(curr!=NULL)
         {
@@ -42,7 +44,7 @@ ListNode* reverse(ListNode* head)
             {
                 break;
             }
-            prev1=curr;
+            prev=curr;
             curr=forward;
             count++;
         }
@@ -64,14 +66,14 @@ ListNode* reverse(ListNode* head)
         //for reverse the range nodes
           curr->next=NULL;
 
-         ListNode* subListHead=prev1->next;  //last node after reverse the LL
+         ListNode* subListHead=prev->next;  //last node after reverse the LL
 
         //now reverse left index to right index  nodes
-        prev1->next=reverse(prev1->next);
+        prev->next=reverse(prev->next);
       
         
 
-       //piont after right index values to reversed LL tail
+       //point after right index values to reversed LL tail
         subListHead->next=forward;
 
 
