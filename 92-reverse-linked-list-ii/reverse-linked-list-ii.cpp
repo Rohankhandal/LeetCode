@@ -27,8 +27,8 @@ ListNode* reverse(ListNode* head)
     return prev;
 }
     ListNode* reverseBetween(ListNode* head, int left, int right) {
-        if(head==NULL || (head->next==NULL && left==1 && right==1))
-        return head;
+        // if(head==NULL || (head->next==NULL && left==1 && right==1))
+        // return head;
         ListNode*dummy=new ListNode(-1);
         dummy->next=head;
         ListNode*prev1=dummy;
@@ -46,7 +46,7 @@ ListNode* reverse(ListNode* head)
             curr=forward;
             count++;
         }
-        //now point right val node to null
+        //now point right index node to null
         
         while(curr!=NULL)
         {
@@ -59,21 +59,20 @@ ListNode* reverse(ListNode* head)
             curr=forward;
             count++;
         }
-        if(curr)
-        curr->next=NULL;
+        if(curr)  //if right index is not at last node then update right index next value to NULL
+        //for reverse the range nodes
+          curr->next=NULL;
 
-        //now reverse left node to right node
+        //now reverse left index to right index  nodes
         prev1->next=reverse(prev1->next);
-        // cout<<"prev"<<prev1->val<<endl;
+      
         //traverse to end node;
         while(prev1->next!=NULL)
         {
-            // cout<<"Prev:"<<prev1->val<<endl;
-            prev1=prev1->next;
-            
+            prev1=prev1->next;    
         }
-        // cout<<"prev_>NEXT"<<prev1->val<<" "<<prev1->next<<endl;
-        // cout<<"Forward"<<forward<<endl;
+
+       //piont after right index values to reversed LL tail
         prev1->next=forward;
 
 
