@@ -1,33 +1,46 @@
 class Solution {
 public:
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-        int len1=nums1.size();
-        int len2=nums2.size();
-        vector<int>ans(len1,0);
-        for(int i=0;i<len1;i++)
+        stack<int>st;
+        unordered_map<int,int>mp;
+        vector<int>ans(nums1.size());
+        for(int i=nums2.size()-1;i>=0;i--)
         {
-            int num=nums1[i];
-            int maxEle=num;
-            for(int j=len2-1;j>=0;j--)
+            if(st.empty())
             {
-               if(num==nums2[j])
-               {
-                   if(maxEle==num)
-                   {
-                       ans[i]=-1;
-                   }
-                   else
-                   {
-                        ans[i]=maxEle;
-                   break;
-                   }
-                  
-               }
-               if(nums2[j]>num)
-               {
-                   maxEle=nums2[j];
-               }
+               mp[nums2[i]]=-1;
+                st.push(nums2[i]);
             }
+            else if(st.top()>nums2[i])
+            {
+                mp[nums2[i]]=st.top();
+                st.push(nums2[i]);
+            }
+            else //st.top()<=nums2[i]
+            {
+                while(!st.empty()&&st.top()<=nums2[i])
+                {
+                    st.pop();
+                }
+                if(st.empty())
+                {
+                     mp[nums2[i]]=-1;
+                    st.push(nums2[i]);
+                }
+                else
+                {
+                mp[nums2[i]]=st.top();
+                st.push(nums2[i]);
+                }
+                
+            }
+        }
+        
+        
+        //now traverse in nums2 and check whose next greater element need
+        for(int j=0;j<nums1.size();j++)
+        {
+              ans[j]=mp[nums1[j]];    
         }
         return ans;
     }
