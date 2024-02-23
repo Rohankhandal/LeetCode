@@ -9,26 +9,29 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-//  T.c:-O(N)
 class Solution {
 public:
-    bool isbalanced=true;
-    int height(TreeNode* root)
-    {
-        if(!root) return 0;
-
-        int lh=height(root->left);
-        int rh=height(root->right);
-
-        //check for current node , is it balanced?
-        if(isbalanced && abs(lh-rh)>1)
-        {
-            isbalanced=false;
-        }
-        return max(lh,rh)+1;
-    }
+int height(TreeNode*root)
+{
+    if(root==NULL) return 0;
+    int lh=height(root->left);
+    int rh=height(root->right);
+    return max(lh,rh)+1;
+}
     bool isBalanced(TreeNode* root) {
-        height(root);
-        return isbalanced;
+        if(root==NULL)
+          return true;
+        
+        int left=height(root->left);
+        int right=height(root->right);
+        int diff=abs(left-right);
+        bool ans;
+          if(diff<=1)
+            ans=true;
+         else 
+            return false;
+        bool leftAns=isBalanced(root->left);
+        bool rightAns=isBalanced(root->right);
+        return ans&&leftAns&&rightAns;
     }
 };
