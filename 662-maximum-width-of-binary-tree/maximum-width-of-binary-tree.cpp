@@ -20,9 +20,9 @@ typedef unsigned long long ll;
         while (!q.empty()) {
             ll l = q.front().second;
             ll r = q.back().second;
-            cout<<l<<" "<<r<<endl;
+            // cout<<l<<" "<<r<<endl;
             maxWidth = max(maxWidth, r - l + 1);
-            cout<<maxWidth<<endl;
+            // cout<<maxWidth<<endl;
             int size = q.size();
             
             while (size--) {
