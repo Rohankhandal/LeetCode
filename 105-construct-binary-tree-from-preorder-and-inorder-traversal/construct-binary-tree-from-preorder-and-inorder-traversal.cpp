@@ -11,14 +11,22 @@
  */
 class Solution {
 public:
-int search(int target,vector<int>inorder,int size)
-{
+// int search(int target,vector<int>inorder,int size)
+// {
     
+//     for(int i=0;i<size;i++)
+//     {
+//         if(inorder[i]==target) return i;
+//     }
+//     return 0;
+// }
+unordered_map<int,int>mp;
+void insertIndex(vector<int>inorder,int size)
+{
     for(int i=0;i<size;i++)
     {
-        if(inorder[i]==target) return i;
+        mp[inorder[i]]=i;
     }
-    return 0;
 }
 TreeNode* helper(vector<int>&preorder,vector<int>&inorder,int size,int &preIndex,int
                 inStart,int inEnd)
@@ -28,7 +36,7 @@ TreeNode* helper(vector<int>&preorder,vector<int>&inorder,int size,int &preIndex
                 return NULL;
             }
             int findEle=preorder[preIndex++];
-            int eleIndex=search(findEle,inorder,size);
+            int eleIndex=mp[findEle];        //MOST IMP
             TreeNode* root=new TreeNode(findEle);
             root->left=helper(preorder,inorder,size,preIndex,inStart,eleIndex-1);
             root->right=helper(preorder,inorder,size,preIndex,eleIndex+1,inEnd);
@@ -41,7 +49,7 @@ TreeNode* helper(vector<int>&preorder,vector<int>&inorder,int size,int &preIndex
         int inStart=0;
         int inEnd=inorder.size()-1;
         int size=preorder.size();
-     
+        insertIndex(inorder,size);
         return helper(preorder,inorder,size,preIndex,inStart,inEnd);
 
     }
