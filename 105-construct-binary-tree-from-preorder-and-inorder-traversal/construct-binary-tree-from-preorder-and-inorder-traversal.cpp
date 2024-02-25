@@ -20,18 +20,18 @@ int search(int target,vector<int>inorder,int size)
     }
     return 0;
 }
-TreeNode* helper(TreeNode*&root,vector<int>&preorder,vector<int>&inorder,int size,int &preIndex,int
+TreeNode* helper(vector<int>&preorder,vector<int>&inorder,int size,int &preIndex,int
                 inStart,int inEnd)
         {
             if(preIndex > size ||inStart > inEnd)
             {
-                return root;
+                return NULL;
             }
             int findEle=preorder[preIndex++];
             int eleIndex=search(findEle,inorder,size);
-            root=new TreeNode(findEle);
-            root->left=helper(root->left,preorder,inorder,size,preIndex,inStart,eleIndex-1);
-            root->right=helper(root->right,preorder,inorder,size,preIndex,eleIndex+1,inEnd);
+            TreeNode* root=new TreeNode(findEle);
+            root->left=helper(preorder,inorder,size,preIndex,inStart,eleIndex-1);
+            root->right=helper(preorder,inorder,size,preIndex,eleIndex+1,inEnd);
 
             return root;
 
@@ -41,8 +41,8 @@ TreeNode* helper(TreeNode*&root,vector<int>&preorder,vector<int>&inorder,int siz
         int inStart=0;
         int inEnd=inorder.size()-1;
         int size=preorder.size();
-        TreeNode*root=NULL;
-        return helper(root,preorder,inorder,size,preIndex,inStart,inEnd);
+     
+        return helper(preorder,inorder,size,preIndex,inStart,inEnd);
 
     }
 };
