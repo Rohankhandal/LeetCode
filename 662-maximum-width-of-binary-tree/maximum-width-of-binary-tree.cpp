@@ -10,6 +10,7 @@
  * right(right) {}
  * };
  */
+ 
 class Solution {
 public:
 typedef unsigned long long ll;
