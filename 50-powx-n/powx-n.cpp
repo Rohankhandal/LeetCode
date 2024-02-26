@@ -1,28 +1,23 @@
 class Solution {
 public:
-double power(double x,int n)
-{
-    double ans=1;
-    while(n)
-    {
-        if(n&1)
-        {
-            ans*=x;
+    double power(double x, long long n) { // Using long long for larger values of n
+        double ans = 1;
+        while (n) {
+            if (n & 1) {
+                ans *= x;
+            }
+            x *= x; // Storing x * x for optimization
+            n >>= 1;
         }
-        x=(x*x);
-        n=n/2;
+        return ans;
     }
-    cout<<ans<<endl;
-    return ans;
-}
+
     double myPow(double x, int n) {
-        int sign=1;
-        if(n<0)
-        {
-            sign=-1;
-            // n=-n;
+        if (n == 0) return 1; // Handle n == 0 case
+        if (n < 0) {
+            x = 1 / x;
+            // n = -n;
         }
-        double p=power(x,n);
-        return sign==1?p:(1.0/p);
+        return power(x, abs(n));
     }
 };
