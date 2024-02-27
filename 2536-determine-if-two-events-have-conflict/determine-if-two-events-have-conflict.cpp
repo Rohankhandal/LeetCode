@@ -1,25 +1,11 @@
 class Solution {
 public:
     bool haveConflict(vector<string>& event1, vector<string>& event2) {
-        int minuteStartingTime1=((event1[0][0]-'0')*10+(event1[0][1]-'0'))*60+
-        (event1[0][3]-'0')*10+(event1[0][4]-'0');
-         int minuteEndingTime1=((event1[1][0]-'0')*10+(event1[1][1]-'0'))*60+
-        (event1[1][3]-'0')*10+(event1[1][4]-'0');
-
-        int minuteStartingTime2=((event2[0][0]-'0')*10+(event2[0][1]-'0'))*60+
-        (event2[0][3]-'0')*10+(event2[0][4]-'0');
-         int minuteEndingTime2=((event2[1][0]-'0')*10+(event2[1][1]-'0'))*60+
-        (event2[1][3]-'0')*10+(event2[1][4]-'0');
-
-        if(minuteStartingTime1>=minuteStartingTime2 &&minuteStartingTime1<= minuteEndingTime2)
-            return true;
-        if(minuteEndingTime1>=minuteStartingTime2 &&minuteEndingTime1<= minuteEndingTime2)
-            return true;
-        if(minuteStartingTime2>=minuteStartingTime1 &&minuteStartingTime2<= minuteEndingTime1)
-            return true;
-        if(minuteEndingTime2>=minuteStartingTime1 &&minuteEndingTime2<= minuteEndingTime1)
-            return true;
-        return false;
+        int start1=stoi(event1[0].substr(0,2))*60 +stoi(event1[0].substr(3,2));
+        int end1=stoi(event1[1].substr(0,2))*60 +stoi(event1[1].substr(3,2));
+        int start2=stoi(event2[0].substr(0,2))*60 +stoi(event2[0].substr(3,2));
+        int end2=stoi(event2[1].substr(0,2))*60 +stoi(event2[1].substr(3,2));
+        return (start1 <= end2 && start2 <= end1);
 
         
         
