@@ -40,10 +40,11 @@ ListNode* reverse(ListNode* head)
         int carry=0;
         ListNode*dummy=new ListNode(-1);
         ListNode*tail=dummy;
+        int sum=0,digit=0;
         while(temp)
         {
-            int sum=temp->val*2+carry;
-            int digit=sum%10;
+            sum=temp->val*2+carry;
+            digit=sum%10;
             carry=sum/10;
 
             //insert new node in head of ans;
