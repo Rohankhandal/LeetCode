@@ -25,7 +25,6 @@ public:
         k--;
         if(k==0)
         {
-            
             return root->val;
         }
         int rightAns=kthSmallest(root->right,k);
