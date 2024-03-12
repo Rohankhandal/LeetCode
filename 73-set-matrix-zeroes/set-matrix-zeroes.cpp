@@ -28,7 +28,7 @@ public:
             }
         }
         // replace inner matrix
-        
+         // Step 2: Mark with 0 from (1,1) to (n-1, m-1):
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < m; j++) {
                 if (matrix[i][0] == 0 || matrix[0][j] == 0) {
@@ -37,6 +37,7 @@ public:
             }
         }
         // last reamining checks
+          //step 3: Finally mark the 1st col & then 1st row:
         if (firstRow) {
             for (int j = 0; j < m; j++) {
                 matrix[0][j] = 0;
