@@ -1,38 +1,35 @@
 class Solution {
 public:
+
     void setZeroes(vector<vector<int>>& matrix) {
-        vector<pair<int,int>>v;
-        int m=matrix.size();
-        int n=matrix[0].size();
-        for(int i=0;i<m;i++)
-        {
-            
-            for(int j=0;j<n;j++)
-            {
-                if(matrix[i][j]==0)
-                {
-                    v.push_back({i,j});
-                }
+        int n=matrix.size();
+        int m=matrix[0].size();
+        vector<int>row(n,0); // row array
+        vector<int>col(m,0); // col array
+
+    // Traverse the matrix:
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (matrix[i][j] == 0) {
+                // mark ith index of row wih 1:
+                row[i] = 1;
+
+                // mark jth index of col wih 1:
+                col[j] = 1;
             }
         }
-        if(v.size()==0) return ;
-        else
-        {
-            for(auto &it:v)
-            {
-                int i=it.first;
-                int j=it.second;
-                int row=0;
-                int col=0;
-                while(col<n)
-                {
-                    matrix[i][col++]=0;
-                }
-                while(row<m)
-                {
-                    matrix[row++][j]=0;
-                }
+    }
+
+    // Finally, mark all (i, j) as 0
+    // if row[i] or col[j] is marked with 1.
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (row[i] || col[j]) {
+                matrix[i][j] = 0;
             }
         }
+    }
+
+        
     }
 };
