@@ -10,7 +10,8 @@ public:
         if( dividend == INT_MIN && divisor == -1 )
             return INT_MAX;
         if(dividend == divisor) return 1;
-        bool flag=(dividend>=0 == divisor>=0)?true:false;
+
+        bool flag=(dividend>=0 == divisor>=0)?true:false;  //for sign in final answer
         long long dd=abs(dividend);
         long long dv=abs(divisor);
 
@@ -18,10 +19,10 @@ public:
         while(dd >= dv)
         {
             short count=0;
-            while(dd > (dv << count+1)){
+            while(dd > (dv << count+1)){    //MAIN POINT(DRY RUN)
                 count++;
             }
-            res+=(1<<count);
+            res+=(1<<count);  //MAIN POINT
             dd -= dv<<count;
         }
         return flag==true?res:-res;
