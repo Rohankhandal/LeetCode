@@ -1,32 +1,24 @@
 class Solution {
 public:
-    string greatestLetter(string s) {
-        int n=s.size();
-        string ans="";
-        unordered_map<int,int>mp;
-        for(auto &it:s)
-        {
-            mp[it]++;
-        }
-        char max='0';
-        for(auto &it:s)
-        {
-            if((it>='a'&& it<='z') && it>max && mp.find(it-32)!=mp.end())
-            {
-                max=it;
-            }
-            if((it>='A'&& it<='Z') && it>max && mp.find(it+32)!=mp.end())
-            {
-                max=it;
-            }
-        }
-        if(max!='0')
-        {
-        //   cout<<max<<endl;
-          max=max-32;
-          ans.push_back(max);
-        } 
-        return ans;
+    string greatestLetter(string str) {
+
+    unordered_set<char> s;
+    string Ans = "";
+    char temp = ' ';
+    
+    for (int i = 0; i < str.size(); i++)  //first store lowercase letter in set
+        if (str[i] >= 'a' && str[i] <= 'z')
+            s.insert(str[i]);
+
+    for (int i = 0; i < str.size(); i++)
+        if (str[i] >= 'A' && str[i] <= 'Z')  //traverse on upper case letter ,and check there
+            if (s.find(str[i] + 32) != s.end())
+                temp = max(temp, str[i]);
+            
+    if(temp!=' ')
+        Ans+=temp;
+    
+    return Ans;
 
     }
 };
