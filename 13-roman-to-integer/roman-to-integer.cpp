@@ -1,59 +1,30 @@
 class Solution {
 public:
+//Numbers are always in none-increasing order in ROMAN
     int romanToInt(string s) {
-        int n=s.size();
-        int sum=0;
-        int i=0;
-        while(i<n)
+        unordered_map<char,int>mp{
+            {'I',1},
+            {'V',5},
+            {'X',10},
+            {'L',50},
+            {'C',100},
+            {'D',500},
+            {'M',1000},
+            
+        };
+        int value=0;
+        for(int i=0;i<s.size();i++)
         {
-           if(i+1<n && s[i]=='I' && s[i+1]=='V')
-           {
-              
-              sum+=4; 
-              i=i+2;
-              continue;
-           }  
-           else if(i+1<n && s[i]=='I' && s[i+1]=='X')
-           {
-            sum+=9;
-            i=i+2;
-              continue;
-           } 
-            else if(i+1<n && s[i]=='X' && s[i+1]=='L')
+            if(i+1<s.size() && mp[s[i]] < mp[s[i+1]])  //if decresing found then subtract 
+            //simply add last value in answer;
             {
-                sum+=40;
-                i=i+2;
-              continue;
-            } 
-            else if(i+1<n && s[i]=='X' && s[i+1]=='C')
+                value-=mp[s[i]];
+            }
+            else
             {
-                sum+=90;
-                i=i+2;
-              continue;
-            } 
-            else if(i+1<n && s[i]=='C' && s[i+1]=='D')
-            {
-                sum+=400;
-                i=i+2;
-              continue;
-            } 
-            else if(i+1<n && s[i]=='C' && s[i+1]=='M')
-            {
-                sum+=900;
-                i=i+2;
-              continue;
-            } 
-            else if(s[i]=='I') sum+=1;
-            else if(s[i]=='V') sum+=5;
-            else if(s[i]=='X') sum+=10;
-            else if(s[i]=='L') sum+=50;
-            else if(s[i]=='C') sum+=100;
-             else if(s[i]=='D') sum+=500;
-             else if(s[i]=='M') sum+=1000;
-            i++;
-           
+                value+=mp[s[i]];
+            }
         }
-        return sum;
-       
+        return value;
     }
 };
