@@ -30,9 +30,29 @@ public:
         dp[i]=max(include,exclude);
         return dp[i];
     }
+//Bottom Up
+int solveUsingBottomUp(vector<int>&nums)
+    {
+        int n=nums.size();
+        vector<int>dp(nums.size()+1,0);
+        dp[0]=nums[0];
+
+        for(int i=1;i<n;i++)
+        {
+            int temp=0;
+            if(i-2>=0) temp=dp[i-2];
+            int include=temp+nums[i];
+            int exclude=0+dp[i-1];
+            dp[i]=max(include,exclude);
+        }
+        return dp[n-1];
+        
+}
+    
     int rob(vector<int>& nums) {
-        vector<int>dp(nums.size()+1,-1);  //at index i how much maximum amount we can robb
-        return solveUsingTopDown(nums,nums.size()-1,dp);
-        //  dp[n-1];
+        // vector<int>dp(nums.size()+1,-1);  //at index i how much maximum amount we can robb
+        // return solveUsingTopDown(nums,nums.size()-1,dp);
+        
+        return solveUsingBottomUp(nums);
     }
 };
