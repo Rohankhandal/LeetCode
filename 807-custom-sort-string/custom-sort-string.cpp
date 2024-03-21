@@ -61,24 +61,24 @@
 //Approach-2 (Using comparator)
 //T.C : O(nlogn)
 //S.C : O(26) ~ O(1)
-class Solution {
-public:
-    string customSortString(string order, string str) {
-        vector<int> index(26, -1);
+// class Solution {
+// public:
+//     string customSortString(string order, string str) {
+//         vector<int> index(26, -1);
         
-        for(int i = 0; i<order.length(); i++)
-            index[order[i]-'a'] = i;
+//         for(int i = 0; i<order.length(); i++)
+//             index[order[i]-'a'] = i;
         
         
-        auto lambda = [&index](char &ch1, char &ch2) {  //lambda comparator
-            return index[ch1-'a'] < index[ch2-'a'];
-        };
+//         auto lambda = [&index](char &ch1, char &ch2) {  //lambda comparator
+//             return index[ch1-'a'] < index[ch2-'a'];
+//         };
         
-        sort(begin(str), end(str), lambda);
-        return str;
+//         sort(begin(str), end(str), lambda);
+//         return str;
         
-    }
-};
+//     }
+// };
 
 /*What was actually asked in Facebook :
 FOLLOW UP NOTE : The original questions that was asked by Facebook was similar to
@@ -107,3 +107,19 @@ one slight change will do the job in comparator function below :
         
 //     }
 // };
+
+
+
+class Solution {
+public:
+    static string str;
+    static bool mycomp(char a, char b) { return (str.find(a) < str.find(b)); }
+
+    string customSortString(string order, string s) {
+        str = order;
+        sort(s.begin(), s.end(), mycomp);
+        return s;
+    }
+};
+
+string Solution::str;
