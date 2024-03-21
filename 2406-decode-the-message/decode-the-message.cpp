@@ -1,23 +1,29 @@
 class Solution {
 public:
     string decodeMessage(string key, string message) {
-        unordered_map<char,char>mp;
-        char ch='a';
-        for(int i=0;i<key.size();i++)
-        {
-            if(key[i]!=' '&&mp.find(key[i])==mp.end())
-            {
-                mp[key[i]]=ch;
-                ch++;
+
+        // create substitution table using map array(create mapping)
+        char map[1000] = {0};
+        char start = 'a';
+
+        for (auto k : key) {
+            if (map[k] == 0 && k != ' ') {
+                map[k] = start;
+                start++;
             }
         }
-        for(auto &it:message)
-        {
-            if(mp.find(it)!=mp.end())
-            {
-                it=mp[it];
+
+        string ans;
+
+        // use substitution table(use mapping)
+        for (auto m : message) {
+            if (m == ' ')
+                ans.push_back(m);
+            else {
+                char ch = map[m];
+                ans.push_back(ch);
             }
         }
-        return message;
+        return ans;
     }
 };
