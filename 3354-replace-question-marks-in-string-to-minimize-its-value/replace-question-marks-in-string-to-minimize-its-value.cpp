@@ -39,7 +39,7 @@ public:
         string ans="";
 
         unordered_map<char,int>freq;  //it store 26 char so T.c:-O(1)
-        multiset<pair<int,char>>ms;   //it store 26 char so T.c:-O(1)
+        set<pair<int,char>>ms;   //it store 26 char so T.c:-O(1)
          //sort insert in base of firstly int ,then base on char
 
         for(auto c:s)
