@@ -12,21 +12,21 @@
     Time - O(nlogn)
     Space - No extra space
 */
-class Solution {
-public:
-    int singleNumber(vector<int>& nums) {
-        int n=nums.size();
-        sort(nums.begin(),nums.end());
-        for(int i=1;i<n;i+=3)
-        {
-            if(nums[i]!=nums[i-1]) return nums[i-1];
-        }
-        //last element is answer,if answer is not found in above loop
-        return nums[n-1];
+// class Solution {
+// public:
+//     int singleNumber(vector<int>& nums) {
+//         int n=nums.size();
+//         sort(nums.begin(),nums.end());
+//         for(int i=1;i<n;i+=3)
+//         {
+//             if(nums[i]!=nums[i-1]) return nums[i-1];
+//         }
+//         //last element is answer,if answer is not found in above loop
+//         return nums[n-1];
 
         
-    }
-};
+//     }
+// };
 
 //Approach - 3 (Time Complexity : O(32*n))
 // class Solution {
@@ -62,3 +62,25 @@ public:
         
 //     }
 // };
+
+
+// Approach 4:-concept of buckets
+// T.C:-O(N)
+// S.c:-O(1)
+
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int n=nums.size();
+        int ones=0,two=0;
+        for(int i=0;i<n;i++)
+        {
+            ones=(ones^nums[i]) & ~two;
+            two=(two^nums[i]) & ~ones;
+        }
+
+        return ones;
+
+        
+    }
+};
