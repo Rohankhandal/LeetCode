@@ -47,12 +47,34 @@ public:
 
         return dp[0];
     }
+    int space(vector<int>&nums,int i)
+    {
+        int n=nums.size();
+        int prev2=0;
+        int prev1=nums[n-1];
+        int curr=0;
+        for(int i=n-2;i>=0;i--)
+        {
+            int include=nums[i];
+            if(i+2<=n)
+            {
+                include+=prev2;
+            }    
+            int exclude=0+prev1;
+
+            curr=max(include,exclude);
+
+            prev2=prev1;
+            prev1=curr;
+        }
+        return prev1;
+    }
     int rob(vector<int>& nums) {
         // return solve(nums,0);
 
         // vector<int>dp(nums.size()+1,-1);
         // return solveUsingMem(nums,0,dp);
         int n=nums.size();
-        return solveUsingTab(nums,n-1);
+        return space(nums,n-1);
     }
 };
