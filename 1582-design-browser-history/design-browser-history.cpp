@@ -1,61 +1,63 @@
 class Node{
     public:
-    string data;
-    Node *next;
+    string  str;
     Node *prev;
-    Node():data(0),next(nullptr),prev(nullptr){};
-     Node(string x):data(x),next(nullptr),prev(nullptr){};
-      Node(string x, Node *next,Node *random):data(x),next(next),prev(random){};
+    Node*next;
+    
+    Node(string s)
+    {
+        str=s;
+        prev=NULL;
+        next=NULL;
+    }
 };
 class BrowserHistory {
-    Node *currentPage;
 public:
-
+    Node *head=NULL;
+    Node *ptr=NULL;
     BrowserHistory(string homepage) {
-        currentPage=new Node(homepage);
+        Node*temp=new Node(homepage);
+        head=temp;
+        ptr=head;
     }
     
     void visit(string url) {
-        Node *newNode=new Node(url);
-        currentPage->next=newNode;
-        newNode->prev=currentPage;
-        currentPage=newNode;
+        Node *temp=new Node(url);
+        ptr->next=temp;
+        temp->prev=ptr;
+        //update the location
+        ptr=temp;
     }
     
     string back(int steps) {
-        while(steps)
+        int count=0;
+        while(ptr->prev!=NULL)
         {
-            if(currentPage->prev) //check wheather previous node is present or not
+            ptr=ptr->prev;
+            count++;
+            if(count==steps)
             {
-                currentPage=currentPage->prev;
-            }
-            else{
                 break;
             }
-            steps--;
         }
-        return currentPage->data;
+        return ptr->str;
     }
     
     string forward(int steps) {
-        while(steps)
+        int count=0;
+        while(ptr->next!=NULL)
         {
-            if(currentPage->next)  //check wheather next node is present or not
-            {
-                currentPage=currentPage->next;
-            }
-            else{
-                break;
-            }
-            steps--;
+            ptr=ptr->next;
+            count++;
+            if(count==steps) break;
         }
-        return currentPage->data;
+        return ptr->str;
     }
 };
 
 /**
  * Your BrowserHistory object will be instantiated and called as such:
- * BrowserHistory* obj = new BrowserHist ory(homepage);
+ * BrowserHistory* obj = new BrowserHistory(homepage);
  * obj->visit(url);
  * string param_2 = obj->back(steps);
  * string param_3 = obj->forward(steps);
