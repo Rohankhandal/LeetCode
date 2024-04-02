@@ -19,6 +19,15 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+// head =
+// [2,2,1]
+// root =
+// [2,null,2,null,2,null,1] OUTPUT:-true
+
+// head =
+// [1,10]
+// root =
+// [1,null,1,10,1,9]     Output=>false
 
 //  T.c:-O(N*height of Tree)
 //  S.c:-(N)
