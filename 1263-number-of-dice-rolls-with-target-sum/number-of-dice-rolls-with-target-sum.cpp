@@ -35,13 +35,38 @@ public:
         dp[n][target]=ans%MOD;
         return dp[n][target];
     }
-    
+    int solveUsingTab(int n,int k,int target)
+    {
+        vector<vector<long long int>>dp(n+1,vector<long long int>(target+1,0));
+        dp[0][0]=1;
+        
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=1;j<=target;j++)
+            {
+                long long int ans=0;
+                for(int m=1;m<=k;m++)
+                {
+                    long long int recAns=0;
+                    if(j-m>=0)
+                     recAns=recAns%MOD+dp[i-1][j-m]%MOD;
+                ans=(ans%MOD +recAns%MOD)%MOD;
+                }
+                dp[i][j]=ans;
+            }
+        }
+        return dp[n][target];
+
+
+    }
     int numRollsToTarget(int n, int k, int target) {
         //base
         //    return solveUsingRec(n,k,target);
 
-        vector<vector<long long int>>dp(n+1,vector<long long int>(target+1,-1));
+        // vector<vector<long long int>>dp(n+1,vector<long long int>(target+1,-1));
+        // return solveUsingTop(n,k,target,dp);
 
-        return solveUsingTop(n,k,target,dp);
+
+        return solveUsingTab(n,k,target);
     }
 };
