@@ -33,13 +33,13 @@ public:
     }
     int solveTab(string &s,int n)
     {
-        vector<vector<int>>dp(n+2,vector<int>(n+2,0));
+        vector<vector<bool>>dp(n+2,vector<bool>(n+2,false));
         
         // for(int i=0;i<=n;i++)
         // {
         //     dp[i][0]=true;
         // }
-        dp[n][0]=1;
+        dp[n][0]=true;
                 
         for(int idx=n-1;idx>=0;idx--)
         {
@@ -55,7 +55,7 @@ public:
                 {
                     isValid|=dp[idx+1][open+1]; //suppose *='('
                     isValid|=dp[idx+1][open];  //suppose *=""
-                    if(open>0)                                                                //IMP to check
+                    if(open>0)                                                                //IMP to Check
                     isValid|=dp[idx+1][open-1];  //suppose *=")"
                 }
                 else
