@@ -31,9 +31,48 @@ public:
 
         return dp[idx][open]=isValid;
     }
+    int solveTab(string &s,int n)
+    {
+        vector<vector<bool>>dp(n+2,vector<bool>(n+2,false));
+        
+        // for(int i=0;i<=n;i++)
+        // {
+        //     dp[i][0]=true;
+        // }
+        dp[n][0]=true;
+                
+        for(int idx=n-1;idx>=0;idx--)
+        {
+            for(int open=n;open>=0;open--)
+            {
+                bool isValid=false;
+
+                if(s[idx]=='(')
+                {
+                    isValid|=dp[idx+1][open+1];
+                }
+                else if(s[idx]=='*')
+                {
+                    isValid|=dp[idx+1][open+1]; //suppose *='('
+                    isValid|=dp[idx+1][open];  //suppose *=""
+                    if(open>0)                                                                //IMP to check
+                    isValid|=dp[idx+1][open-1];  //suppose *=")"
+                }
+                else
+                {
+                    if(open>0)
+                    isValid|=dp[idx+1][open-1];
+                }
+
+                dp[idx][open]=isValid;
+            }
+            
+        }
+        return dp[0][0];
+    }
     bool checkValidString(string s) {
         int n=s.size();
-        vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
-       return  solve(0,0,s,n,dp);
+       
+       return  solveTab(s,n);
     }
 };
