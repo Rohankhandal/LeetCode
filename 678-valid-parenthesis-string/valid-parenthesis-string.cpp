@@ -33,13 +33,13 @@ public:
     }
     int solveTab(string &s,int n)
     {
-        vector<vector<bool>>dp(n+2,vector<bool>(n+2,false));
+        vector<vector<int>>dp(n+2,vector<int>(n+2,0));
         
         // for(int i=0;i<=n;i++)
         // {
         //     dp[i][0]=true;
         // }
-        dp[n][0]=true;
+        dp[n][0]=1;
                 
         for(int idx=n-1;idx>=0;idx--)
         {
