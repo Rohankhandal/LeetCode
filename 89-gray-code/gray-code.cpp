@@ -33,6 +33,9 @@
 
 
 
+// Bit Manipulation Approach:
+// Time complexity: O(2n)O(2^n)O(2^n)
+// Space complexity: O(2n)O(2^n)O(2^n)
 class Solution {
 public:
     vector<int> grayCode(int n) {
