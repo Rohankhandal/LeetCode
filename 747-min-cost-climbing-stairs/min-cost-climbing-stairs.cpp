@@ -25,11 +25,30 @@ public:
         if(dp[n]!=-1) return dp[n];
         return dp[n]=cost[n]+min(solveTop(cost,n-1,dp),solveTop(cost,n-2,dp));
     }
+    int solveBottom(vector<int>&cost)
+    {
+        int n=cost.size();
+        vector<int>dp(n,0);
+        dp[0]=cost[0];
+
+        for(int i=1;i<n;i++)
+        {
+            int val2=0;
+            if(i-2>=0)
+            {
+                val2=dp[i-2];
+            }
+            dp[i]=cost[i]+min(dp[i-1],val2);
+        }
+        return min(dp[n-1],dp[n-2]);
+    }
     int minCostClimbingStairs(vector<int>& cost) {
         int n=cost.size();
         // return min(solve(cost,n-1),solve(cost,n-2));
 
-        vector<int>dp(n,-1);
-        return min(solveTop(cost,n-1,dp),solveTop(cost,n-2,dp));
+        // vector<int>dp(n,-1);
+        // return min(solveTop(cost,n-1,dp),solveTop(cost,n-2,dp));
+
+        return solveBottom(cost);
     }
 };
