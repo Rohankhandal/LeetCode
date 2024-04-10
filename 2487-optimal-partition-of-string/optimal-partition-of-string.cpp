@@ -1,28 +1,23 @@
 class Solution {
 public:
     int partitionString(string s) {
-        vector<int> hash(26,0);
-        int count=0,i;
-        for(i=0;i<s.size();i++)
+        unordered_map<char,int>mp;
+        int n=s.size();
+        int i=0,j=0;
+        int cnt=1;
+        while(j<n)
         {
-            if(hash[s[i]-'a']==1)
+            mp[s[j]]++;
+            bool flag=true;
+            if(mp[s[j]]>=2)
             {
-                count++;
-                for(int j=0;j<26;j++)
-                {
-                    hash[j]=0;
-                }
-                hash[s[i]-'a']=1;
+                cnt++;
+                mp.clear();
+                mp[s[j]]++;
             }
-            else
-            {
-                hash[s[i]-'a']++;
-            }
+            j++;
+
         }
-        if(i==s.size())
-        {
-            count++;
-        }
-        return count;
+        return cnt;
     }
 };
