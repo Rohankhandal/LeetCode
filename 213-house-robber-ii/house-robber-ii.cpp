@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int space(vector<int>&nums)
+    int space(vector<int>&nums)   //HOUSE ROBBER LOGIC
     {
         int n=nums.size();
         int prev2=0;
