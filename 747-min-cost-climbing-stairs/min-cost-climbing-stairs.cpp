@@ -42,6 +42,22 @@ public:
         }
         return min(dp[n-1],dp[n-2]);
     }
+    int space(vector<int>&cost)
+    {
+        int n=cost.size();
+        int prev2=cost[0];
+        int prev1=cost[1];
+        int curr=0;
+        for(int i=2;i<n;i++)
+        {
+            curr=cost[i]+min(prev1,prev2);
+
+            prev2=prev1;
+            prev1=curr;
+        }
+        return min(prev1,prev2);
+    }
+
     int minCostClimbingStairs(vector<int>& cost) {
         int n=cost.size();
         // return min(solve(cost,n-1),solve(cost,n-2));
@@ -49,6 +65,8 @@ public:
         // vector<int>dp(n,-1);
         // return min(solveTop(cost,n-1,dp),solveTop(cost,n-2,dp));
 
-        return solveBottom(cost);
+        // return solveBottom(cost);
+
+        return space(cost);
     }
 };
