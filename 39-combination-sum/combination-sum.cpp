@@ -1,35 +1,26 @@
 class Solution {
 public:
-    void solve(vector<int>&nums,int tar,set<vector<int>>&st,vector<int>temp)
-    {
-        if(tar==0)
-        {
-            sort(temp.begin(),temp.end());
-            st.insert(temp);
-            return ;
-        }
-        if(tar<0)
-        {
-            return ;
-        }
-        for(int i=0;i<nums.size();i++)
-        {
-            temp.push_back(nums[i]);
-            solve(nums,tar-nums[i],st,temp);
-            temp.pop_back();
-        }
-
-    }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        vector<int>temp;
-        vector<vector<int>>ans;
-        set<vector<int>>st;
-        solve(candidates,target,st,temp);
-        
-        for(auto &it:st)
-        {
-            ans.push_back(it);
+        vector<vector<int>> result;
+        vector<int> path;
+        sort(candidates.begin(), candidates.end());
+        backtrack(candidates, 0, target, path, result);
+        return result;
+    }
+
+private:
+    void backtrack(const vector<int>& candidates, int start, int target, vector<int>& path, vector<vector<int>>& result) {
+        if (target == 0) {
+            result.push_back(path);
+            return;
         }
-        return ans;
+        if (target < 0) {
+            return;
+        }
+        for (int i = start; i < candidates.size(); ++i) {   //IMP i=start, to get the  same subarray with different position element
+            path.push_back(candidates[i]);
+            backtrack(candidates, i, target - candidates[i], path, result);
+            path.pop_back();
+        }
     }
 };
