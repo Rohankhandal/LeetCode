@@ -40,6 +40,6 @@ public:
            
         }
         // return (long long)pow(2,bucket);
-        return power(2,bucket)%M;
+        return power(2,bucket)%M;  //every bucket have two option take or notTake
     }
 };
