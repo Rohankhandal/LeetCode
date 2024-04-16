@@ -76,6 +76,29 @@ public:
         return next[-1+1];
         
     }
+
+    int binarySearch(vector<int>&nums)
+    {
+        if(nums.size()==0) return 0;
+        vector<int>ans;
+        ans.push_back(nums[0]);
+        for(int i=1;i<nums.size();i++)
+        {
+            if(nums[i]>ans.back())
+            {
+                ans.push_back(nums[i]);
+            }
+            else
+            {
+                //overwrite 
+                //find the index of just greater element
+                int index=lower_bound(ans.begin(),ans.end(),nums[i])-ans.begin();
+                ans[index]=nums[i];
+            }
+        }
+        return ans.size();
+
+    }
     int lengthOfLIS(vector<int>& nums) {
         // return solve(nums,0,-1);
 
@@ -83,6 +106,8 @@ public:
         // return solveTop(nums,0,-1,dp);
 
         // return solveTab(nums);
-        return space(nums);
+        // return space(nums);
+
+        return binarySearch(nums);
     }
 };
