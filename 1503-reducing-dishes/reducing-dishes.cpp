@@ -34,9 +34,9 @@ public:
         {
             for(int time=i;time>=0;time--)
             {
-                int include=sat[i]*time+dp[time+1][i+1];
+                int include=sat[i]*time+dp[i+1][time+1];
 
-                int exclude=0+dp[time][i+1];
+                int exclude=0+dp[i+1][time];
 
                 dp[i][time]=max({include,exclude,0});
             }
