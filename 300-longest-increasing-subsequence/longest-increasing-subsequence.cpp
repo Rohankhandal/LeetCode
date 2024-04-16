@@ -51,12 +51,38 @@ public:
         return dp[0][-1+1];
         
     }
+    int space(vector<int>nums)
+    {
+        int n=nums.size();
+        vector<int>first(n+1,0);
+        vector<int>next(n+1,0);
+        //bcz prev =-1 , so then index is invalid , so we replace prev => prev+1;
+
+        for(int curr=n-1;curr>=0;curr-- )
+        {
+            for(int prev=curr-1;prev>=-1;prev--)
+            {
+                int include=0;
+                if(prev==-1  || nums[curr]>nums[prev]){
+                    include=1+next[curr+1];
+                }
+                int exclude=0+next[prev+1];
+
+                first[prev+1]=max(include,exclude);
+               
+            }
+            next=first;
+        }
+        return next[-1+1];
+        
+    }
     int lengthOfLIS(vector<int>& nums) {
         // return solve(nums,0,-1);
 
         // vector<vector<int>>dp(nums.size()+1,vector<int>(nums.size()+1,-1));
         // return solveTop(nums,0,-1,dp);
 
-        return solveTab(nums);
+        // return solveTab(nums);
+        return space(nums);
     }
 };
