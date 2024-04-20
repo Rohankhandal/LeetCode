@@ -53,6 +53,52 @@ public:
 
         return max(dp1[1][n/3],dp2[0][n/3]);    //IN DP1 answer store at dp1[1][n/3];        
     }
+
+
+    //4. Space
+    int space(vector<int>&slices)
+    {
+        int n=slices.size();
+        vector<int>curr(n+1,0);
+        vector<int>next1(n+1,0);
+        vector<int>next2(n+1,0);
+
+        for(int i=n-1;i>=1;i--)
+        {
+            for(int tar=1;tar<=n/3;tar++)
+            {
+                int include=slices[i]+next2[tar-1];
+                int exclude=0+next1[tar];
+
+                curr[tar]=max(include,exclude);
+            }
+            next2=next1;
+            next1=curr;
+        }
+        int ans1=next1[n/3];
+
+        // Reset vectors to zero
+        curr.assign(n + 1, 0);
+        next1.assign(n + 1, 0);
+        next2.assign(n + 1, 0);
+        //take starting element
+        for(int i=n-2;i>=0;i--)
+        {
+            for(int tar=1;tar<=n/3;tar++)
+            {
+                int include=slices[i]+next2[tar-1];
+                int exclude=0+next1[tar];
+
+                curr[tar]=max(include,exclude);
+            }
+            next2=next1;
+            next1=curr;
+        }
+        int ans2=next1[n/3];
+        return max(ans1,ans2);        
+    }
+
+
     int maxSizeSlices(vector<int>& slices) {
         int n=slices.size();
         //1.Recursion
@@ -78,7 +124,11 @@ public:
 
         //3.Tabluation
         
-        return solveTab(slices);
+        // return solveTab(slices);
+
+
+        //4.SPace
+        return space(slices);
 
     }
 };
