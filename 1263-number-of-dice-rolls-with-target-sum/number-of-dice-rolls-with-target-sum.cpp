@@ -32,11 +32,40 @@ public:
         }
         return dp[n][tar]=ans%M;
     }
+
+
+    //3.Memoization
+    int solveTab(int n,int f,int t)
+    {
+        vector<vector<int>>dp(n+1,vector<int>(t+1,0));
+        dp[0][0]=1;
+
+        int ans=0;
+        for(int i=1;i<=n;i++)   //dice
+        {
+            for(int tar=1;tar<=t;tar++)  //target
+            {
+                int ans=0;
+                for(int face=1;face<=f;face++)   //face
+                {
+                    
+                    if(tar-face>=0)
+                        ans=(ans%M+dp[i-1][tar-face]%M)%M;
+                }
+                dp[i][tar]=ans%M;
+            }
+        }
+        
+        return dp[n][t];
+    }
     int numRollsToTarget(int n, int k, int target) {
         // return solve(n,k,target);
 
         //2.Memoization
-        vector<vector<int>>dp(n+1,vector<int>(target+1,-1));
-        return solveMem(n,k,target,dp);
+        // vector<vector<int>>dp(n+1,vector<int>(target+1,-1));
+        // return solveMem(n,k,target,dp);
+
+        //3.Tabluation
+        return solveTab(n,k,target);
     }
 };
