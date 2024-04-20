@@ -1,72 +1,42 @@
+int M=1e9+7;
 class Solution {
 public:
-    long long int MOD=1000000007;
-    int solveUsingRec(int n,int k,int target)
+    int solve(int n,int face,int tar)
     {
-        if(target < 0 ) return 0;
-        if(n==0 && target==0) return 1;
-        if(n ==0 && target!=0) return 0;
-        if(n!=0 && target==0)  return 0;
+        if(tar<0) return 0;
+        if(n==0 and tar==0) return 1;
+        if(n!=0 and tar==0) return 0;
+        if(n==0 and tar!=0) return 0;
 
         int ans=0;
-        for(int i=1; i<=k; i++)
+        for(int i=1;i<=face;i++)
         {
-            ans=ans+solveUsingRec(n-1,k,target-i);
-
+            ans+=solve(n-1,face,tar-i);
         }
         return ans;
     }
-    int solveUsingTop(int n,int k,int target,vector<vector<long long int>>&dp)
+    //2.Memoization
+    int solveMem(int n,int face,int tar,vector<vector<int>>&dp)
     {
-        if(target < 0 ) return 0;
-        if(n==0 && target==0) return 1;
-        if(n ==0 && target!=0) return 0;
-        if(n!=0 && target==0)  return 0;
+        if(tar<0) return 0;
+        if(n==0 and tar==0) return 1;
+        if(n!=0 and tar==0) return 0;
+        if(n==0 and tar!=0) return 0;
 
-        if(dp[n][target]!=-1)
-            return dp[n][target];
+        if(dp[n][tar]!=-1) return dp[n][tar];
 
         int ans=0;
-        for(int i=1; i<=k; i++)
+        for(int i=1;i<=face;i++)
         {
-            ans=ans%MOD+solveUsingTop(n-1,k,target-i,dp)%MOD;
-
+            ans=(ans%M+solveMem(n-1,face,tar-i,dp)%M)%M;
         }
-        dp[n][target]=ans%MOD;
-        return dp[n][target];
-    }
-    int solveUsingTab(int n,int k,int target)
-    {
-        vector<vector<long long int>>dp(n+1,vector<long long int>(target+1,0));
-        dp[0][0]=1;
-        
-        for(int i=1;i<=n;i++)
-        {
-            for(int j=1;j<=target;j++)
-            {
-                long long int ans=0;
-                for(int m=1;m<=k;m++)
-                {
-                    long long int recAns=0;
-                    if(j-m>=0)
-                     recAns=recAns%MOD+dp[i-1][j-m]%MOD;
-                ans=(ans%MOD +recAns%MOD)%MOD;
-                }
-                dp[i][j]=ans;
-            }
-        }
-        return dp[n][target];
-
-
+        return dp[n][tar]=ans%M;
     }
     int numRollsToTarget(int n, int k, int target) {
-        //base
-        //    return solveUsingRec(n,k,target);
+        // return solve(n,k,target);
 
-        // vector<vector<long long int>>dp(n+1,vector<long long int>(target+1,-1));
-        // return solveUsingTop(n,k,target,dp);
-
-
-        return solveUsingTab(n,k,target);
+        //2.Memoization
+        vector<vector<int>>dp(n+1,vector<int>(target+1,-1));
+        return solveMem(n,k,target,dp);
     }
 };
