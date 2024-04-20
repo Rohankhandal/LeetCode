@@ -20,6 +20,39 @@ public:
 
         return dp[i][n]=max(include,exclude);
     }
+
+    //3.Tabluation
+    int solveTab(vector<int>&slices)
+    {
+        int n=slices.size();
+        vector<vector<int>>dp1(n+2,vector<int>(n+2,0));
+        vector<vector<int>>dp2(n+2,vector<int>(n+2,0));
+
+        for(int i=n-1;i>=1;i--)
+        {
+            for(int tar=1;tar<=n/3;tar++)
+            {
+                int include=slices[i]+dp1[i+2][tar-1];
+                int exclude=0+dp1[i+1][tar];
+
+                dp1[i][tar]=max(include,exclude);
+            }
+        }
+
+        //take starting element
+        for(int i=n-2;i>=0;i--)
+        {
+            for(int tar=1;tar<=n/3;tar++)
+            {
+                int include=slices[i]+dp2[i+2][tar-1];
+                int exclude=0+dp2[i+1][tar];
+
+                dp2[i][tar]=max(include,exclude);
+            }
+        }
+
+        return max(dp1[1][n/3],dp2[0][n/3]);    //IN DP1 answer store at dp1[1][n/3];        
+    }
     int maxSizeSlices(vector<int>& slices) {
         int n=slices.size();
         //1.Recursion
@@ -32,14 +65,20 @@ public:
 
 
         //2.Memoziation
-        vector<vector<int>>dp1(n+1,vector<int>(n+1,-1));
-        int option1=solveMem(1,n/3,slices,dp1);  //include last one and exclude first one
+        // vector<vector<int>>dp1(n+1,vector<int>(n+1,-1));
+        // int option1=solveMem(1,n/3,slices,dp1);  //include last one and exclude first one
  
-    //IMP => now we have to initialize dp with -1 becauase through above line dp have values
-        vector<vector<int>>dp2(n+1,vector<int>(n+1,-1));
-        slices[n-1]=0;
-        int option2=solveMem(0,n/3,slices,dp2);  //start from starting and not include last one
+        // //IMP => now we have to initialize dp with -1 becauase through above line dp have values
+        // vector<vector<int>>dp2(n+1,vector<int>(n+1,-1));
+        // slices[n-1]=0;
+        // int option2=solveMem(0,n/3,slices,dp2);  //start from starting and not include last one
 
-        return max(option1,option2);
+        // return max(option1,option2);
+
+
+        //3.Tabluation
+        
+        return solveTab(slices);
+
     }
 };
