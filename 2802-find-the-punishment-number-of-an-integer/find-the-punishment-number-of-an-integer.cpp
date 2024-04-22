@@ -9,7 +9,7 @@ private:
         for(int ind = i; ind < s.size(); ind++) {
             temp += s[ind];
             ans = ans || is_valid(ind+1, s, t - stoi(temp));
-            // if(ans) return true;
+            if(ans) return true;
         }
 
         return ans;
