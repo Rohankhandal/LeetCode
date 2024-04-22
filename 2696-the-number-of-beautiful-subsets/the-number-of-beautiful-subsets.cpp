@@ -1,3 +1,5 @@
+//T.c:-O(2^N);
+
 class Solution {
 public:
     int solve(vector<int>&nums,int k,int i,unordered_map<int,int>&mp)
