@@ -1,18 +1,22 @@
 class Solution {
 public:
-    int tribonacci(int n) {
-        int a=0,b=1,c=1;
+    int solve(int n)
+    {
         if(n==0) return 0;
         if(n<=2) return 1;
-        int d;
-        for(int i=3;i<=n;i++)
-        {
-            d=a+b+c;
-
-            a=b;
-            b=c;
-            c=d;
-        }
-        return d;
+        
+        return solve(n-1)+solve(n-2)+solve(n-3);
+    }
+    int solveMem(int n,vector<int>&dp)
+    {
+        if(n==0) return 0;
+        if(n<=2) return 1;
+        if(dp[n]!=-1) return dp[n];
+        return dp[n]=solveMem(n-1,dp)+solveMem(n-2,dp)+solveMem(n-3,dp);
+    }
+    int tribonacci(int n) {
+        //2.Memoization
+        vector<int>dp(n+1,-1);
+        return solveMem(n,dp);
     }
 };
