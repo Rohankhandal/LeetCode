@@ -53,8 +53,33 @@ public:
                 dp[i][last]=max(ans1,ans2);
             }
         }
-        return dp[0][26];
-        
+        return dp[0][26];   //IMP
+    }
+
+    //4.Space:-
+    int space(string &s,int k)
+    {
+        //  vector<vector<int>>dp(s.size()+2,vector<int>(27,0));
+         vector<int>curr(27,0),next(27,0);
+        int n=s.size();
+        for(int i=n-1;i>=0;i--)
+        {
+            for(int last=26;last>=0;last--)
+            {
+                int ans1=0;
+                char ch=last+'a';  //IMP 
+                if(last==26 || abs(s[i]-ch)<=k)
+                {
+                    ans1=1+next[s[i]-'a'];  //include
+                }
+                //exclude
+                int ans2=0+next[last];
+
+                curr[last]=max(ans1,ans2);
+            }
+            next=curr;
+        }
+        return next[26];   //IMP
     }
     int longestIdealString(string s, int k) {
          //char last='{';  //suppose any character
@@ -65,6 +90,9 @@ public:
         // return solveMem(0,s,26,k,dp);
 
         //3/Tabluation
-        return solveTab(s,k);
+        // return solveTab(s,k);
+
+        //4.Space Optimize
+        return space(s,k);
     }
 };
