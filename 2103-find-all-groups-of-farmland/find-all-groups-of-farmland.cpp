@@ -1,53 +1,40 @@
 class Solution {
 public:
-    vector<vector<int>> findFarmland(vector<vector<int>>& land) {
-        int rows = land.size();
-        int cols = land[0].size();
-        unordered_set<string> visited;
-        vector<vector<int>> result;
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (land[i][j] == 1 && visited.find(to_string(i) + "," + to_string(j)) == visited.end()) {
-                    vector<int> bounds = dfs(land, visited, i, j);
-                    result.push_back(bounds);
-                }
+    vector<vector<int>>directions{{-1,0},{1,0},{0,-1},{0,1}};
+    void dfs(vector<vector<int>>& land, int i, int j, int& r2, int& c2) {
+        land[i][j] = 0;
+        
+        r2 = max(r2, i);
+        c2 = max(c2, j);
+        
+        for(auto &dir : directions) {
+            int i_ = i + dir[0];
+            int j_ = j + dir[1];
+            
+            if(i_ >= 0 && i_ < land.size() && j_ >= 0 && j_ < land[0].size() && land[i_][j_] == 1) {
+                dfs(land, i_, j_, r2, c2);
             }
         }
-
-        return result;
     }
-
-    vector<int> dfs(vector<vector<int>>& land, unordered_set<string>& visited, int x, int y) {
-        stack<pair<int, int>> stack;
-        stack.push({x, y});
-        visited.insert(to_string(x) + "," + to_string(y));
-
-        int minRow = x, minCol = y;
-        int maxRow = x, maxCol = y;
-
-        while (!stack.empty()) {
-            auto current = stack.top();
-            stack.pop();
-            int curX = current.first, curY = current.second;
-
-            vector<pair<int, int>> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-            for (auto& dir : directions) {
-                int nx = curX + dir.first;
-                int ny = curY + dir.second;
-
-                if (nx >= 0 && nx < land.size() && ny >= 0 && ny < land[0].size() &&
-                    land[nx][ny] == 1 && visited.find(to_string(nx) + "," + to_string(ny)) == visited.end()) {
-                    visited.insert(to_string(nx) + "," + to_string(ny));
-                    stack.push({nx, ny});
-                    minRow = min(minRow, nx);
-                    minCol = min(minCol, ny);
-                    maxRow = max(maxRow, nx);
-                    maxCol = max(maxCol, ny);
+    vector<vector<int>> findFarmland(vector<vector<int>>& land) {
+        vector<vector<int>>ans;
+        int n=land.size();
+        int m=land[0].size();
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(land[i][j]==1)
+                {
+                    int r1=i;
+                    int c1=j;
+                    int r2=-1; //these values are maximum values in the rectangle by 1's
+                    int c2=-1;
+                    dfs(land,i,j,r2,c2);
+                    ans.push_back({r1,c1,r2,c2});
                 }
             }
         }
-
-        return {minRow, minCol, maxRow, maxCol};
+        return ans;
     }
 };
