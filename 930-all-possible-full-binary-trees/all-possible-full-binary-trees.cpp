@@ -9,12 +9,16 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+ 
+
+
 class Solution {
 public:
-    
+//Memoziation
+    unordered_map<int,vector<TreeNode*>>mp;
     vector<TreeNode*>solve(int n)
     {
-        if(n%2==0)
+        if(n%2==0) //Even nodes can't make Full Binary Tree
         {
             return {};
         }
@@ -23,6 +27,8 @@ public:
             TreeNode* node = new TreeNode(0);
             return {node};
         }
+        if(mp.find(n) != mp.end())
+            return mp[n];
         vector<TreeNode*>ans;
         for(int i=1;i<n;i+=2)  //bcz for even values there is no possible FULL BINARY TREE
         {
@@ -42,7 +48,7 @@ public:
                
             }
         }
-        return ans;
+        return mp[n]=ans;
     }
     vector<TreeNode*> allPossibleFBT(int n) {
         return solve(n);
