@@ -1,96 +1,89 @@
-//Optimal Solution
-// Time Complexity: O(2*(N*M)), where N = no. of rows in the matrix and M = no. of columns in the matrix.
-// Reason: In this approach, we are also traversing the entire matrix 2 times and each traversal is taking O(N*M) time complexity.
 
-// Space Complexity: O(1) as we are not using any extra space.
 class Solution {
 public:
     void setZeroes(vector<vector<int>>& matrix) {
-        int n = matrix.size();
-        int m = matrix[0].size();
-        bool firstCol = false;
-        bool firstRow = false;
-
-        // set markers in first row and first column
-        // step 1: Traverse the matrix and
-    // mark 1st row & col accordingly:
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (matrix[i][j] == 0) {
-                    if (i == 0)
-                        firstRow = true;
-                    if (j == 0)
-                        firstCol = true;
-
-                    matrix[0][j] = 0;
-                    matrix[i][0] = 0;
+        int r = matrix.size();
+        int c = matrix[0].size();
+        vector<int>row(r,-1);
+        vector<int>col(c,-1);
+        for(int i=0;i<r;i++ )
+        {
+            for(int j=0;j<c;j++)
+            {
+                if(matrix[i][j]==0)
+                {
+                    row[i]=1;
+                    break;
                 }
             }
         }
-        // replace inner matrix
-         // Step 2: Mark with 0 from (1,1) to (n-1, m-1):
-        for (int i = 1; i < n; i++) {
-            for (int j = 1; j < m; j++) {
-                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
-                    matrix[i][j] = 0;
+        for(int j=0;j<c;j++ )
+        {
+            for(int i=0;i<r;i++)
+            {
+                if(matrix[i][j]==0)
+                {
+                    col[j]=1;
+                    break;
                 }
             }
         }
-        // last reamining checks
-          //step 3: Finally mark the 1st col & then 1st row:
-        if (firstRow) {
-            for (int j = 0; j < m; j++) {
-                matrix[0][j] = 0;
+        //mark elements
+        for(int i=0;i<r;i++)
+        {
+            for(int j=0;j<c;j++)
+            {
+                if(row[i]==1 || col[j]==1)
+                {
+                    matrix[i][j]=0;
+                }
             }
         }
-        if (firstCol) {
-            for (int i = 0; i < n; i++) {
-                matrix[i][0] = 0;
-            }
-        }
+        return ;
     }
 };
 
 
 
-
-//Best Method
-// Time Complexity: O(2*(N*M)), where N = no. of rows in the matrix and M = no.
-// of columns in the matrix. Reason: We are traversing the entire matrix 2 times
-// and each traversal is taking O(N*M) time complexity.
-
-// Space Complexity: O(N) + O(M), where N = no. of rows in the matrix and M =
-// no. of columns in the matrix. Reason: O(N) is for using the row array and
-// O(M) is for using the col array. class Solution { public:
-
+// //Fail if Matrix [[-1],[2],[3]] then OUTPUT:-[[-1],[2],[3]] BUT ACCORDING TO CODE [[0],[2],[3]]
+// class Solution {
+// public:
 //     void setZeroes(vector<vector<int>>& matrix) {
-//         int n=matrix.size();
-//         int m=matrix[0].size();
-//         vector<int>row(n,0); // row array
-//         vector<int>col(m,0); // col array
-
-//     // Traverse the matrix:
-//     for (int i = 0; i < n; i++) {
-//         for (int j = 0; j < m; j++) {
-//             if (matrix[i][j] == 0) {
-//                 // mark ith index of row wih 1:
-//                 row[i] = 1;
-
-//                 // mark jth index of col wih 1:
-//                 col[j] = 1;
+//         int r = matrix.size();
+//         int c = matrix[0].size();
+//         for (int i = 0; i < r; i++) {
+//             for (int j = 0; j < c; j++) {
+//                 if (matrix[i][j] == 0) {
+//                     // left marking as -1
+//                     for (int k = j; k >= 0; k--) {
+//                         if (matrix[i][k] != 0)
+//                             matrix[i][k] = -1;
+//                     }
+//                     // right marking as -1
+//                     for (int k = j; k < c; k++) {
+//                         if (matrix[i][k] != 0)
+//                             matrix[i][k] = -1;
+//                     }
+//                     // up marking as -1
+//                     for (int k = i; k >= 0; k--) {
+//                         if (matrix[k][j] != 0)
+//                             matrix[k][j] = -1;
+//                     }
+//                     // down marking as -1
+//                     for (int k = i; k < r; k++) {
+//                         if (matrix[k][j] != 0)
+//                             matrix[k][j] = -1;
+//                     }
+//                 }
 //             }
 //         }
-//     }
 
-//     // Finally, mark all (i, j) as 0
-//     // if row[i] or col[j] is marked with 1.
-//     for (int i = 0; i < n; i++) {
-//         for (int j = 0; j < m; j++) {
-//             if (row[i] || col[j]) {
-//                 matrix[i][j] = 0;
+//         // print
+//         for (int i = 0; i < r; i++) {
+//             for (int j = 0; j < c; j++) {
+//                 if (matrix[i][j] == -1)
+//                     matrix[i][j] = 0;
 //             }
 //         }
-//     }
-
 //     }
 // };
