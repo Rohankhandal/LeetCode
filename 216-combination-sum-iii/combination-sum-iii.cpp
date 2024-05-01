@@ -1,32 +1,26 @@
 class Solution {
-public:
-    void solve(vector<vector<int>>&ans,vector<int>temp,vector<int>&v,int k,int n,int i,int sum)
-    {
-        if(k==0)
-        {
-            if(sum==n)
-              ans.push_back(temp);
+    void solve(int k, int n, vector<vector<int>> & answer ,vector<int>ans , int index){
+        // base case 
+        if(n==0 && ans.size()==k){
+            answer.push_back(ans);
             return ;
         }
-        if(i>=v.size()) return; 
 
-            //include
-            temp.push_back(v[i]);
-            solve(ans,temp,v,k-1,n,i+1,sum+v[i]);
-            temp.pop_back();
-
-            //exlcude
-            solve(ans,temp,v,k,n,i+1,sum);
+        for(int i=index;i<=9;i++){
+            if(i<=n){
+                ans.push_back(i);
+                solve(k,n-i,answer,ans,i+1);
+                 ans.pop_back();
+            }
+               
+        }
     }
+public:
     vector<vector<int>> combinationSum3(int k, int n) {
-        vector<int>v={1,2,3,4,5,6,7,8,9};
-        // for(auto &it:v)
-        // {
-        //     cout<<it<<" ";
-        // }
-        vector<vector<int>>ans;
-        vector<int>temp;
-        solve(ans,temp,v,k,n,0,0);
-        return ans;
+        vector<vector<int>> answer;
+        vector<int>ans;
+
+        solve(k,n,answer,ans,1);
+        return answer;
     }
 };
