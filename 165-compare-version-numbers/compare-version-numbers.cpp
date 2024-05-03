@@ -1,30 +1,55 @@
 class Solution {
 public:
-    int compareVersion(string version1, string version2) {
-        //convert string into interger while not accept dot '.' when changing
-        int i=0,j=0,ans1=0,ans2=0;
-        while(i<version1.size() || j<version2.size())
+    int compareVersion(string ver1, string ver2) {
+        
+        int n1=ver1.size();
+        int n2=ver2.size();
+        int i=0,j=0;
+        while(i<n1 && j<n2)
         {
-            while(i<version1.size() && version1[i]!='.')
+            long long num1=0,num2=0;
+            while(i<n1 && ver1[i]!='.')
             {
-                ans1*=10;
-                ans1+=(version1[i]-'0');
+                num1=num1*10+(ver1[i]-'0');
                 i++;
             }
-           while(j<version2.size() && version2[j]!='.')
+            while(j<n2&&ver2[j]!='.')
             {
-                ans2*=10;
-                ans2+=(version2[j]-'0');
+                num2=num2*10+(ver2[j]-'0');
                 j++;
-            } 
-
-            if(ans1>ans2){ return 1; }
-            if(ans1<ans2){ return -1; }
+            }
+            if(num1>num2)
+            {
+                return 1;
+            }
+            else if(num1<num2)
+            {
+                return -1;
+            }
             i++;
             j++;
-            ans1=0;       //IMP PARRT
-            ans2=0;
-
+        }
+        while(i<n1)
+        {
+            long long num1=0;
+           while(i<n1 && ver1[i]!='.')
+            {
+                num1=num1*10+(ver1[i]-'0');
+                i++;
+            }
+            if(num1!=0) return 1;
+            i++;
+        }
+        while(j<n2)
+        {
+            long long num2=0;
+           while(j<n2&&ver2[j]!='.')
+            {
+                num2=num2*10+(ver2[j]-'0');
+                j++;
+            }
+            if(num2!=0) return -1;
+            j++;
         }
         return 0;
     }
