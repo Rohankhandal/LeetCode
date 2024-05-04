@@ -1,56 +1,37 @@
-//duplicate sorted arary  e.g. 1,0,1,1,1
-//problem when left,mid and right index value is same
-class Solution
-{
-    public:
-        bool search(vector<int> &nums, int target)
+class Solution {
+public:
+    bool search(vector<int>& arr, int target) {
+        int n=arr.size();
+        int l=0,r=n-1;
+        while(l<=r)
         {
-            int n = nums.size();	// size of the array.
-            int low = 0, high = n - 1;
-            while (low <= high)
+             while(l<r && arr[l]==arr[l+1]) l++;
+            while(l<r && arr[r]==arr[r-1]) r--;
+            int mid=(l+r)/2;
+            if(arr[mid]==target) return true;
+            else  if(arr[l]<=arr[mid]) //left part is sorted
             {
-                int mid = (low + high) / 2;
-
-               	//if mid points the target
-                if (nums[mid] == target) return true;
-
-               	//Edge case: 
-                if (nums[low] == nums[mid] && nums[mid] == nums[high])
+                if(target>=arr[l] && target<=arr[mid])
                 {
-                    low = low + 1;
-                    high = high - 1;
-                    continue;
-                }
-
-               	//if left part is sorted:
-                if (nums[low] <= nums[mid])
-                {
-                    if (nums[low] <= target && target <= nums[mid])
-                    {
-                       	//element exists:
-                        high = mid - 1;
-                    }
-                    else
-                    {
-                       	//element does not exist:
-                        low = mid + 1;
-                    }
+                    r=mid-1;
                 }
                 else
                 {
-                	//if right part is sorted:
-                    if (nums[mid] <= target && target <= nums[high])
-                    {
-                       	//element exists:
-                        low = mid + 1;
-                    }
-                    else
-                    {
-                       	//element does not exist:
-                        high = mid - 1;
-                    }
+                    l=mid+1;
                 }
             }
-            return false;
+            else
+            {
+                if(target>arr[mid] && target<=arr[r])
+                {
+                    l=mid+1;
+                }
+                else
+                {
+                    r=mid-1;
+                }
+            }
         }
+        return false;
+    }
 };
