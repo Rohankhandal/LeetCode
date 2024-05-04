@@ -42,6 +42,8 @@ public:
         return dp[row][col]=minSum;
         
     }
+
+    //3.Tabluation:-
     int  solveTab(vector<vector<int>>&matrix)
     {
         int n=matrix.size();
@@ -61,13 +63,12 @@ public:
             {
                 int sum=matrix[row][col];
                 int minSum=INT_MAX;
-                if(col-1>=0)
-                minSum=min(minSum,sum+dp[row+1][col-1]);
-
-                minSum=min(minSum,sum+dp[row+1][col]);
-
-                if(col+1<m)
-                minSum=min(minSum,sum+dp[row+1][col+1]);
+                
+                for(int nextCol=0;nextCol<m;nextCol++)
+                {
+                    if(nextCol!=col)
+                    minSum=min(minSum,sum+dp[row+1][nextCol]);
+                }
 
                 dp[row][col]=minSum;
             }
@@ -122,18 +123,18 @@ public:
         
     }
     int minFallingPathSum(vector<vector<int>>& matrix) {
-        int n=matrix.size();
-        int m=matrix[0].size();
-        int mini=INT_MAX;
-        vector<vector<int>>dp(n,vector<int>(m,-1));
-        for(int j=0;j<m;j++)
-        {
-            mini=min(mini,solveMem(matrix,0,j,dp));
-        }
-        return mini;
+        // int n=matrix.size();
+        // int m=matrix[0].size();
+        // int mini=INT_MAX;
+        // vector<vector<int>>dp(n,vector<int>(m,-1));
+        // for(int j=0;j<m;j++)
+        // {
+        //     mini=min(mini,solveMem(matrix,0,j,dp));
+        // }
+        // return mini;
 
         //3.Tabulation
-        // return solveTab(matrix);
+        return solveTab(matrix);
 
 
         //4.space
