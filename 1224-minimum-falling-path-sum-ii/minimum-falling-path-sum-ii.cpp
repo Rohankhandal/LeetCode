@@ -1,36 +1,44 @@
-//Approach-2 (Bottom Up)
-//T.C : O(N^3)
-//S.C : O(N^2)
 class Solution {
 public:
-    int n;
-    
-    int minFallingPathSum(vector<vector<int>>& grid) {
-        int n = grid.size();
+     //2.Memoziation
+    int  solveMem(vector<vector<int>>&matrix,int row,int col,vector<vector<int>>&dp)
+    {
+        int n=matrix.size();
+        int m=matrix[0].size();
+
+        if(row==matrix.size()-1) return matrix[row][col];
+
+        if(dp[row][col]!=-1) return dp[row][col];
+
+        int sum=matrix[row][col];
+
+        int minSum=INT_MAX;
+
+        for(int nextCol=0;nextCol<m;nextCol++)
+        {
+            if(nextCol!=col)
+            minSum=min(minSum,sum+solveMem(matrix,row+1,nextCol,dp));
+        }
+
+        return dp[row][col]=minSum;
         
-        vector<vector<int>> t(n, vector<int>(n, INT_MAX));
-
-        for (int col = 0; col < n; col++) {
-            t[n - 1][col] = grid[n - 1][col];
+    }
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n=matrix.size();
+        int m=matrix[0].size();
+        int mini=INT_MAX;
+        vector<vector<int>>dp(n,vector<int>(m,-1));
+        for(int j=0;j<m;j++)
+        {
+            mini=min(mini,solveMem(matrix,0,j,dp));
         }
+        return mini;
 
-        for (int row = n - 2; row >= 0; row--) {
-            for (int col = 0; col < n; col++) {
-                int ans = INT_MAX;
-                for (int nextCol = 0; nextCol < n; nextCol++) {
-                    if (nextCol != col) {
-                        ans = min(ans, t[row + 1][nextCol]);
-                    }
-                }
-                t[row][col] = grid[row][col] + ans;
-            }
-        }
+        //3.Tabulation
+        // return solveTab(matrix);
 
-        int result = INT_MAX;
-        for (int col = 0; col < n; col++) {
-            result = min(result, t[0][col]);
-        }
 
-        return result;
+        //4.space
+        // return space(matrix);
     }
 };
