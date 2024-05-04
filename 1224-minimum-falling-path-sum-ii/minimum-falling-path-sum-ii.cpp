@@ -102,13 +102,12 @@ public:
             {
                 int sum=matrix[row][col];
                 int minSum=INT_MAX;
-                if(col-1>=0)
-                minSum=min(minSum,sum+next[col-1]);
 
-                minSum=min(minSum,sum+next[col]);
-
-                if(col+1<m)
-                minSum=min(minSum,sum+next[col+1]);
+                for(int nextCol=0;nextCol<m;nextCol++)
+                {
+                    if(nextCol!=col)
+                    minSum=min(minSum,sum+next[nextCol]);
+                }
 
                 curr[col]=minSum;
             }
@@ -134,10 +133,10 @@ public:
         // return mini;
 
         //3.Tabulation
-        return solveTab(matrix);
+        // return solveTab(matrix);
 
 
         //4.space
-        // return space(matrix);
+        return space(matrix);
     }
 };
