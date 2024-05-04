@@ -1,0 +1,103 @@
+class Solution {
+public:
+    int  solve(vector<vector<int>>&matrix,int row,int col)
+    {
+        int n=matrix.size();
+        int m=matrix[0].size();
+        if(row==matrix.size()-1) return matrix[row][col];
+
+        int sum=matrix[row][col];
+
+        int minSum=INT_MAX;
+        if(row+1<n && col-1>=0)
+        minSum=min(minSum,sum+solve(matrix,row+1,col-1));
+
+        if(row+1<n)
+        minSum=min(minSum,sum+solve(matrix,row+1,col));
+
+        if(row+1<n && col+1<m)
+        minSum=min(minSum,sum+solve(matrix,row+1,col+1));
+
+        return minSum;
+        
+    }
+
+    //2.Memoziation
+    int  solveMem(vector<vector<int>>&matrix,int row,int col,vector<vector<int>>&dp)
+    {
+        int n=matrix.size();
+        int m=matrix[0].size();
+
+        if(row==matrix.size()-1) return matrix[row][col];
+
+        if(dp[row][col]!=-1) return dp[row][col];
+
+        int sum=matrix[row][col];
+
+        int minSum=INT_MAX;
+        if(row+1<n && col-1>=0)
+        minSum=min(minSum,sum+solveMem(matrix,row+1,col-1,dp));
+
+        if(row+1<n)
+        minSum=min(minSum,sum+solveMem(matrix,row+1,col,dp));
+
+        if(row+1<n && col+1<m)
+        minSum=min(minSum,sum+solveMem(matrix,row+1,col+1,dp));
+
+        return dp[row][col]=minSum;
+        
+    }
+    int  solveTab(vector<vector<int>>&matrix)
+    {
+        int n=matrix.size();
+        int m=matrix[0].size();
+        vector<vector<int>>dp(n,vector<int>(m+1,0));
+
+        for(int j=0;j<m;j++)
+        {
+            dp[n-1][j]= matrix[n-1][j];
+        }
+
+        
+
+        for(int row=n-2;row>=0;row--)
+        {
+            for(int col=m-1;col>=0;col--)
+            {
+                int sum=matrix[row][col];
+                int minSum=INT_MAX;
+                if(col-1>=0)
+                minSum=min(minSum,sum+dp[row+1][col-1]);
+
+                minSum=min(minSum,sum+dp[row+1][col]);
+
+                if(col+1<m)
+                minSum=min(minSum,sum+dp[row+1][col+1]);
+
+                dp[row][col]=minSum;
+            }
+        }
+        int mini=INT_MAX;
+        for(int j=0;j<m;j++)
+        {
+            mini=min(mini,dp[0][j]);
+        }
+        return mini;
+        
+        
+    }
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        // int n=matrix.size();
+        // int m=matrix[0].size();
+        // int mini=INT_MAX;
+        // vector<vector<int>>dp(n,vector<int>(m,-1));
+        // for(int j=0;j<m;j++)
+        // {
+        //     mini=min(mini,solveMem(matrix,0,j,dp));
+        // }
+        // return mini;
+
+
+        return solveTab(matrix);
+    }
+};
