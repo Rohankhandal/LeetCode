@@ -1,5 +1,8 @@
 class Solution {
 public:
+//Approach-1 (Recur + Memoization)
+//T.C : O(N^N *N)
+//S.C : O(N)
     int  solve(vector<vector<int>>&matrix,int row,int col)
     {
         int n=matrix.size();
@@ -20,6 +23,9 @@ public:
     }
 
     //2.Memoziation
+    //(Recur + Memoization)
+//T.C : O(N^3)
+//S.C : O(N^2)
     int  solveMem(vector<vector<int>>&matrix,int row,int col,vector<vector<int>>&dp)
     {
         int n=matrix.size();
@@ -44,6 +50,9 @@ public:
     }
 
     //3.Tabluation:-
+// (Bottom Up)
+//T.C : O(N^2*N)=>N^3
+//S.C : O(N^2)
     int  solveTab(vector<vector<int>>&matrix)
     {
         int n=matrix.size();
@@ -83,6 +92,9 @@ public:
     }
 
     //4.Space
+    //
+//T.C : O(N^3)
+//S.C : O(1)
      int  space(vector<vector<int>>&matrix)
     {
         int n=matrix.size();
