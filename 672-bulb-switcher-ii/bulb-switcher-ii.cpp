@@ -1,7 +1,7 @@
 class Solution {
 public:
     int flipLights(int n, int presses) {  //DRY RUN AND OBSERVE THE OUTPUT
-        if(presses==0) return 1;
+        if(presses==0) return 1;  //Edge case
         if(n==1) return 2;
         if(n==2)
         {
