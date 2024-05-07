@@ -36,31 +36,28 @@ ListNode* reverse(ListNode* head)
             return head;
         }
         
-        ListNode*temp=reverse(head);
+        head=reverse(head);
+        ListNode*temp=head;
         int carry=0;
-        ListNode*dummy=new ListNode(-1);
-        ListNode*tail=dummy;
-        int sum=0,digit=0;
-        while(temp)
+        while(temp!=NULL)
         {
-            sum=temp->val*2+carry;
-            digit=sum%10;
+            int sum=temp->val*2+carry;
+            temp->val=sum%10;
             carry=sum/10;
-
-            //insert new node in head of ans;
-            ListNode*newNode=new ListNode(digit);
-            newNode->next=tail->next;
-            tail->next=newNode;
 
             temp=temp->next;
         }
-        if(carry)
+       
+        head=reverse(head);
+        while(carry)
         {
-            ListNode*newNode=new ListNode(carry);
-            newNode->next=tail->next;
-            tail->next=newNode;
+            ListNode *node=new ListNode(carry%10);
+            node->next=head;
+            head=node;
+            
+            carry=carry/10;
         }
+         return head;
 
-        return dummy->next;
     }
 };
