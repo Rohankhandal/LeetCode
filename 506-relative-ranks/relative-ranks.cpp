@@ -1,45 +1,38 @@
 class Solution {
-public:
+public:  //T.c:-O(N) S.C:_(O(maxElement))
     vector<string> findRelativeRanks(vector<int>& score) {
         int n=score.size();
-        unordered_map<int,string>mp;
-        unordered_map<int,int>index;
-        priority_queue<int>pq;
+
+        int M=*max_element(score.begin(),score.end());
+        vector<int>mp(M+1,-1);
         for(int i=0;i<n;i++)
         {
-            pq.push(score[i]);
-            index[score[i]]=i;
+            mp[score[i]]=i;
         }
-        int count=1;
-        while(!pq.empty())
+        vector<string>result(n);
+        int rank=1;
+        for(int s=M;s>=0;s--)
         {
-            int val=pq.top();
-            pq.pop();
-            if(count==1)
+            if(mp[s]!=-1)
             {
-                mp[val]="Gold Medal";
+                int ath=mp[s];
+                if(rank==1)
+                {
+                    result[ath]="Gold Medal";
+                }else if(rank==2)
+                {
+                    result[ath]="Silver Medal";
+                }else if(rank==3)
+                {
+                    result[ath]="Bronze Medal";
+                }
+                else
+                {
+                    result[ath]=to_string(rank);
+                }
+                rank++;
             }
-            else if(count==2)
-            {
-                mp[val]="Silver Medal";
-            }
-            else if(count==3)
-            {
-                mp[val]="Bronze Medal";
-            }
-            else
-            {
-                mp[val]=to_string(count);
-            }
-            count++;
         }
-
-
-        vector<string>ans(n);
-        for(auto &it:mp)
-        {
-            ans[index[it.first]]=it.second;
-        }
-        return ans;
+        return result;
     }
 };
