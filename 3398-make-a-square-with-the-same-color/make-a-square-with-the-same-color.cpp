@@ -1,52 +1,17 @@
 class Solution {
 public:
-    bool canMakeSquare(vector<vector<char>>& matrix) {
-        int n=matrix.size();
-        int m=matrix[0].size();
-        for(int i=1;i<n;i++)
+    bool canMakeSquare(vector<vector<char>> &arr)
+    {
+        for (int i = 0; i < 2; i++)
         {
-            for(int j=0;j<m;j++)
+            for (int j = 0; j < 2; j++)
             {
-                int Bcount=0;
-                int Wcount=0;
-                if(matrix[i][j]=='B') Bcount++;
-                if(matrix[i][j]=='W') Wcount++;
-                if(i-1>=0)
+                int w = (arr[i][j] == 'W') + (arr[i][j + 1] == 'W') + (arr[i + 1][j] == 'W') + (arr[i + 1][j + 1] == 'W');
+                int b = (arr[i][j] == 'B') + (arr[i][j + 1] == 'B') + (arr[i + 1][j] == 'B') + (arr[i + 1][j + 1] == 'B');
+                if (max(w, b) >= 3)
                 {
-                    if(matrix[i-1][j]=='B') Bcount++;
-                    if(matrix[i-1][j]=='W') Wcount++;
+                    return true;
                 }
-                if(i-1>=0 && j+1<m)
-                {
-                    if(matrix[i-1][j+1]=='B') Bcount++;
-                    if(matrix[i-1][j+1]=='W') Wcount++;
-                }
-                if(j+1<m)
-                {
-                    if(matrix[i][j+1]=='B') Bcount++;
-                    if(matrix[i][j+1]=='W') Wcount++;
-                }
-                if(Bcount>=3 || Wcount>=3) return true;
-                Bcount=0;
-                Wcount=0;
-                if(matrix[i][j]=='B') Bcount++;
-                if(matrix[i][j]=='W') Wcount++;
-                if(i+1<n)
-                {
-                    if(matrix[i+1][j]=='B') Bcount++;
-                    if(matrix[i+1][j]=='W') Wcount++;
-                }
-                if( j+1<m)
-                {
-                    if(matrix[i][j+1]=='B') Bcount++;
-                    if(matrix[i][j+1]=='W') Wcount++;
-                }
-                if(i+1<n && j+1<m)
-                {
-                    if(matrix[i+1][j+1]=='B') Bcount++;
-                    if(matrix[i+1][j+1]=='W') Wcount++;
-                }
-                if(Bcount>=3 || Wcount>=3) return true;
             }
         }
         return false;
