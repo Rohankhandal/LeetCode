@@ -1,25 +1,22 @@
 class Solution {
 public:
     int countTriplets(vector<int>& arr) {
-        int count=0;
         int n=arr.size();
-        for(int i=0;i<n-1;i++)
+        vector<int>v(n+1,0);
+        for(int i=0;i<n;i++)
         {
-            int a=0;
-            for(int j=i;j<n-1;j++)
+            v[i+1]=v[i]^arr[i];
+        }
+        int ans=0;
+        for(int i=0;i<n;i++)
+        {
+            for(int k=i+1;k<n+1;k++)
             {
-                a^=arr[j];
-                int b=0;
-                for(int k=j+1;k<n;k++)
-                {
-                    b^=arr[k];
-                    if(a==b)
-                    {
-                        count++;
-                    }
-                }
+                if(v[i]==v[k])
+                 ans+=(k-i-1);
             }
         }
-        return count;
+
+        return ans;
     }
 };
