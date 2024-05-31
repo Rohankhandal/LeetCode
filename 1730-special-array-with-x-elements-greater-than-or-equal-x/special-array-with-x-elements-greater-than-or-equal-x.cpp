@@ -3,13 +3,15 @@ public:
     int specialArray(vector<int>& nums) {
         int n=nums.size();  //answer not greater than n (Observation)
         sort(nums.begin(),nums.end());
-        for(int i=0;i<=n;i++)
+        int l=0,r=n;
+        while(l<=r)
         {
-           
-            int idx=lower_bound(nums.begin(),nums.end(),i)-nums.begin();
-            // cout<<idx<<endl;
-
-            if(i==(n-idx)) return i;
+            int mid=(l+r)/2;
+            int idx=lower_bound(nums.begin(),nums.end(),mid)-nums.begin();
+            int diff=n-idx;
+            if(mid==diff) return mid;
+            else if(mid>diff) r=mid-1;
+            else l=mid+1;
         }
         return -1;
     }
