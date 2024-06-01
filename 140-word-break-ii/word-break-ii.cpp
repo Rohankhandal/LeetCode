@@ -1,25 +1,30 @@
 class Solution {
 public:
-    vector<string> wordBreak(string s, vector<string>& wordDict) {
-        unordered_set<string> dict(wordDict.begin(), wordDict.end());
-        return wordBreakHelper(s, 0, dict);
-    }
-
-private:
-    vector<string> wordBreakHelper(const string& s, int start, const unordered_set<string>& dict) {
-        vector<string> validSubstr;
-        
-        if (start == s.length())
-            validSubstr.push_back("");
-        for (int end = start + 1; end <= s.length(); ++end) {
-            string prefix = s.substr(start, end - start);
-            if (dict.find(prefix) != dict.end()) {
-                vector<string> suffixes = wordBreakHelper(s, end, dict);
-                for (const string& suffix : suffixes) {
-                    validSubstr.push_back(prefix + (suffix.empty() ? "" : " ") + suffix);
-                }
+    void solve(string s, vector<string>& ans, string temp, unordered_map<string, int>& mp, int i) {
+        if (i >= s.size()) {
+            // Remove the trailing space and add the temp string to the answer list
+            temp.pop_back();
+            ans.push_back(temp);
+            return;
+        }
+        for (int l = 1; l <= s.size() - i; l++) {
+            string str = s.substr(i, l);
+            if (mp.find(str) != mp.end()) {
+                // Save the current state of temp before modification
+                string newTemp = temp + str + " ";
+                solve(s, ans, newTemp, mp, i + l);
             }
         }
-        return validSubstr;
+    }
+
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        vector<string> ans;
+        unordered_map<string, int> mp;
+        for (auto& it : wordDict) {
+            mp[it]++;
+        }
+        string temp;
+        solve(s, ans, temp, mp, 0);
+        return ans;
     }
 };
