@@ -19,13 +19,35 @@ public:
         }
         return t[i]=false;
     }
+    bool solveTab(string s,int i,unordered_map<string,int>&mp)
+    {
+
+        int n=s.size();
+        vector<bool>dp(n+1,false);
+        dp[n]=true;
+        for(int i=n-1;i>=0;i--)
+        {
+            for(int l=1;l<=n;l++)
+            {
+                string temp=s.substr(i,l);
+                if(mp.find(temp)!=mp.end() && i+l<=n && dp[i+l])
+                {
+                    dp[i]=true;
+                }
+            }
+        }
+        
+        return dp[0];
+    }
     bool wordBreak(string s, vector<string>& wordDict) {
         unordered_map<string,int>mp;
-        memset(t,-1,sizeof(t));
+        // memset(t,-1,sizeof(t));
         for(auto &str:wordDict)
         {
             mp[str]++;
         }
-        return solve(s,0,mp);
+        // return solve(s,0,mp);
+
+        return solveTab(s,0,mp);
     }
 };
