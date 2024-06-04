@@ -52,7 +52,7 @@ public:
         reverse(result.begin(),result.end());
 
         // Reverse the linked list back to original order (optional)
-        head = reverseLL(head);
+        // head = reverseLL(head);
 
         return result;
     }
