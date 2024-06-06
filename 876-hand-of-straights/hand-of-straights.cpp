@@ -1,54 +1,34 @@
 class Solution {
 public:
     bool isNStraightHand(vector<int>& hand, int groupSize) {
-        map<int,int>mp;
-        int n=hand.size();
-        if(n%groupSize!=0) return false;
-        for(auto &it:hand)
-        {
-            mp[it]++;
+        map<int, int> mp;
+        int n = hand.size();
+        if (n % groupSize != 0) return false; // If total cards are not a multiple of groupSize, return false
+        
+        // Count the frequency of each card
+        for (auto &card : hand) {
+            mp[card]++;
         }
-        vector<int>ans;
-        int group=0;
-        int count=0;
-        while(!mp.empty())
-        {
-            int prev=-1;
-            int count=0;
-            for(auto it=mp.begin();it!=mp.end();it++)
-            {
-           
-                cout<<it->first<<endl;
-                if(prev==-1)
-                {
-                    prev=it->first;
-                }
-                else
-                {
-                    if(prev+1==it->first)
-                    {
-                        prev=it->first;
+        
+        // Try to create consecutive groups
+        while (!mp.empty()) {
+            int first = mp.begin()->first; // Get the smallest card value
+            
+            // Try to create a group starting with the smallest card
+            for (int i = 0; i < groupSize; i++) {
+                int currentCard = first + i;
+                if (mp[currentCard] > 0) {
+                    mp[currentCard]--;
+                    if (mp[currentCard] == 0) {
+                        mp.erase(currentCard); // Remove the card from map if its count becomes zero
                     }
-                    else
-                    {
-                        return false;
-                    }
+                } else {
+                    return false; // If we can't find the consecutive card needed, return false
                 }
-
-                count++;
-                it->second--;
-                if(it->second==0)
-                    mp.erase(it);
-
-                if(count==groupSize)
-                {
-                    group++;
-                    break;
-                } 
             }
-            if(count!=groupSize) return false;
         }
-        return n/groupSize==group?true:false;
+        
+        return true; // If we successfully create all groups, return true
         
 
     }
