@@ -1,36 +1,27 @@
 class Solution {
 public:
-    bool static cmp(pair<int,int>&p1,pair<int,int>&p2)
-    {
-        if(p1.first==p2.first) return p1.second<p2.second;
-        return p1.first>p2.first;
-    }
-    int maxProfitAssignment(vector<int>& diff, vector<int>& profit, vector<int>& worker) {
-        vector<pair<int,int>>v;
-        for(int i=0;i<diff.size();i++)
-        {
-            v.push_back({profit[i],diff[i]});
+    int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
+        vector<pair<int, int>> jobs;
+        for (int i = 0; i < difficulty.size(); ++i) {
+            jobs.push_back({difficulty[i], profit[i]});
         }
-        sort(v.begin(),v.end(),cmp);
-        int ans=0;
-        for(int i=0;i<worker.size();i++)
-        {
-            int k=0;
-            while( k < v.size() && v[k].second>worker[i])
-            {
-                k++;
-                // cout<<"inside k"<<v[k].second<<endl;
+        
+        // Sort jobs by difficulty (ascending order)
+        sort(jobs.begin(), jobs.end());
+        
+        // Sort workers by their ability (ascending order)
+        sort(worker.begin(), worker.end());
+        
+        int maxProfit = 0, bestProfit = 0, j = 0;
+        for (int i = 0; i < worker.size(); ++i) {
+            // While the current worker can handle the job
+            while (j < jobs.size() && worker[i] >= jobs[j].first) {
+                bestProfit = max(bestProfit, jobs[j].second);
+                ++j;
             }
-            int temp=worker[i];
-            while(k < v.size() && temp>=v[k].second)
-            {
-                // cout<<"outside K"<<v[k].second<<endl;
-                ans+=v[k].first;
-                temp-=v[k].second;
-                break;
-            }
-            // cout<<i<<" "<<ans<<endl;
+            maxProfit += bestProfit;
         }
-        return ans;
+        
+        return maxProfit;
     }
 };
