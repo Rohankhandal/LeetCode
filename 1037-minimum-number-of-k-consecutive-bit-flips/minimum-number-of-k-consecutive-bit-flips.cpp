@@ -8,7 +8,7 @@ public:
         
         for (int i = 0; i < n; ++i) {
             // If the flip effect of position (i - k) has ended, decrement the flip counter
-            if (i >= k && flipArray[i - k]) {
+            if (i >= k && flipArray[i - k]) {  //IMP LOGIC LEARN IT
                 flip--;
             }
             
