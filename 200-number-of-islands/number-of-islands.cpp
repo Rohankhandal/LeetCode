@@ -1,39 +1,40 @@
 class Solution {
 public:
-   void dfs(vector<vector<char>>& grid,int i,int j,int r, int c)
-    {
-        if(i>=r || j>=c || i<0 || j<0 || grid[i][j]=='0' || grid[i][j]=='$')
-        {
-            return ;
-        } 
-
-        //marked
-        grid[i][j]='$';
-
+    vector<pair<int,int>> dir{{1,0},{0,1},{-1,0},{0,-1}};
+    
+    void solve(vector<vector<char>>& grid, int i, int j, int n, int m) {
+        if (i < 0 || i >= n || j < 0 || j >= m || grid[i][j] != '1') {
+        return;
+    }
+    
+    grid[i][j] = '$';  // Mark as visited
+    
+    for (pair<int,int>&p : dir) {
+        int newI = i + p.first;
+        int newJ = j + p.second;
         
-
-        dfs(grid,i+1,j,r,c);
-        dfs(grid,i,j+1,r,c);
-        dfs(grid,i-1,j,r,c);
-        dfs(grid,i,j-1,r,c);
-
+            solve(grid, newI, newJ, n, m);  
+    }
     }
 
     int numIslands(vector<vector<char>>& grid) {
-        int r=grid.size();
-        int c=grid[0].size();
-        int ans=0;
-        for(int i=0;i<r;i++)
-        {
-            for(int j=0;j<c;j++)
-            {
-                if(grid[i][j]=='1')
-                {
-                    dfs(grid,i,j,r,c);
-                    ans++;
+        if (grid.empty() || grid[0].empty()) {
+            return 0;
+        }
+        
+        int n = grid.size();
+        int m = grid[0].size();
+        int islandCount = 0;
+        
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                if (grid[i][j] == '1') {
+                    solve(grid, i, j, n, m);
+                    islandCount++;
                 }
             }
         }
-        return ans;
+        
+        return islandCount;
     }
 };
