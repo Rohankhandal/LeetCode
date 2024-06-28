@@ -20,8 +20,26 @@ public:
 
         return dp[i]=max(take,notake);
      }
+     //3.Tabluation
+     int solveTab(vector<int>&nums)
+     {
+        int n=nums.size();
+        vector<int>dp(n+2,0);
+
+        for(int i=n-1;i>=0;i--)
+        {
+            int take=nums[i]+dp[i+2];
+            int notake=0+dp[i+1];
+
+            dp[i]=max(take,notake);
+        }
+        return dp[0];
+
+     }
     int rob(vector<int>& nums) {
-        memset(dp,-1,sizeof(dp));
-        return solveMem(nums,0);
+        // memset(dp,-1,sizeof(dp));
+        // return solveMem(nums,0);
+
+        return solveTab(nums);
     }
 };
