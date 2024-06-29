@@ -36,10 +36,33 @@ public:
         return dp[0];
 
      }
+
+
+     //4.space
+     int space(vector<int>&nums)
+     {
+        int n=nums.size();
+        int prev2=0,prev1=0;
+
+        for(int i=n-1;i>=0;i--)
+        {
+            int take=nums[i]+prev2;
+            int notake=0+prev1;
+
+            int curr=max(take,notake);
+            prev2=prev1;
+            prev1=curr;
+        }
+        return prev1;
+
+     }
+     
     int rob(vector<int>& nums) {
         // memset(dp,-1,sizeof(dp));
         // return solveMem(nums,0);
 
-        return solveTab(nums);
+        // return solveTab(nums);
+
+        return space(nums);
     }
 };
