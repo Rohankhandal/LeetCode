@@ -19,7 +19,7 @@ public:
 
     int solveMem(vector<vector<int>>& grid,int i,int j,int m,int n, vector<vector<int>>&dp)
     {
-        if(grid[i][j]!=1 && i==m-1 && j==n-1) return 1;
+        if( i==m-1 && j==n-1) return 1;
         if(i>=m || j>=n) return 0;
         if(dp[i][j]!=-1) return dp[i][j];
 
