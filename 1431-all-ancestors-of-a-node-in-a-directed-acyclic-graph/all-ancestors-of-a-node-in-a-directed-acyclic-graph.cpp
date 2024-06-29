@@ -1,3 +1,6 @@
+//Approach-1 (Using DFS)
+//T.C : O(n * (n+m)) , n = number of vertices and m = number of edges
+//S.C : O(n+m)
 class Solution {
 public:
     void DFS(int ancestor, unordered_map<int, vector<int>>& adj, int currNode, vector<vector<int>>& result) {
