@@ -9,98 +9,20 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
 class Solution {
 public:
+    int ans=INT_MIN;
+    int height(TreeNode*root)
+    {
+        if(root==NULL) return 0;
 
-    int height(TreeNode* root)
-    {
-        if(root==NULL)
-        {
-            return 0;
-        }
-        int lh=height(root->left);
-        int  rh=height(root->right);
-       
-        int ans=max(lh,rh)+1;
-        return ans;
-    }
-    void findDiameter(TreeNode* root,int &maxi)
-    {
-        if(root==NULL)
-        {
-            return ;
-        }
         int lh=height(root->left);
         int rh=height(root->right);
-        maxi=max(lh+rh,maxi);
-
-        findDiameter(root->left,maxi);
-        findDiameter(root->right,maxi);
+        ans=max(lh+rh,ans);
+        return max(lh,rh)+1;
     }
     int diameterOfBinaryTree(TreeNode* root) {
-        int maxi=INT_MIN;
-        findDiameter(root,maxi);
-        return maxi;
+        height(root);
+        return ans;
     }
 };
-
-
-// //Fast method:-
-// class Solution {
-// public:
-// int D=0;
-//     int height(TreeNode* root)
-//     {
-//         if(root==NULL)
-//         {
-//             return 0;
-//         }
-//         int lh=height(root->left);
-//         int  rh=height(root->right);
-//         //diameter
-//         int currD=lh+rh;
-//         D=max(currD,D);
-//         int ans=max(lh,rh)+1;
-//         return ans;
-//     }
-    
-//     int diameterOfBinaryTree(TreeNode* root) {
-//         height(root);
-//         return D;
-//     }
-// };
-
- //It is slow method bcz Tc:-O(n^2) 
-
-// class Solution {
-// public:
-//     int height(TreeNode* root)
-//     {
-//         if(root==NULL)
-//         {
-//             return 0;
-//         }
-//         int lh=height(root->left);
-//         int  rh=height(root->right);
-//         int ans=max(lh,rh)+1;
-//         return ans;
-//     }
-    
-//     int diameterOfBinaryTree(TreeNode* root) {
-//         //base condition 
-//         if(root == NULL)
-//         {
-//             return 0;
-//         }
-//         //left subtree check
-//         int lh=diameterOfBinaryTree(root->left);
-//          //right subtree check
-//         int rh=diameterOfBinaryTree(root->right);
-//         //root is included in answer
-//         int op3=height(root->left)+height(root->right);
-//         int ans=max(lh,max(rh,op3));
-
-//         return ans;
-//     }
-// };
