@@ -55,9 +55,9 @@ public:
             {
                 int take=0;
                 if(coins[i]<=amount)
-                take=solveMem(coins,amount-coins[i],i,dp);
+                take=dp[i][amount-coins[i]];
 
-                int noTake=solveMem(coins,amount,i+1,dp);
+                int noTake=dp[i+1][amount];
 
                 dp[i][amount]=take+noTake;
             }
