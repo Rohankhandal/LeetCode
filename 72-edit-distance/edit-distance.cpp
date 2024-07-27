@@ -39,12 +39,48 @@ public:
 
         return dp[i][j];
     }
+
+    // 3.Tabluation
+    int solveTab(string &word1, string &word2) {
+        int n = word1.size();
+        int m = word2.size();
+        vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+
+        // Fill the base cases
+        for (int j = 0; j <= m; ++j) {
+            dp[n][j] = m - j;  // If word1 is empty, we need to insert all remaining characters of word2
+        }
+        for (int i = 0; i <= n; ++i) {
+            dp[i][m] = n - i;  // If word2 is empty, we need to delete all remaining characters of word1
+        }
+
+        // Fill the DP table
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = m - 1; j >= 0; --j) {
+                if (word1[i] == word2[j]) {
+                    dp[i][j] = dp[i + 1][j + 1];  // No operation needed if characters match
+                } else {
+                    int insert = 1 + dp[i][j + 1];   // Insert word2[j] into word1
+                    int replace = 1 + dp[i + 1][j + 1];  // Replace word1[i] with word2[j]
+                    int del = 1 + dp[i + 1][j];      // Delete word1[i]
+                    dp[i][j] = std::min({insert, replace, del});
+                }
+            }
+        }
+
+        // The answer is in dp[0][0], which is the min number of operations to convert word1 to word2
+        return dp[0][0];
+    }
     int minDistance(string word1, string word2) {
         // return solve(word1,word2,0,0);
 
 
         // 2.Memoziation
-        vector<vector<int>> dp(word1.size(), vector<int>(word2.size(), -1));
-        return solveMem(word1, word2, 0, 0, dp);
+        // vector<vector<int>> dp(word1.size(), vector<int>(word2.size(), -1));
+        // return solveMem(word1, word2, 0, 0, dp);
+
+
+        // 3.Tabluation
+        return solveTab(word1,word2);
     }
 };
