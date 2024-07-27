@@ -71,6 +71,43 @@ public:
         // The answer is in dp[0][0], which is the min number of operations to convert word1 to word2
         return dp[0][0];
     }
+
+
+    // 4.Space
+    // 3.Tabluation
+    int space(string &word1, string &word2) {
+        int n = word1.size();
+        int m = word2.size();
+        // vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+        vector<int>curr(m+1,0);
+        vector<int>next(m+1,0);
+
+        // Fill the base cases
+        for (int j = 0; j <= m; ++j) {
+           next[j] = m - j;  
+        }
+
+        // Fill the DP table
+        for (int i = n - 1; i >= 0; --i) {
+             //(IMP) from the base case
+             curr[m]=n-i;
+
+            for (int j = m - 1; j >= 0; --j) {
+
+                if (word1[i] == word2[j]) {
+                    curr[j] = next[j + 1];  // No operation needed if characters match
+                } else {
+                    int insert = 1 + curr[j + 1];   // Insert word2[j] into word1
+                    int replace = 1 + next[j + 1];  // Replace word1[i] with word2[j]
+                    int del = 1 + next[j];      // Delete word1[i]
+                    curr[j] = min({insert, replace, del});
+                }
+            }
+            next=curr;
+        }
+
+        return next[0];
+    }
     int minDistance(string word1, string word2) {
         // return solve(word1,word2,0,0);
 
@@ -81,6 +118,9 @@ public:
 
 
         // 3.Tabluation
-        return solveTab(word1,word2);
+        // return solveTab(word1,word2);
+
+        // 4.Space
+        return space(word1,word2);
     }
 };
