@@ -1,74 +1,51 @@
 class Solution {
 public:
-    int solve(string t1,string t2,int i,int j)
+    int solve(string text1, string text2,int i,int j)
     {
-       if(i==t1.size()) return 0;
-       if(j==t2.size()) return 0;
-        int ans=0;
-        if(t1[i]==t2[j])
+        if(i>=text1.size() || j>=text2.size()) return 0;
+
+        int op1=INT_MIN,op2=INT_MIN,op3=INT_MIN;
+        if(text1[i]==text2[j])
         {
-            ans+=1+solve(t1,t2,i+1,j+1);
+            op1=1+solve(text1,text2,i+1,j+1);
         }
         else
         {
-            ans+=0+max(solve(t1,t2,i,j+1),solve(t1,t2,i+1,j));
+            op2=solve(text1,text2,i+1,j);
+            op3=solve(text1,text2,i,j+1);
+            
         }
-        return ans;
+        return max({op1,op2,op3});
     }
-    int solveTop(string &t1,string &t2,int i,int j ,vector<vector<int>>&dp)
-    {
-       if(i==t1.size()) return 0;
-       if(j==t2.size()) return 0;
-       if(dp[i][j]!=-1) return dp[i][j];
 
-        int ans=0;
-        if(t1[i]==t2[j])
+    // 2.Memoziation
+    int solveMem(string &text1, string &text2,int i,int j,vector<vector<int>>&dp)
+    {
+        if(i>=text1.size() || j>=text2.size()) return 0;
+
+        if(dp[i][j]!=-1) return dp[i][j];
+
+        int op1=INT_MIN,op2=INT_MIN,op3=INT_MIN;
+        if(text1[i]==text2[j])
         {
-            ans+=1+solveTop(t1,t2,i+1,j+1,dp);
+            op1=1+solveMem(text1,text2,i+1,j+1,dp);
         }
         else
         {
-            ans+=0+max(solveTop(t1,t2,i,j+1,dp),solveTop(t1,t2,i+1,j,dp));
+            op2=solveMem(text1,text2,i+1,j,dp);
+            op3=solveMem(text1,text2,i,j+1,dp);
+            
         }
-        dp[i][j]=ans;
-        return dp[i][j];
+        return dp[i][j]=max({op1,op2,op3});
     }
-    int solveTab(string &a,string &b)
-    {
-         int len1=a.length();
-        int len2=b.length();
-       vector<vector<int>>dp(len1+1,vector<int>(len2+1,0));
-
-        int ans=0;
-       
-        for(int i=len1-1;i>=0;i--)
-        {
-            for(int j=len2-1;j>=0;j--)
-            {
-                int ans=0;
-                if(a[i]==b[j])
-                {
-                    ans+=1+dp[i+1][j+1];
-                }
-                else
-                {
-                    ans+=0+max(dp[i][j+1],dp[i+1][j]);
-                }
-                dp[i][j]=ans;
-                
-            }
-        }
-        return dp[0][0];
-
-       
-    }
-    int longestCommonSubsequence(string a, string b) {
-        // return solve(a,b,0,0);
-
-        // vector<vector<int>>dp(a.length(),vector<int>(b.length(),-1));
-        // return solveTop(a,b,0,0,dp);
+    int longestCommonSubsequence(string text1, string text2) {
+        // return  solve(text1,text2,0,0);
 
 
-        return solveTab(a,b);
+        // 2.Memoziation
+        int n=text1.size();
+        int m=text2.size();
+        vector<vector<int>>dp(n,vector<int>(m,-1));
+        return solveMem(text1,text2,0,0,dp);
     }
 };
