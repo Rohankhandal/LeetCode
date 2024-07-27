@@ -1,91 +1,50 @@
 class Solution {
 public:
-    int solve(string a,string b,int i,int j)
+    int solve(string &word1,string &word2,int i,int j)
     {
-        if(i==a.size())  return b.size()-j;
-        if(j==b.size())  return a.size()-i;
-
-        int ans=0;
-        if(a[i]==b[j]){
-            ans=0+solve(a,b,i+1,j+1);
-        }
-        else 
+        if(i>=word1.size()) return word2.size()-j;
+        if(j>=word2.size()) return word1.size()-i;
+        int ans=INT_MAX;
+        int op1=INT_MAX;
+        if(word1[i]==word2[j])
         {
-            int insert=1+solve(a,b,i,j+1);
-            int deleted=1+solve(a,b,i+1,j);
-            int replace=1+solve(a,b,i+1,j+1);
-
-            ans=min(insert,min(deleted,replace));
+            op1=solve(word1,word2,i+1,j+1);
         }
-        return ans;
+        else
+        {
+            int insert=1+solve(word1,word2,i,j+1);
+            int replace=1+solve(word1,word2,i+1,j+1);
+            int del=1+solve(word1,word2,i+1,j);
+            ans=min({insert,replace,del});
 
+        }
+        return min(ans,op1);
     }
-    int solveTop(string a,string b,int i,int j,vector<vector<int>>&dp)
-    {
-        if(i==a.size())  return b.size()-j;
-        if(j==b.size())  return a.size()-i;
-        if(dp[i][j]!=-1)
-        {
-            return dp[i][j];
+
+    // 2.Memoziation
+     int solveMem(string &word1, string &word2, int i, int j, vector<vector<int>>& dp) {
+        if (i >= word1.size()) return word2.size() - j;
+        if (j >= word2.size()) return word1.size() - i;
+
+        if (dp[i][j] != -1) return dp[i][j];
+
+        if (word1[i] == word2[j]) {
+            dp[i][j] = solveMem(word1, word2, i + 1, j + 1, dp);
+        } else {
+            int insert = 1 + solveMem(word1, word2, i, j + 1, dp);
+            int replace = 1 + solveMem(word1, word2, i + 1, j + 1, dp);
+            int del = 1 + solveMem(word1, word2, i + 1, j, dp);
+            dp[i][j] = min({insert, replace, del});
         }
 
-        int ans=0;
-        if(a[i]==b[j]){
-            ans=0+solveTop(a,b,i+1,j+1,dp);
-        }
-        else 
-        {
-            int insert=1+solveTop(a,b,i,j+1,dp);
-            int deleted=1+solveTop(a,b,i+1,j,dp);
-            int replace=1+solveTop(a,b,i+1,j+1,dp);
-
-            ans=min(insert,min(deleted,replace));
-        }
-        dp[i][j]=ans;
         return dp[i][j];
-
     }
-    int solveTab(string a,string b)
-    {   int len1=a.size();
-        int len2=b.size();
-        vector<vector<int>>dp(a.size()+1,vector<int>(b.size()+1,0));
-        for(int i=0;i<b.size();i++)
-        {
-            dp[a.size()][i]=b.size()-i;
-        }
-        for(int i=0;i<a.size();i++)
-        {
-            dp[i][b.size()]=a.size()-i;
-        }
-        int ans=0;
-        for(int i=len1-1;i>=0;i--)
-        {
-            for(int j=len2-1;j>=0;j--)
-            {
-                if(a[i]==b[j]){
-                 ans=0+dp[i+1][j+1];
-                }
-                else 
-                {
-                    int insert=1+dp[i][j+1];
-                    int deleted=1+dp[i+1][j];
-                    int replace=1+dp[i+1][j+1];
+    int minDistance(string word1, string word2) {
+        // return solve(word1,word2,0,0);
 
-                    ans=min(insert,min(deleted,replace));
-                }
-                dp[i][j]=ans;
-            }
-        }
-        
-        return dp[0][0];
 
-    }
-    int minDistance(string a, string b) {
-    //    return  solve(a,b,0,0);
-
-        // vector<vector<int>>dp(a.size(),vector<int>(b.size(),-1));
-        // return solveTop(a,b,0,0,dp);
-
-        return solveTab(a,b);
+        // 2.Memoziation
+        vector<vector<int>> dp(word1.size(), vector<int>(word2.size(), -1));
+        return solveMem(word1, word2, 0, 0, dp);
     }
 };
