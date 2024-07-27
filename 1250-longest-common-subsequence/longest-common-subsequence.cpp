@@ -38,14 +38,47 @@ public:
         }
         return dp[i][j]=max({op1,op2,op3});
     }
+
+
+     // 3. Tabluation.
+    int solveTab(string &text1, string &text2)
+    {
+         int n=text1.size();
+        int m=text2.size();
+        vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+
+        for(int i=n-1;i>=0;i--)
+        {
+            for(int j=m-1;j>=0;j--)
+            {
+                int op1=INT_MIN,op2=INT_MIN,op3=INT_MIN;
+                if(text1[i]==text2[j])
+                {
+                    op1=1+dp[i+1][j+1];
+                }
+                else
+                {
+                    op2=dp[i+1][j];
+                    op3=dp[i][j+1];
+                    
+                }
+                dp[i][j]=max({op1,op2,op3});
+            }
+        }
+        return dp[0][0];
+        
+    }
     int longestCommonSubsequence(string text1, string text2) {
         // return  solve(text1,text2,0,0);
 
 
         // 2.Memoziation
-        int n=text1.size();
-        int m=text2.size();
-        vector<vector<int>>dp(n,vector<int>(m,-1));
-        return solveMem(text1,text2,0,0,dp);
+        // int n=text1.size();
+        // int m=text2.size();
+        // vector<vector<int>>dp(n,vector<int>(m,-1));
+        // return solveMem(text1,text2,0,0,dp);
+
+        // 3.Tabluation
+        return solveTab(text1,text2);
     }
 };
