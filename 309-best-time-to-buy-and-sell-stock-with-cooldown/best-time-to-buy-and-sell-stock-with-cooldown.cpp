@@ -57,7 +57,7 @@ public:
     int solveTab(vector<int>&prices)
     {
         int n=prices.size();
-         vector<vector<int>>dp(n+1,vector<int>(2,0));
+         vector<vector<int>>dp(n+2,vector<int>(2,0));
 
         for(int i=n-1;i>=0;i--)
         {
@@ -89,9 +89,10 @@ public:
     int space(vector<int>&prices)
     {
         int n=prices.size();
-        //  vector<vector<int>>dp(n+1,vector<int>(2,0));
+        //  vector<vector<int>>dp(n+2,vector<int>(2,0));
         vector<int>curr(2,0);
         vector<int>next(2,0);
+        vector<int>forward(2,0);
 
         for(int i=n-1;i>=0;i--)
         {
@@ -107,13 +108,14 @@ public:
                 }
                 else
                 {
-                    int take=prices[i]+next[1];
+                    int take=prices[i]+forward[1];
                     int skip=0+next[buy];
 
                     ans=max(take,skip);
                 }
                  curr[buy]=ans;
             }
+            forward=next;
             next=curr;
         }
         return next[1];
@@ -124,9 +126,9 @@ public:
         // return solve(prices,0,buy);
 
         // 2.Memozaiton
-        int n=prices.size();
-        vector<vector<int>>dp(n,vector<int>(2,-1));
-        return solveMem(prices,0,1,dp);
+        // int n=prices.size();
+        // vector<vector<int>>dp(n,vector<int>(2,-1));
+        // return solveMem(prices,0,1,dp);
 
 
         // 3.Memoziation
@@ -135,6 +137,6 @@ public:
         
 
          // 4.space
-        // return space(prices);
+        return space(prices);
     }
 };
