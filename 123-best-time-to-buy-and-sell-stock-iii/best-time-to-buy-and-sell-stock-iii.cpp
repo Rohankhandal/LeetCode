@@ -96,37 +96,44 @@ public:
     }
 
     //4.space
+    
     int space(vector<int>&prices)
     {
-        int n=prices.size();
-        //  vector<vector<int>>dp(n+1,vector<int>(2,0));
-        vector<int>curr(2,0);
-        vector<int>next(2,0);
+        int n=prices.size(); 
+        int l=2;  //limit
+        //  vector<vector<vector<int>>>dp(n+1,vector<vector<int>>(2,vector<int>(l+1,0)));
+        vector<vector<int>>curr(2,vector<int>(l+1,0));
+        vector<vector<int>>next(2,vector<int>(l+1,0));
+
 
         for(int i=n-1;i>=0;i--)
         {
             for(int buy=0;buy<=1;buy++)
             {
-                 int ans=0; 
-                if(buy) //you can buy
+                for(int limit=1;limit<=l;limit++)
                 {
-                    int take=-prices[i]+next[0];
-                    int skip=0+next[buy];
+                    int ans=0; 
+                    if(buy) //you can buy
+                    {
+                        int take=-prices[i]+next[0][limit];
+                        int skip=0+next[buy][limit];
 
-                    ans=max(take,skip);
-                }
-                else
-                {
-                    int take=prices[i]+next[1];
-                    int skip=0+next[buy];
+                        ans=max(take,skip);
+                    }
+                    else
+                    {
+                        int take=prices[i]+next[1][limit-1];
+                        int skip=0+next[buy][limit];
 
-                    ans=max(take,skip);
+                        ans=max(take,skip);
+                    }
+                    curr[buy][limit]=ans;
                 }
-                 curr[buy]=ans;
+                 
             }
             next=curr;
         }
-        return next[1];
+        return next[1][2];
         
     }
     int maxProfit(vector<int>& prices) {
@@ -142,11 +149,11 @@ public:
 
 
         // 3.Memoziation
-        return solveTab(prices);
+        // return solveTab(prices);
 
         
 
          // 4.space
-        // return space(prices);
+        return space(prices);
     }
 };
