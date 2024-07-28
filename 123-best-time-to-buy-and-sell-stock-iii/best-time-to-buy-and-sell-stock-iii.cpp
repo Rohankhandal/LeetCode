@@ -60,32 +60,38 @@ public:
     //3.Tabluation
     int solveTab(vector<int>&prices)
     {
-        int n=prices.size();
-         vector<vector<int>>dp(n+1,vector<int>(2,0));
+        int n=prices.size(); 
+        int l=2;  //limit
+         vector<vector<vector<int>>>dp(n+1,vector<vector<int>>(2,vector<int>(l+1,0)));
+
 
         for(int i=n-1;i>=0;i--)
         {
             for(int buy=0;buy<=1;buy++)
             {
-                 int ans=0; 
-                if(buy) //you can buy
+                for(int limit=1;limit<=l;limit++)
                 {
-                    int take=-prices[i]+dp[i+1][0];
-                    int skip=0+dp[i+1][buy];
+                    int ans=0; 
+                    if(buy) //you can buy
+                    {
+                        int take=-prices[i]+dp[i+1][0][limit];
+                        int skip=0+dp[i+1][buy][limit];
 
-                    ans=max(take,skip);
-                }
-                else
-                {
-                    int take=prices[i]+dp[i+1][1];
-                    int skip=0+dp[i+1][buy];
+                        ans=max(take,skip);
+                    }
+                    else
+                    {
+                        int take=prices[i]+dp[i+1][1][limit-1];
+                        int skip=0+dp[i+1][buy][limit];
 
-                    ans=max(take,skip);
+                        ans=max(take,skip);
+                    }
+                    dp[i][buy][limit]=ans;
                 }
-                 dp[i][buy]=ans;
+                 
             }
         }
-        return dp[0][1];
+        return dp[0][1][2];
         
     }
 
@@ -129,14 +135,14 @@ public:
         // return solve(prices,0,buy,limit);
 
         // 2.Memozaiton
-        int n=prices.size();
-        int limit=2;
-        vector<vector<vector<int>>>dp(n,vector<vector<int>>(2,vector<int>(limit+1,-1)));
-        return solveMem(prices,0,1,limit,dp);
+        // int n=prices.size();
+        // int limit=2;
+        // vector<vector<vector<int>>>dp(n,vector<vector<int>>(2,vector<int>(limit+1,-1)));
+        // return solveMem(prices,0,1,limit,dp);
 
 
         // 3.Memoziation
-        // return solveTab(prices);
+        return solveTab(prices);
 
         
 
