@@ -84,6 +84,41 @@ public:
         return dp[0][1];
         
     }
+
+    //4.space
+    int space(vector<int>&prices)
+    {
+        int n=prices.size();
+        //  vector<vector<int>>dp(n+1,vector<int>(2,0));
+        vector<int>curr(2,0);
+        vector<int>next(2,0);
+
+        for(int i=n-1;i>=0;i--)
+        {
+            for(int buy=0;buy<=1;buy++)
+            {
+                 int ans=0; 
+                if(buy) //you can buy
+                {
+                    int take=-prices[i]+next[0];
+                    int skip=0+next[buy];
+
+                    ans=max(take,skip);
+                }
+                else
+                {
+                    int take=prices[i]+next[1];
+                    int skip=0+next[buy];
+
+                    ans=max(take,skip);
+                }
+                 curr[buy]=ans;
+            }
+            next=curr;
+        }
+        return next[1];
+        
+    }
     int maxProfit(vector<int>& prices) {
         // int buy=1;  //first buy it and then sell it
         // return solve(prices,0,buy);
@@ -95,6 +130,11 @@ public:
 
 
         // 3.Memoziation
-        return solveTab(prices);
+        // return solveTab(prices);
+
+        
+
+         // 4.space
+        return space(prices);
     }
 };
