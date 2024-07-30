@@ -1,26 +1,35 @@
 class Solution {
 public:
     int minimumDeletions(string s) {
-        int n=s.size();
-        vector<int>A(n,0);
-        vector<int>B(n,0);
-        int countA=0,countB=0;
-        for(int i=0;i<n;i++)
-        {
-            if(s[i]=='a') countA++;
-            A[i]=countA;
+        int n = s.size();  // Get the size of the string
+        
+        // Initialize vectors to keep track of cumulative counts of 'a' and 'b'
+        vector<int> A(n, 0);
+        vector<int> B(n, 0);
+        
+        int countA = 0, countB = 0;
+        
+        // First pass: count 'a' characters from the left
+        for (int i = 0; i < n; i++) {
+            if (s[i] == 'a') countA++;
+            A[i] = countA;
         }
-        for(int i=n-1;i>=0;i--)
-        {
-            if(s[i]=='b') countB++;
-            B[i]=countB;
+        
+        // Second pass: count 'b' characters from the right
+        for (int i = n - 1; i >= 0; i--) {
+            if (s[i] == 'b') countB++;
+            B[i] = countB;
         }
-        int maxi=INT_MIN;
-        for(int i=0;i<n;i++)
-        {
-            int sum=A[i]+B[i];
-            maxi=max(maxi,sum);
+        
+        int maxi = INT_MIN;
+        
+        // Calculate the maximum number of balanced characters
+        for (int i = 0; i < n; i++) {
+            int sum = A[i] + B[i];
+            maxi = max(maxi, sum);
         }
-        return n-maxi;
+        
+        // Return the minimum number of deletions to balance the string
+        return n - maxi;
     }
 };
