@@ -82,6 +82,36 @@ public:
         return dp[0][0];
         
     }
+
+
+    //GOOD APPROACH 
+    int f(vector<string>&words)
+    {
+        int n = words.size();
+        vector<int> dp(n, 1);
+
+        for (int i = 0; i < n; i++) {
+        
+            for (int prev = 0; prev < i; prev++) {
+                if (isSafe(words[i],words[prev])) {
+                    if (1 + dp[prev] > dp[i]) {
+                        dp[i] = 1 + dp[prev];
+                    }
+                }
+            }
+        }
+
+        int maxi = INT_MIN;
+        int index = 0;
+        for (int i = 0; i < n; i++) {
+            if (maxi < dp[i]) {
+                maxi = dp[i];
+                index = i;
+            }
+        }
+
+        return maxi;
+    }
      static bool myFunction(string& s1, string& s2) {
         return s1.length() < s2.length();
     }
@@ -96,7 +126,10 @@ public:
         // return solveMem(words,0,-1,dp);
 
 
-        return solveTab(words);
+        // return solveTab(words);
+
+
+        return f(words);
 
     }
 };
