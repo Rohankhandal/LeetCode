@@ -7,20 +7,15 @@ public:
 
         for(int i=0;i<n;i++)
         {
+            int sum=0;
             for(int j=i;j<n;j++)
             {
-                int sum=0;
-                if(i<=j)
-                {
-                    for(int k=i;k<=j;k++)
-                    {
-                        sum+=nums[k]%M;
-                    }
-                    arr.push_back(sum);
-                }
-                
+                sum+=nums[j]%M;
+                arr.push_back(sum);
             }
+                
         }
+        
         sort(arr.begin(),arr.end());
         int ans=0;
         for(int i=left;i<=right;i++)
