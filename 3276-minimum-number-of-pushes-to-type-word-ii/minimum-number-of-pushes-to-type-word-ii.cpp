@@ -1,40 +1,41 @@
 class Solution {
 public:
     int minimumPushes(string word) {
-        int n=word.size();
-        cout<<n<<endl;
+      
         unordered_map<char,int>mp;
         for(auto &it:word)
         {
             mp[it]++;
         }
-        vector<pair<char,int>>arr;
-        for(auto&it:mp)
-        {
-            arr.push_back({it.first,it.second});
-        }
-        auto cmp=[&](pair<char,int>&p1,pair<char,int>&p2)
-        {
-            return p1.second>p2.second;
-        };
 
-        sort(arr.begin(),arr.end(),cmp);
+        // vector<pair<char,int>>arr;
+        // for(auto&it:mp)
+        // {
+        //     arr.push_back({it.first,it.second});
+        // }
+        // auto cmp=[&](pair<char,int>&p1,pair<char,int>&p2)
+        // {
+        //     return p1.second>p2.second;
+        // };
 
-        for(auto &t:arr)
+        // sort(arr.begin(),arr.end(),cmp);
+
+
+        priority_queue<int>pq;
+        for(auto &it:mp)
         {
-            cout<<t.first<<" "<<t.second<<endl;
+            int freq=it.second;
+            pq.push(freq);
         }
-        cout<<endl;
+
         int cnt=1;
         int ans=0;
         int value=1;
-        for(auto &it:arr)
+        while(!pq.empty())
         {
-            int ele=it.first;
-            int freq=it.second;
-
+            int freq=pq.top();
+            pq.pop();
             ans+=(freq*value);
-            cout<<(char)ele<<" "<<value<<endl;
             cnt++;
             if(cnt==9)
             {
