@@ -1,63 +1,63 @@
 class Solution {
 public:
-bool isValid(int i, int j,int n, int m)
-{
-    return !(i<0||j<0||i>=n||j>=m);
-}
+    bool isValid(int i,int j,int row,int col)
+    {
+        if(i<0 || i>=row || j<0 || j>=col) return false;
+        return true;
+    }
     vector<vector<int>> spiralMatrixIII(int rows, int cols, int r, int c) {
-        vector<vector<int>>ans{{r,c}};  //first insert current position
-        int x=r;
-        int y=c;
-        int total_ele=rows*cols;
-        int count=0;
+        vector<vector<int>>ans;
+        ans.push_back({r,c});
         int len=1;
-       
-        while(ans.size()<total_ele)
+        int total=rows*cols;
+        int cnt=1;
+
+        while(cnt<total)
         {
-            for(int i=1;i<=len;i++)
+            for(int i=1;i<=len && cnt<total;i++)
             {
-                if(isValid(x,y+i,rows,cols))
+                if(isValid(r,c+i,rows,cols))
                 {
-                    ans.push_back({x,y+i});
+                ans.push_back({r,c+i});
+                cnt++;
+
                 }
             }
-            y+=len;  //going right;
+            c=c+len;
 
-            for(int i=1;i<=len;i++)
+            for(int i=1;i<=len && cnt<total;i++)
             {
-                if(isValid(x+i,y,rows,cols))
+                if(isValid(r+i,c,rows,cols))
                 {
-                    ans.push_back({x+i,y});
+                    ans.push_back({r+i,c});
+                   cnt++;
                 }
             }
+            r=r+len;
 
-            x+=len;  //going down;
-            len++; //increasing length after down in over;
-
-
-            for(int i=1;i<=len;i++)
+            len++;
+            for(int i=1;i<=len && cnt<total;i++)
             {
-                if(isValid(x,y-i,rows,cols))
+                if(isValid(r,c-i,rows,cols))
                 {
-                    ans.push_back({x,y-i});
+                    ans.push_back({r,c-i});
+                   cnt++;
                 }
             }
-
-            y-=len;  //going left;
-
-               
-            for(int i=1;i<=len;i++)
+            c=c-len;
+            for(int i=1;i<=len && cnt<total;i++)
             {
-                if(isValid(x-i,y,rows,cols))
+                if(isValid(r-i,c,rows,cols))
                 {
-                    ans.push_back({x-i,y});
+                    ans.push_back({r-i,c});
+                    cnt++;
                 }
             }
-
-            x-=len;  //going up
-            len++; 
-
+            r=r-len;
+            len++;
         }
+
         return ans;
+
     }
 };
