@@ -1,34 +1,34 @@
 class Solution {
 public:
-    void solve(vector<int>&cand,vector<vector<int>>&ans,vector<int>temp,int i,int sum,int &target)
+    void solve(vector<int>& arr, int target,vector<vector<int>>&ans,vector<int>&temp,int i)
     {
-         if(sum==target)
-         {
+        if(target<0) return ;
+        if(target==0)
+        {
             ans.push_back(temp);
             return ;
-         }
-         if(sum>target) return ;
-            
-        if(i>=cand.size())
-        {
-           return ;
         }
-        //take
-        temp.push_back(cand[i]);
-        solve(cand,ans,temp,i+1,sum+cand[i],target);
+        if(i>=arr.size())
+        {
+            return ;
+        }
+
+        
+        temp.push_back(arr[i]);
+        solve(arr,target-arr[i],ans,temp,i+1);
         temp.pop_back();
 
-        //not-take
-        while(i+1<cand.size() && cand[i]==cand[i+1]) i++;   //IMP IGONRE ALL DUPLICATE SUBSEQUENCE
-        solve(cand,ans,temp,i+1,sum,target);
+        //noTake
+        int k=i+1;
+        while(k<arr.size() && arr[k]==arr[i]) k++;
+        solve(arr,target,ans,temp,k);
+
     }
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         sort(candidates.begin(),candidates.end());
         vector<vector<int>>ans;
         vector<int>temp;
-        int sum=0;
-        solve(candidates,ans,temp,0,sum,target);
+        solve(candidates,target,ans,temp,0);
         return ans;
-        
     }
 };
