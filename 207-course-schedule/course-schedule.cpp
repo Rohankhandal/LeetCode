@@ -1,47 +1,49 @@
 class Solution {
 public:
-    bool topologicalSort(unordered_map<int,vector<int>>&adj, vector<int>&inDegree,int n)
+    bool checkCycle(int src,unordered_map<int,vector<int>>&adj,vector<bool>&inRec,vector<bool>&visited)
     {
-        queue<int>q;
-        int course=0;
-        for(int i=0;i<n;i++)
+        visited[src]=true;
+        inRec[src]=true;
+
+        for(auto &v:adj[src])
         {
-            if(inDegree[i]==0)
+            if(!visited[v])
             {
-                q.push(i);
-                course++;
+                bool ans=checkCycle(v,adj,inRec,visited);
+
+                if(ans==true) return true;
+            }
+            else if(inRec[v])
+            {
+                return true;
             }
         }
-
-        while(!q.empty())
-        {
-            int u=q.front();
-            q.pop();
-            for(auto &v:adj[u])
-            {
-                inDegree[v]--;
-                if(inDegree[v]==0)
-                {
-                    course++;
-                    q.push(v);
-                }
-            }
-        }
-
-        return course==n;
+        inRec[src]=false;
+        return false;
     }
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         unordered_map<int,vector<int>>adj;
-        vector<int>inDegree(numCourses+1,0);
         for(auto &it:prerequisites)
         {
-            int v=it[0];  //it[1] --> it[0]
             int u=it[1];
+            int v=it[0];
+
             adj[u].push_back(v);
-            inDegree[v]++;
         }
+        vector<bool>visited(numCourses,false);
+        vector<bool>inRec(numCourses,false);
 
-       return  topologicalSort(adj,inDegree,numCourses);
+        int isCycle=false;
+        for(int i=0;i<numCourses;i++)
+        {
+            if(!visited[i])
+            {
+                isCycle=checkCycle(i,adj,inRec,visited);
+
+                if(isCycle) return false;
+            }
+           
+        }
+        return  true;
     }
-
 };
