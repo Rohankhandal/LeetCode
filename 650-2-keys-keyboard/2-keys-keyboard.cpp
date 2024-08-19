@@ -29,25 +29,21 @@ class Solution {
 public:
 
     int minSteps(int n) {
-        vector<int>dp(n+1,0);
+        vector<int> dp(n+1, 0); // Initialize DP array with size n+1 and all elements as 0
 
-        for(int i=2;i<=n;i++)
-        {
-            dp[i]=i;
+        for (int i = 2; i <= n; i++) {
+            dp[i] = i; // Base assumption: worst case is i operations (i-1 pastes after one copy)
         }
 
-        for(int i=4;i<=n;i++)
-        {
-            for(int j=2;j*j<=i;j++)
-            {
-                if(i%j==0)
-                {
-                    dp[i]=min(dp[i],i/j+dp[j]);
-                    dp[i]=min(dp[i],j+dp[i/j]);
+        for (int i = 4; i <= n; i++) { // Start checking from 4 (as 2 and 3 cannot be further divided)
+            for (int j = 2; j * j <= i; j++) { // Iterate through all possible divisors j of i
+                if (i % j == 0) { // If j is a divisor of i
+                    dp[i] = min(dp[i], i / j + dp[j]); // Case 1: Copy j 'A's and paste i/j times
+                    dp[i] = min(dp[i], j + dp[i / j]); // Case 2: Copy i/j 'A's and paste j times
                 }
             }
         }
-        return dp[n];
-       
+        return dp[n]; // Return the minimum steps required to generate n 'A's
     }
 };
+
