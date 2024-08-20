@@ -1,3 +1,5 @@
+// T.c: O(N * word.length * 26 * logN)
+
 class Solution {
 public:
     // Function to find the shortest transformation sequence from beginWord to endWord
@@ -13,7 +15,7 @@ public:
         st.erase(beginWord);
 
         // BFS loop to explore all possible transformations
-        while (!q.empty()) {  // T.c: O(N * word.length * 26 * logN)
+        while (!q.empty()) {  
             string word = q.front().first;
             int step = q.front().second;
             q.pop();
