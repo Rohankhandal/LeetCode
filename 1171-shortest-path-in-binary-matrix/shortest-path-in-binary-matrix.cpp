@@ -1,50 +1,43 @@
 class Solution {
 public:
-    //Using BFS
-    int bfs(vector<vector<int>>& grid,vector<vector<int>>& visited)
-    {
-        int n=grid.size();
-        int m=grid[0].size();
-
-        queue<pair<int,pair<int,int>>>q;  //{count,{i,j}}
-        q.push({0,{0,0}});
-
-        vector<vector<int>>dir{{-1,0},{1,0},{0,1},{0,-1},{1,1},{-1,-1},{-1,1},{1,-1}};
-        while(!q.empty())
-        {
-            int count=q.front().first;
-            int i=q.front().second.first;
-            int j=q.front().second.second;
-            q.pop();
-
-
-            if(i==n-1 && j==m-1)
-            {
-                return count+1;
-            }
-
-            for(auto &d:dir)
-            {
-                int _i=i+d[0];
-                int _j=j+d[1];
-
-                if(_i>=0 && _i<n && _j>=0 && _j<m && grid[_i][_j]==0 && visited[_i][_j]==0)
-                {
-                    visited[_i][_j]=1;
-                    q.push({count+1,{_i,_j}});
-                }
-            }
-
-        }
-        return -1;
-    }
+    //Using DijKstra
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
         int n=grid.size();
         int m=grid[0].size();
         if(grid[0][0]==1 || grid[n-1][m-1]==1) return -1;
-        vector<vector<int>>visited(n,vector<int>(m,0));
 
-        return bfs(grid,visited);
+        if(n*m==1) return 1;
+        vector<vector<int>>ans(n,vector<int>(m,INT_MAX));
+
+        priority_queue< pair<int,pair<int,int>>,vector< pair<int,pair<int,int>>>,greater< pair<int,pair<int,int>>>>pq;
+        pq.push({0,{0,0}});
+
+        vector<vector<int>>directions{{-1,0},{1,0},{0,1},{0,-1},{1,1},{-1,-1},{-1,1},{1,-1}};
+        while(!pq.empty())
+        {
+            int dis=pq.top().first;
+            int i=pq.top().second.first;
+            int j=pq.top().second.second;
+            pq.pop();
+
+            for(auto &d:directions)
+            {
+                int newI=i+d[0];
+                int newJ=j+d[1];
+
+                 if(newI>=0 && newI<n && newJ>=0 && newJ<m && grid[newI][newJ]==0 )
+                {
+                    if(dis+1<ans[newI][newJ])
+                    {
+                        ans[newI][newJ]=dis+1;
+                        pq.push({ans[newI][newJ],{newI,newJ}});
+                    }
+                }
+            }
+        }
+        if(ans[n-1][m-1]==INT_MAX) return -1;
+
+        return ans[n-1][m-1]+1;
 
     }
 };
