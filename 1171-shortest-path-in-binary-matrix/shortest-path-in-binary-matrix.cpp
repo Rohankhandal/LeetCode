@@ -6,11 +6,11 @@ public:
         int m=grid[0].size();
         if(grid[0][0]==1 || grid[n-1][m-1]==1) return -1;
 
-        if(n*m==1) return 1;
         vector<vector<int>>ans(n,vector<int>(m,INT_MAX));
 
         priority_queue< pair<int,pair<int,int>>,vector< pair<int,pair<int,int>>>,greater< pair<int,pair<int,int>>>>pq;
         pq.push({0,{0,0}});
+        ans[0][0]=0;
 
         vector<vector<int>>directions{{-1,0},{1,0},{0,1},{0,-1},{1,1},{-1,-1},{-1,1},{1,-1}};
         while(!pq.empty())
