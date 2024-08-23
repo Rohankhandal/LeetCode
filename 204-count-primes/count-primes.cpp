@@ -7,7 +7,7 @@ public:
         prime[1] = false;  // 1 is not a prime number
 
         // Iterate through numbers up to the square root of n
-        for (int i = 2; i * i < n; i++) {
+        for (int i = 2; i * i <= n; i++) {
             if (prime[i]) {  // If i is a prime
                 int j = i * i;  // Start marking multiples of i from i^2
                 while (j < n) {
