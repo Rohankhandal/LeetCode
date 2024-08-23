@@ -1,48 +1,63 @@
+
+
 class Solution {
 public:
-    int findTheCity(int n, vector<vector<int>>& edges, int Threshold) {
-        vector<vector<vector<int>>> adj(n);
-
-        for(auto x : edges) {
-            adj[x[0]].push_back({x[1], x[2]});
-            adj[x[1]].push_back({x[0], x[2]});
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        unordered_map<int,vector<pair<int,int>>>adj;
+        for(auto &it:edges)
+        {
+            adj[it[0]].push_back({it[1],it[2]});
+            adj[it[1]].push_back({it[0],it[2]});
         }
 
-        int minReachCity = -1;
-        int minReach = INT_MAX;
+        int maxReachCity=-1;
+        int minSize=INT_MAX;
+        for(int src=0;src<n;src++)
+        {
+            vector<int>dist(n,INT_MAX);
+            queue<pair<int,int>>q;
+            q.push({0,src});  //dist,node
+            dist[src]=0;
 
-        for(int S=0; S<n; S++) {
-            priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
-            vector<int> dis(n, INT_MAX);
-            
-            dis[S] = 0;
-            pq.push({0,S});
-            
-            while(!pq.empty()) {
-                int node = pq.top().second;
-                pq.pop();
-                for(auto x : adj[node]) {
-                    int adjNode = x[0];
-                    int edgeWeight = x[1];
-                    if(dis[adjNode] > (dis[node] + edgeWeight)) {
-                        dis[adjNode] = dis[node] + edgeWeight;
-                        pq.push({dis[adjNode], adjNode});
+            while(!q.empty())
+            {
+                int u=q.front().second;
+                int d=q.front().first;
+                q.pop();
+
+                for(auto &v:adj[u])
+                {
+                    int dis=v.second;
+                    int adjNode=v.first;
+
+                    if(d+dis<dist[adjNode])
+                    {
+                        dist[adjNode]=d+dis;
+                        q.push({dist[adjNode],adjNode});
                     }
                 }
             }
 
-            int reach = 0;
-
-            for(auto x : dis) {
-                if(x <= Threshold) reach++;
+            int count=0;
+            for(auto &it:dist)
+            {
+                if(it<=distanceThreshold)
+                {
+                    count++;
+                }
             }
+            cout<<src<<" "<<count<<endl;
 
-            if(reach <= minReach) {
-                minReachCity = (reach == minReach) ? max(minReachCity, S) : S;
-                minReach = reach;
+            if(minSize>count)
+            {
+                minSize=count;
+                maxReachCity=src;
+            }
+             if(minSize==count)
+            {
+                maxReachCity=max(maxReachCity,src);
             }
         }
-
-        return minReachCity;
+        return maxReachCity;
     }
 };
