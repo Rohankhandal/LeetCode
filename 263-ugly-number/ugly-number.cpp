@@ -5,6 +5,8 @@ public:
         //if divisible then at last if we have 1 then return true;
         //bcz 1 is also ugly number 1=2^0*3^0*5^0;
 
+
+        if(n<0) return false; //negative numbers are not ugly number
         while(n>1)
         {
             if(n%2==0)
