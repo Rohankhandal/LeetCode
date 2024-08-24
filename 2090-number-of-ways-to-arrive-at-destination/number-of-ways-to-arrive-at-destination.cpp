@@ -1,3 +1,8 @@
+// Time complexity:
+// O(n∗log(n))
+
+// Space complexity:
+// O(n)
 class Solution {
 public:
     int M = 1e9 + 7;
