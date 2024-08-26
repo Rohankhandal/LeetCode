@@ -1,85 +1,64 @@
+// e.g:- 1,1,1,2 and 2,1,1,1 are same {that's why we don't use for loop}
+
+//Approach-1 (Recursion + Mempozation) : O(n*amount)
 class Solution {
 public:
-     int solve(vector<int>&coins,int amount,int i)
-    {
-       if(i==coins.size()-1)
-       {
-          if(amount%coins[i]==0) return 1;  //we can take infinite no. of times
-          else return 0;
-       }
+    int n;
+    int t[301][5001];
+    
 
-       int take=0;
-        if(coins[i]<=amount)
-        take=solve(coins,amount-coins[i],i);
+    // int solve(int i, vector<int>& coins, int amount) {
+        
+    //     if(amount == 0)
+    //         return t[i][amount] = 1;
+        
+    //     if(i == n || amount < 0)
+    //         return 0;
+        
+    //      if(t[i][amount] != -1)
+    //         return t[i][amount];
+        
+    //     if(coins[i] > amount)
+    //         return t[i][amount] = solve(i+1, coins, amount);
+        
+    //     int take = solve(i, coins, amount-coins[i]);
+    //     int skip = solve(i+1, coins, amount);
+        
+    //     return t[i][amount] = take+skip;
+        
+    // }
+    
 
-        int noTake=solve(coins,amount,i+1);
-
-        return take+noTake;
-
-    }
-
-    int solveMem(vector<int>&coins,int amount,int i,vector<vector<int>>&dp)
-    {
-        if(dp[i][amount]!=-1) return dp[i][amount];
-
-       if(i==coins.size()-1)
-       {
-          if(amount%coins[i]==0) return 1;  //we can take infinite no. of times
-          else return 0;
-       }
-
-       int take=0;
-        if(coins[i]<=amount)
-        take=solveMem(coins,amount-coins[i],i,dp);
-
-        int noTake=solveMem(coins,amount,i+1,dp);
-
-        return dp[i][amount]=take+noTake;
-
-    }
-
-
-    int solveTab(vector<int>&coins,int amt)
-    {
-        int n =coins.size();
+   int solveTab(vector<int>& coins, int amt) {
+        int n=coins.size();
         vector<vector<int>>dp(n+1,vector<int>(amt+1,0));
-      
-        for(int amount=0;amount<=amt;amount++)
-        {
-            dp[n-1][amount]=(amount%coins[n-1]==0);
+        
+        for(int i=0;i<n;i++){
+            dp[i][0]=1;
         }
-      
-        for(int amount=0;amount<=amt;amount++)
+       
+        for(int i=n-1;i>=0;i--)
         {
-            for(int i=n-2;i>=0;i--)
+            for(int amount=1;amount<=amt;amount++)
             {
                 int take=0;
-                if(coins[i]<=amount)
-                take=dp[i][amount-coins[i]];
-
-                int noTake=dp[i+1][amount];
-
-                dp[i][amount]=take+noTake;
+                if(amount>=coins[i])
+                    take = dp[i][amount-coins[i]];
+                int skip = dp[i+1][amount];
+                
+                dp[i][amount] = take+skip;
             }
         }
-
         return dp[0][amt];
-
        
-
+        
     }
-   
     int change(int amount, vector<int>& coins) {
-        // return solve(coins,amount,0);
+        n = coins.size();
+        // memset(t, -1, sizeof(t));
+        // return solve(0, coins, amount);
 
-        // 2.Memoziation
-        int n=coins.size();
-        // vector<vector<int>>dp(n+1,vector<int>(amount+1,-1));
-        // return solveMem(coins,amount,0,dp);
-
-        // 3.Tabluation
         return solveTab(coins,amount);
+
     }
 };
-
-
