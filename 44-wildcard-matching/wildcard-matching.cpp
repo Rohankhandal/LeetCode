@@ -6,7 +6,7 @@ public:
         if(i>=0 && j<0) return false;
         if(i<0 && j>=0)
         {
-            //check whether remainig string in pattern is all * or not
+            //check whether remainig string  pattern is all * or not
             for(int m=0;m<=j;m++)
             {
                 if(pattern[m]!='*') return false;
@@ -34,7 +34,7 @@ public:
         if(i>=0 && j<0) return false;
         if(i<0 && j>=0)
         {
-            //check whether remainig string in pattern is all * or not
+            //check whether remainig string  pattern is all * or not
             for(int m=0;m<=j;m++)
             {
                 if(pattern[m]!='*') return false;
@@ -66,7 +66,7 @@ public:
         if(i>0 && j==0) return false;
         if(i==0 && j>0)
         {
-            //check whether remainig string in pattern is all * or not
+            //check whether remainig string  pattern is all * or not
             for(int m=1;m<=j;m++)
             {
                 if(pattern[m-1]!='*') return false;
@@ -103,7 +103,7 @@ public:
         for(int j=1;j<=n2;j++)
         {
             bool flag=true;
-           //check whether remainig string in pattern is all * or not
+           //check whether remainig string  pattern is all * or not
             for(int m=1;m<=j;m++)
             {
                 if(pattern[m-1]!='*')
@@ -136,6 +136,56 @@ public:
         return dp[n1][n2];
         
     }
+
+
+    //4.Space Optimize
+    
+    bool space(string &str,string &pattern)
+    {
+        int n1=str.size();
+        int n2=pattern.size();
+        // vector<vector<bool>>dp(n1+1,vector<bool>(n2+1,false));
+        vector<bool>curr(n2+1,false);
+        vector<bool>prev(n2+1,false);
+
+        prev[0]=true;
+
+        for(int j=1;j<=n2;j++)
+        {
+            bool flag=true;
+           //check whether remainig string  pattern is all * or not
+            for(int m=1;m<=j;m++)
+            {
+                if(pattern[m-1]!='*')
+                {
+                    flag=false;
+                    break;
+                } 
+            }
+            prev[j]=flag;
+        }
+        
+        for(int i=1;i<=n1;i++)
+        {
+            for(int j=1;j<=n2;j++)
+            {
+                //match
+                if(str[i-1]==pattern[j-1] || pattern[j-1]=='?')
+                {
+                    curr[j]=prev[j-1];
+                }
+                else if(pattern[j-1]=='*')
+                {
+                    curr[j]=(prev[j] || curr[j-1]);
+                }
+                else curr[j]=false;
+            }
+            prev=curr;
+        }
+
+        return prev[n2];
+        
+    }
     bool isMatch(string str, string pattern) {
         int n1=str.size();
         int n2=pattern.size();
@@ -153,6 +203,9 @@ public:
 
 
         //3.Tabluation
-        return solveTab(str,pattern);
+        // return solveTab(str,pattern);
+
+        //4.Space
+        return space(str,pattern);
     }
 };
