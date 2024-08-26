@@ -101,7 +101,7 @@ public:
         // If (sum + target) is odd or target is impossible, return 0
         if ((sum + target) % 2 != 0 || sum < target) return 0;
 
-        if(sum + target<0) return 0;
+        if(sum + target<0) return 0; //e.g:- nums[100],and target=-100   (VERY IMP)
         int subsetSum = (sum + target) / 2;
         
         return solveTab(nums,n,subsetSum);
