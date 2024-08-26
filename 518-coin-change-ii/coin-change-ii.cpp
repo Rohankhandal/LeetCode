@@ -30,28 +30,27 @@ public:
     
 
    int solveTab(vector<int>& coins, int amt) {
-        int n=coins.size();
-        vector<vector<int>>dp(n+1,vector<int>(amt+1,0));
+        int n = coins.size();
+        vector<vector<int>> dp(n + 1, vector<int>(amt + 1, 0));
         
-        for(int i=0;i<n;i++){
-            dp[i][0]=1;
+        // There's exactly one way to make amount 0 (by not using any coins)
+        for(int i = 0; i <= n; i++) {
+            dp[i][0] = 1;
         }
-       
-        for(int i=n-1;i>=0;i--)
-        {
-            for(int amount=1;amount<=amt;amount++)
-            {
-                int take=0;
-                if(amount>=coins[i])
-                    take = dp[i][amount-coins[i]];
-                int skip = dp[i+1][amount];
+        
+        // Fill the DP table
+        for(int i = 1; i <= n; i++) {
+            for(int amount = 1; amount <= amt; amount++) {
+                int take = 0;
+                if(amount >= coins[i - 1])  // Use i-1 because dp is 1-based indexing
+                    take = dp[i][amount - coins[i - 1]];
+                int skip = dp[i - 1][amount];
                 
-                dp[i][amount] = take+skip;
+                dp[i][amount] = take + skip;
             }
         }
-        return dp[0][amt];
-       
         
+        return dp[n][amt];  // Return the number of ways to make amount using all coins
     }
     int change(int amount, vector<int>& coins) {
         n = coins.size();
