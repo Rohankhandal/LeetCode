@@ -29,6 +29,29 @@ public:
        
         return dp[i][j]=min(currIndex,nextIndex);
     }
+
+    //3.Tabluation
+    int solveTab(vector<vector<int>>&triangle)
+    {
+        int n=triangle.size();
+         vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+
+        for(int i=n-1;i>=0;i--)
+        {
+            int m=triangle[i].size();
+            for(int j=m-1;j>=0;j--){
+
+                int currIndex=triangle[i][j]+dp[i+1][j];
+
+                int nextIndex=triangle[i][j]+dp[i+1][j+1];
+            
+                dp[i][j]=min(currIndex,nextIndex);
+            }
+        }
+        return dp[0][0];
+
+        
+    }
     int minimumTotal(vector<vector<int>>& triangle) {
     //    return  solve(triangle,0,0);
 
