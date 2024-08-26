@@ -56,8 +56,12 @@ public:
     //    return  solve(triangle,0,0);
 
     //2.Memoziation
-        int n=triangle.size();
-        vector<vector<int>>dp(n,vector<int>(n,-1));
-        return solveMem(triangle,0,0,dp);
+        // int n=triangle.size();
+        // vector<vector<int>>dp(n,vector<int>(n,-1));
+        // return solveMem(triangle,0,0,dp);
+
+
+    //3.Tabluation
+        return solveTab(triangle);
     }
 };
