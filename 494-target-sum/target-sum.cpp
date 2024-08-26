@@ -20,6 +20,10 @@
 // };
 
 
+// Time Complexity:
+// The time complexity is reduced to O(n×target), where n is the number of elements in nums and target is the range of possible sums.
+// Space Complexity:
+// The space complexity is O(n×target) for the memoization table, and O(n) for the recursion stack.
 class Solution {
 public:
     // Memoization table to store the results of subproblems
