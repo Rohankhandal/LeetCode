@@ -1,5 +1,9 @@
 class Solution {
 public:
+
+    //s1-s2=target;
+    //total=s1+s2;
+    //s1=(target+total)/2;
     int solve(vector<int>&nums,int target,int i,int sum)
     {
         if (i == nums.size()) {
