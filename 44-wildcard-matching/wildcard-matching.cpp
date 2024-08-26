@@ -27,6 +27,10 @@ public:
     }
 
     // Recursive solution with memoization
+    // Time Complexity: O(N*M)
+    // Reason: There are N*M states therefore at max ‘N*M’ new problems will be solved.
+    // Space Complexity: O(N*M) + O(N+M)
+    // Reason: We are using a recursion stack space(O(N+M)) and a 2D array ( O(N*M)).
     bool solveMem(int i, int j, string &str, string &pattern, vector<vector<int>>& dp) {
         if(i < 0 && j < 0) return true;
         if(i >= 0 && j < 0) return false;
@@ -73,6 +77,10 @@ public:
     }
 
     // Tabulation (bottom-up dynamic programming)
+    // Time Complexity: O(N*M)
+    // Reason: There are two nested loops
+    // Space Complexity: O(N*M)
+    // Reason: We are using an external array of size ‘N*M’. Stack Space is eliminated.
     bool solveTab(string &str, string &pattern) {
         int n1 = str.size();
         int n2 = pattern.size();
@@ -109,6 +117,9 @@ public:
     }
 
     // Space optimization using two rows
+    // Time Complexity: O(N*M)
+    // Space Complexity: O(M)
+
     bool space(string &str, string &pattern) {
         int n1 = str.size();
         int n2 = pattern.size();
