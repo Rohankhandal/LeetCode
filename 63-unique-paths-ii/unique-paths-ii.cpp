@@ -1,74 +1,50 @@
 class Solution {
 public:
-    int solve(vector<vector<int>>& grid,int i,int j,int m,int n)
+    int solve(vector<vector<int>>& grid,int i,int j)
     {
-        if(grid[i][j]!=1 && i==m-1 && j==n-1) return 1;
-        if(i>=m || j>=n) return 0;
-        // if(dp[i][j]!=-1) return dp[i][j];
+        int n=grid.size();
+        int m=grid[0].size();
+        if(i==n-1 && j==m-1) return 1;
+        if(i<0 || i>=n || j<0 || j>=m || grid[i][j]==1) return 0;
 
-        int val1=0;
-        if(i+1<m && grid[i+1][j]!=1)
-            val1=solve(grid,i+1,j,m,n); //down
+        //down 
+        int down=solve(grid,i+1,j);
 
-        int val2=0;
-        if(j+1<n && grid[i][j+1]!=1)
-            val2=solve(grid,i,j+1,m,n); //right
+        //right
+        int right=solve(grid,i,j+1);
 
-        return val1+val2;
+        return right+down;
+
     }
 
-    int solveMem(vector<vector<int>>& grid,int i,int j,int m,int n, vector<vector<int>>&dp)
+//2.Memoziation
+    int solveMem(vector<vector<int>>& grid,int i,int j,vector<vector<int>>&dp)
     {
-        if( i==m-1 && j==n-1) return 1;
-        if(i>=m || j>=n) return 0;
+        int n=grid.size();
+        int m=grid[0].size();
+        if(i==n-1 && j==m-1) return 1;
+        if(i<0 || i>=n || j<0 || j>=m || grid[i][j]==1) return 0;
+
         if(dp[i][j]!=-1) return dp[i][j];
+        //down 
+        int down=solveMem(grid,i+1,j,dp);
 
-        int val1=0;
-        if(i+1<m && grid[i+1][j]!=1)
-            val1=solveMem(grid,i+1,j,m,n,dp); //down
+        //right
+        int right=solveMem(grid,i,j+1,dp);
 
-        int val2=0;
-        if(j+1<n && grid[i][j+1]!=1)
-            val2=solveMem(grid,i,j+1,m,n,dp); //right
+        return dp[i][j]=right+down;
 
-        return dp[i][j]=val1+val2;
     }
-
-    //3.Tabluation
-    int solveTab(vector<vector<int>>& grid, int m, int n) {
-    vector<vector<long long>> dp(m + 1, vector<long long>(n + 1, 0));
-    dp[m - 1][n - 1] = 1;
-
-    for (int i = m - 1; i >= 0; i--) {
-        for (int j = n - 1; j >= 0; j--) {
-            if (i == m - 1 && j == n - 1) continue;
-
-            long long val1 = 0;
-            if (i + 1 < m && grid[i + 1][j] != 1)
-                val1 = dp[i + 1][j]; // down
-
-            long long val2 = 0;
-            if (j + 1 < n && grid[i][j + 1] != 1)
-                val2 = dp[i][j + 1]; // right
-
-            dp[i][j] = val1 + val2;
-        }
-    }
-
-    return dp[0][0];
-}
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-        int m=obstacleGrid.size();
-        int n=obstacleGrid[0].size();
-        if(obstacleGrid[0][0]==1) return 0;  //IMP BASE CASE
-        // return solve(obstacleGrid,0,0,m,n);
+        int n=obstacleGrid.size();
+        int m=obstacleGrid[0].size();
+        if(obstacleGrid[0][0]==1 ||obstacleGrid[n-1][m-1]==1) return 0;
 
-        // vector<vector<int>>dp(m+1,vector<int>(n+1,-1));
-        // return solveMem(obstacleGrid,0,0,m,n,dp);
-
-        return solveTab(obstacleGrid,m,n);
+        // return solve(obstacleGrid,0,0);
 
 
-
+        //2.Memoization
+        vector<vector<int>>dp(n,vector<int>(m,-1));
+        return solveMem(obstacleGrid,0,0,dp);
     }
 };
