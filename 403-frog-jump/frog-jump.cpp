@@ -1,3 +1,5 @@
+// in the worst-case scenario (which is what Big O notation describes), the time complexity remains O(n^2).
+// The space complexity is also O(n^2) due to the memoization table t[2001][2001] and the unordered_map mp which stores up to n entries.
 class Solution {
 public:
     int n;  // Number of stones
