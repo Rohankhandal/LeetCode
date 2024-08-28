@@ -11,7 +11,7 @@ public:
     void isSubIsland(vector<vector<int>>& grid1, vector<vector<int>>& grid2, vector<vector<bool>>& visited, int i, int j, bool& flag) {
         // If the current cell in grid2 doesn't match grid1, it's not a sub-island
         if (grid2[i][j] != grid1[i][j]) {
-            flag = false;
+            flag = false;  //not sub-island , but mark this sub-island , so that we don't use in future
         }
 
         visited[i][j] = true;
