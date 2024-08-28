@@ -1,40 +1,42 @@
 class Solution {
 public:
     int openLock(vector<string>& deadends, string target) {
-        unordered_set<string> deadendSet(deadends.begin(), deadends.end());
-        if (deadendSet.count("0000")) {
-            return -1;
-        }
-        
-        queue<pair<string, int>> queue;
-        queue.push({"0000", 0});
-        unordered_set<string> visited;
-        visited.insert("0000");
-        
-        while (!queue.empty()) {
-            auto current = queue.front();
-            queue.pop();
-            string currentCombination = current.first;
-            int moves = current.second;
-            
-            if (currentCombination == target) {
-                return moves;
-            }
-            
-            for (int i = 0; i < 4; i++) {
-                for (int delta : {-1, 1}) {
-                    int newDigit = (currentCombination[i] - '0' + delta + 10) % 10;
-                    string newCombination = currentCombination;
-                    newCombination[i] = '0' + newDigit;
-                    
-                    if (visited.find(newCombination) == visited.end() && deadendSet.find(newCombination) == deadendSet.end()) {
-                        visited.insert(newCombination);
-                        queue.push({newCombination, moves + 1});
+        unordered_set<string>deadList(deadends.begin(),deadends.end());
+
+        if(deadList.count("0000")) return -1;
+        unordered_map<string,bool>visited;
+        queue<pair<string,int>>q;
+        q.push({"0000",0});
+        visited["0000"]=true;
+
+        while(!q.empty())
+        {
+            string combination=q.front().first;
+            int moves=q.front().second;
+
+            q.pop();
+            if(combination==target) return moves;
+
+            for(int i=0;i<4;i++)
+            {
+                for(int delta=-1;delta<=1;delta++)
+                {
+                    int newDigit=((combination[i]-'0')+delta+10)%10;
+                    string newCombination=combination;
+                    newCombination[i]=(newDigit+'0');
+
+                    if(deadList.find(newCombination)==deadList.end() && visited.find(newCombination)==visited.end())
+                    {
+                        visited[newCombination]=true;
+                        q.push({newCombination,moves+1});
                     }
                 }
             }
         }
-        
-        return -1; // Target is not reachable
+
+
+        return -1;
+
+
     }
 };
