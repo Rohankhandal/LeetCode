@@ -110,6 +110,48 @@ public:
         
     }
 
+    //4.space
+    int space(string word1, string word2) {
+        int n = word1.size();
+        int m = word2.size();
+
+        // vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+        vector<int>curr(m+1,0);
+        vector<int>next(m+1,0);
+
+        for(int j=0;j<=m;j++)
+        {
+            next[j]=m-j;
+        }
+
+        for(int i=n-1;i>=0;i--)
+        {
+            //every row ke last colum ko fill karna ha
+            curr[m]=n-i;
+
+            for(int j=m-1;j>=0;j--){
+                int ans = INT_MAX;
+
+                // If characters match, move to the next characters in both strings
+                if (word1[i] == word2[j]) {
+                    ans = next[ j + 1];
+                } else {
+                    // Calculate the costs of insert, remove, and replace operations
+                    int insert = curr[ j + 1];  // Insert character in word1
+                    int remove = next[ j ]; // Remove character from word1
+                    int replace = next[ j + 1];  // Replace character in word1
+
+                    // Choose the operation with the minimum cost
+                    ans = 1 + min({insert, remove, replace});
+                }
+
+               curr[j]=ans;
+            }
+            next=curr;
+        }
+        return next[0];
+        
+    }
 
     int minDistance(string word1, string word2) {
         int n=word1.size();
@@ -122,6 +164,9 @@ public:
         // return solveMem(word1,word2,0,0,dp);
 
         //3.Tabluation
-        return solveTab(word1,word2);
+        // return solveTab(word1,word2);
+
+        //4.Space
+        return space(word1,word2);
     }
 };
