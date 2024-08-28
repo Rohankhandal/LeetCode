@@ -67,6 +67,49 @@ public:
         return dp[i][j]=ans;
     }
 
+    //3.Tabluation
+    int solveTab(string word1, string word2) {
+        int n = word1.size();
+        int m = word2.size();
+
+        vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+
+        for(int j=0;j<=m;j++)
+        {
+            dp[n][j]=m-j;
+        }
+
+        for(int i=0;i<=n;i++)
+        {
+            dp[i][m]=n-i;
+        }
+
+
+        for(int i=n-1;i>=0;i--)
+        {
+            for(int j=m-1;j>=0;j--){
+                int ans = INT_MAX;
+
+                // If characters match, move to the next characters in both strings
+                if (word1[i] == word2[j]) {
+                    ans = dp[i + 1][ j + 1];
+                } else {
+                    // Calculate the costs of insert, remove, and replace operations
+                    int insert = dp[i][ j + 1];  // Insert character in word1
+                    int remove = dp[i + 1][ j ]; // Remove character from word1
+                    int replace = dp[i + 1][ j + 1];  // Replace character in word1
+
+                    // Choose the operation with the minimum cost
+                    ans = 1 + min({insert, remove, replace});
+                }
+
+                dp[i][j]=ans;
+            }
+        }
+        return dp[0][0];
+        
+    }
+
 
     int minDistance(string word1, string word2) {
         int n=word1.size();
@@ -75,7 +118,10 @@ public:
 
 
         //2.Memoziation
-        vector<vector<int>>dp(n,vector<int>(m,-1));
-        return solveMem(word1,word2,0,0,dp);
+        // vector<vector<int>>dp(n,vector<int>(m,-1));
+        // return solveMem(word1,word2,0,0,dp);
+
+        //3.Tabluation
+        return solveTab(word1,word2);
     }
 };
