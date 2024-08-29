@@ -43,6 +43,34 @@ public:
         }
         return dp[0][1];
     }
+
+    //4.space 
+    long long  space(vector<int>&nums)
+    {
+        int n=nums.size();
+        // vector<vector<long long>>dp(n+1,vector<long long>(2,0));
+        vector< long long >curr(2,0);
+        vector< long long >next(2,0);
+
+        for(int i=n-1;i>=0;i--)
+        {
+            for(int sign=1;sign>=0;sign--)
+            {
+                //take 
+                long long take=0;
+                if(sign==0)  //0 means minus
+                    take = -nums[i]+next[1];
+                else
+                    take = nums[i]+next[0];
+
+                long long skip=next[sign];
+
+               curr[sign]=max(take,skip);
+            }
+            next=curr;
+        }
+        return next[1];
+    }
     long long maxAlternatingSum(vector<int>& nums) {
         int sign=1;
         int n=nums.size();
@@ -53,6 +81,10 @@ public:
 
 
         //3.Tabluation
-        return solveTab(nums);
+        // return solveTab(nums);
+
+
+        //4.Space
+        return space(nums);
     }
 };
