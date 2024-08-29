@@ -5,11 +5,11 @@ class DisJointSet {
 
 public:
     DisJointSet(int n) {
-        parent.resize(n);
-        rank.resize(n, 1);
-        size.resize(n, 1);
+        parent.resize(n+1);
+        rank.resize(n+1, 1);
+        size.resize(n+1, 1);
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i <= n; i++) {
             parent[i] = i;
         }
     }
@@ -49,7 +49,7 @@ public:
         }
 
         // Initialize DisJointSet with appropriate size
-        DisJointSet ds(maxRow + maxCol + 2);
+        DisJointSet ds(maxRow + maxCol + 1);
 
         unordered_map<int, int> componentCount;
 
