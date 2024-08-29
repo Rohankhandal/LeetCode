@@ -1,16 +1,5 @@
 class Solution {
 public:
-    long long solve(vector<int>&nums,int i,int sign)
-    {
-        if(i>=nums.size()) return 0;
-
-        //take 
-        long long take1=nums[i]*sign+solve(nums,i+1,sign*-1);
-
-        long long skip=solve(nums,i+1,sign);
-
-        return max(take1,skip);
-    }
 
     long long solveMem(vector<int>&nums,int i,int sign, vector<vector<long long>>&dp)
     {
@@ -28,13 +17,42 @@ public:
 
         return dp[i][sign]=max(take,skip);
     }
+
+
+    //3.Tabluationlong 
+    long long  solveTab(vector<int>&nums)
+    {
+        int n=nums.size();
+       vector<vector<long long>>dp(n+1,vector<long long>(2,0));
+
+        for(int i=n-1;i>=0;i--)
+        {
+            for(int sign=1;sign>=0;sign--)
+            {
+                //take 
+                long long take=0;
+                if(sign==0)  //0 means minus
+                    take = -nums[i]+dp[i+1][1];
+                else
+                    take = nums[i]+dp[i+1][0];
+
+                long long skip=dp[i+1][sign];
+
+                dp[i][sign]=max(take,skip);
+            }
+        }
+        return dp[0][1];
+    }
     long long maxAlternatingSum(vector<int>& nums) {
         int sign=1;
         int n=nums.size();
-        // return solve(nums,0,sign);
+       
+        //2.Memoziation
+        // vector<vector<long long>>dp(n,vector<long long>(2,-1));
+        // return solveMem(nums,0,sign,dp);    //sign=0 means minus and sign=1 means plus
 
 
-        vector<vector<long long>>dp(n,vector<long long>(2,-1));
-        return solveMem(nums,0,sign,dp);    //sign=0 means minus and sign=1 means plus
+        //3.Tabluation
+        return solveTab(nums);
     }
 };
