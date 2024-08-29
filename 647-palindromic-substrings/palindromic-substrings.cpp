@@ -1,17 +1,6 @@
 class Solution {
 public:
-    int expandAroundIndex(string s, int left, int right)
-    {
-        int count=0;
-        //jab tak match karega , tab tak count increment kardo and i piche and j aage kardo
-        while(left>=0 && right< s.length() && s[left]==s[right])
-        {
-            count++;
-            left--;
-            right++;
-        }
-        return count;
-    }
+
     int countSubstrings(string s) {
        int n=s.size();
        vector<vector<bool>>dp(n,vector<bool>(n,false));
