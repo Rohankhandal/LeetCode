@@ -1,3 +1,6 @@
+// A typical approach might suggest a 3D DP table dp[i][j][k] where each entry represents whether s3[k:] can be formed by interleaving s1[i:] and s2[j:].
+// However, because k = i + j, the third dimension is redundant. The state can be fully captured by dp[i][j], which tells us whether s3[i + j:] can be formed by interleaving s1[i:] and s2[j:].
+
 class Solution {
 public:
     bool solve(string &s1, string &s2, string &s3, int i, int j, int k, vector<vector<int>>& memo) {
