@@ -1,45 +1,42 @@
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        deque<int> dq;
-        //we will store indexes in deque
-        vector<int> ans;
-
-        //process first k size window
+        int n=nums.size();
+        vector<int>ans;
+        deque<int>dq;
         for(int i=0;i<k;i++)
         {
             while(!dq.empty() && nums[dq.back()]<nums[i])
             {
                 dq.pop_back();
             }
-            //insert element
-            dq.push_back(i);
+            dq.push_back(i);//insert index
         }
 
-        //ans store karlo for 1st widow
-    ans.push_back(nums[dq.front()]);
 
-    
-        //remaing windows
-        for(int i=k;i<nums.size();i++)
+        //store the answer
+        ans.push_back(nums[dq.front()]);
+
+        for(int i=k;i<n;i++)
         {
-            //removal
-            if(!dq.empty()  && i-k>=dq.front())
-                dq.pop_front();     //remove index which is out of window
-            
-            //additional
+            //remove out of window index element from dequeue
+            while(!dq.empty() && (i-dq.front()>=k))
+            {
+                dq.pop_front();
+            }
+
+            //insert the element
             while(!dq.empty() && nums[dq.back()]<nums[i])
             {
                 dq.pop_back();
             }
-            
-            //insert element
-            dq.push_back(i);
+            dq.push_back(i);//insert index
 
-            //ans store
+
+            //store the answer
             ans.push_back(nums[dq.front()]);
-        }
 
-    return ans;
+        }
+        return ans;
     }
 };
