@@ -1,53 +1,51 @@
-/*
-// Definition for a Node.
-class Node {
-public:
-    int val;
-    vector<Node*> neighbors;
-    Node() {
-        val = 0;
-        neighbors = vector<Node*>();
-    }
-    Node(int _val) {
-        val = _val;
-        neighbors = vector<Node*>();
-    }
-    Node(int _val, vector<Node*> _neighbors) {
-        val = _val;
-        neighbors = _neighbors;
-    }
-};
-*/
 
+//Approach-2 DFS (Using unordered_map)
 class Solution {
 public:
-    void solve(unordered_map<Node*,Node*>&mapping,Node*&newNode,Node*node)
-    {
-        for(Node*temp:node->neighbors)
-        {
-            if(mapping.find(temp)!=mapping.end())
-            {
-                newNode->neighbors.push_back(mapping[temp]);
-                // solve(mapping,mapping[temp],temp);
-            }
-            else
-            {   
-                Node* newtemp=new Node(temp->val);
-                newNode->neighbors.push_back(newtemp);
-                mapping[temp]=newtemp;
-                solve(mapping,newtemp,temp);
-            }
+    
+    unordered_map<Node*, Node*> mp;
+    
+    void DFS(Node* node, Node* clone_node) {
+        
+        for(Node* n : node->neighbors) {
             
+            if(mp.find(n) == mp.end()) {
+                
+                Node* clone = new Node(n->val);
+                mp[n] = clone;
+                clone_node->neighbors.push_back(clone);
+                
+                DFS(n, clone);
+                
+            } else {
+                
+                clone_node->neighbors.push_back(mp[n]);
+                
+            }
             
         }
-
+        
     }
+    
     Node* cloneGraph(Node* node) {
-        if(node==NULL) return NULL;
-        unordered_map<Node*,Node*>mapping;
-        Node* newNode=new Node(node->val);
-        mapping[node]=newNode;
-        solve(mapping,newNode,node);
-        return newNode;
+        if(!node)
+            return NULL;
+        
+        mp.clear();
+        
+        //cloned the given node
+        Node* clone_node = new Node(node->val);
+        
+        //Now, cloe its neighbours and recursively their newighbours
+        /*
+                But if a node reappears, then we need to access that cloned node
+                So, store them in a map <Node*, Node*>
+        */
+        
+        mp[node] = clone_node;
+        
+        DFS(node, clone_node);
+        
+        return clone_node;
     }
 };
