@@ -44,12 +44,42 @@ public:
         return dp[0][-1+1];
         
     }
+
+
+    //simplest Tablaution
+    int f(vector<int>&nums)
+    {
+        int n=nums.size();
+        vector<int>dp(n+1,1);
+        int maxi=1;  //individual element are also a single element LIS
+        for(int i=0;i<n;i++)
+        {
+            for(int prev=0;prev<=i-1;prev++)
+            {
+                if(nums[prev]<nums[i])
+                {
+                    dp[i]=max(1+dp[prev],dp[i]);
+                    maxi=max(dp[i],maxi);
+                }
+            }
+        }
+
+        for(int i=0;i<n;i++)
+        {
+            cout<<nums[i]<<" "<<dp[i]<<endl;
+        }
+        return maxi;
+        
+    }
     int lengthOfLIS(vector<int>& nums) {
         int n=nums.size();
         // vector<vector<int>>dp(n,vector<int>(n,-1));
         // return solve(nums,0,-1,dp);
 
 
-        return solveTab(nums);
+        // return solveTab(nums);
+
+
+        return f(nums);
     }
 };
