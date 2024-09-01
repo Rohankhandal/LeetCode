@@ -12,39 +12,47 @@ class Solution {
 public:
     ListNode* reverse(ListNode* head)
     {
-        if(head==NULL || head->next==NULL) return head;
-        ListNode* prev=NULL;
-        ListNode* curr=head;
-        ListNode* forward=head->next;
+        ListNode*prev=NULL;
+        ListNode*curr=head;
+        ListNode*forward=head;
         while(curr!=NULL)
         {
             forward=curr->next;
+
             curr->next=prev;
 
             prev=curr;
             curr=forward;
         }
+
         return prev;
     }
     ListNode* removeNodes(ListNode* head) {
-        if(head==NULL || head->next==NULL) return head;
         head=reverse(head);
-        int max=head->val;
-        ListNode* temp=head;
-        while(temp!=NULL && temp->next!=NULL)
+        ListNode* dummy=new ListNode(-1);
+        ListNode* dummyNode=dummy;
+        int high=INT_MIN;
+        ListNode*temp=head;
+        while(temp!=NULL)
         {
-            if(temp->next->val<max)
+            if(dummyNode->val==-1)
             {
-                temp->next=temp->next->next;
+                dummyNode->next=temp;
+                dummyNode=temp;
+                high=temp->val;
+                
             }
-            else
+            else if(temp->val>=high)
             {
-                temp=temp->next;
-                 max=temp->val;
-            } 
+                dummyNode->next=temp;
+                dummyNode=temp;
+                high=temp->val;
+            }
+
+            temp=temp->next;
         }
-        return head=reverse(head);
+        dummyNode->next=NULL;
+        return reverse(dummy->next);
 
     }
-
 };
