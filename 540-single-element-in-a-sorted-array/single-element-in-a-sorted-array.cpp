@@ -1,97 +1,32 @@
-class Solution
-{
-    public:
-        int singleNonDuplicate(vector<int> &arr)
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int n=nums.size();
+        int l=1,r=n-1;
+        if(n==1) return nums[0];
+
+        if(nums[0]!=nums[1]) return nums[0];
+        if(nums[n-1]!=nums[n-2]) return nums[n-1];
+
+        while(l<=r)
         {
-            int n = arr.size();	//size of the array.
+            int mid=(l+r)/2;
 
-           	//Edge cases:
-            if (n == 1) return arr[0];
-            if (arr[0] != arr[1]) return arr[0];
-            if (arr[n - 1] != arr[n - 2]) return arr[n - 1];
-
-            int low = 1, high = n - 2;
-            while (low <= high)
+            if(nums[mid-1]!=nums[mid] && nums[mid+1]!=nums[mid])
             {
-                int mid = (low + high) / 2;
-
-               	//if arr[mid] is the single element:
-                if (arr[mid] != arr[mid + 1] && arr[mid] != arr[mid - 1])
-                {
-                    return arr[mid];
-                }
-
-               	//we are in the left:
-                if ((mid % 2 == 1 && arr[mid] == arr[mid - 1]) ||
-                    (mid % 2 == 0 && arr[mid] == arr[mid + 1]))
-                {
-                   	//eliminate the left half:
-                    low = mid + 1;
-                }
-               	//we are in the right:
-                else
-                {
-                   	//eliminate the right half:
-                    high = mid - 1;
-                }
+                return nums[mid];
             }
 
-           	// dummy return statement:
-            return -1;
+            if((mid%2==1 && (nums[mid]==nums[mid-1])) || (mid%2==0 && (nums[mid]==nums[mid+1])))
+            {
+                //single element right me hoga
+                l=mid+1;
+            }
+            else
+            {
+                r=mid-1;
+            }
         }
+        return -1;
+    }
 };
-//correct 
-// class Solution
-// {
-//     public:
-//         int singleNonDuplicate(vector<int> &arr)
-//         {
-//             int n = arr.size();
-//             int l = 1;
-//             int r = arr.size() - 2;
-//             int ans=-1;
-//             if (arr.size() == 1)
-//             {
-//                 return arr[0];
-//             }
-//             if (arr[0] != arr[1])
-//             {
-//                 return arr[0];
-//             }
-//             if (arr[n - 1] != arr[n - 2])
-//             {
-//                 return arr[n - 1];
-//             }
-
-//             while (l <= r)
-//             {
-//                 int mid = l + (r - l) / 2;
-
-//                 if(mid%2==0)
-//                 {
-//                     if(arr[mid]==arr[mid-1])
-//                     {
-//                         r=mid-2;
-//                         ans=arr[r];
-//                     }
-//                     else
-//                     {
-//                         ans=arr[mid];
-//                         l=mid+1;
-//                     }
-//                 }
-//                 else
-//                 {
-//                     if(arr[mid]==arr[mid-1])
-//                     {
-//                         l=mid+1;
-//                     }
-//                     else{
-//                         ans=arr[mid-1];
-//                         r=mid-2;
-//                     }
-//                 }
-//             }
-//             return ans;
-//         }
-// };
