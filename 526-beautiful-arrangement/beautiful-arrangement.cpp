@@ -1,3 +1,7 @@
+// **Complexity Analysis**
+// Time complexity : O(k). k refers to the number of valid permutations.
+
+// Space complexity : O(n). visited array of size n is used. The depth of recursion tree will also go upto n. Here, n refers to the given integer n.
 class Solution {
 public:
     void solve(vector<bool>&visited,int &ans,int n,int currNum)
