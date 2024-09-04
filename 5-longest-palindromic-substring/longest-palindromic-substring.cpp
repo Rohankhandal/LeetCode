@@ -1,44 +1,35 @@
 class Solution {
 public:
-
-
-//Naive Approach   
-//Better Approach using DP
-
-    string isPalindrome(string s , int start , int end){
-
-        while(start>=0 && end<s.size())
+    bool isPalindrome(string&s,int i,int j)
+    {
+        while(i<=j)
         {
-            if(s[start] != s[end])
-            {
-                 break;
-            }
-            start--; end++;
+            if(s[i]!=s[j]) return false;
+            i++;
+            j--;
         }
-        return s.substr(start+1,end-start-1);
+        return true;
     }
-
-
     string longestPalindrome(string s) {
-        string ans="";
-        ans+=s[0];
-        if(s.size()<=1)
+        int n=s.size();
+        int maxLen=INT_MIN;
+        int startIndex=0;
+        
+        for(int i=0;i<n;i++)
         {
-            return s;
-        }
-        for(int i=0 ; i<s.size()-1 ; i++)
-        {
-            string str1=isPalindrome(s,i,i);
-            string str2=isPalindrome(s,i,i+1);
-            if(str1.size()>ans.size())
+            for(int j=i;j<n;j++)
             {
-                ans=str1;
-            }
-            if(str2.size()>ans.size())
-            {
-                ans=str2;
+                if(isPalindrome(s,i,j))
+                {
+                    // cout<<s.substr(i,(j-i+1))<<endl;;
+                    if(maxLen<(j-i+1))
+                    {
+                        maxLen=(j-i+1);
+                        startIndex=i;
+                    }
+                }
             }
         }
-        return ans;
+        return s.substr(startIndex,maxLen);
     }
-};
+}; 
