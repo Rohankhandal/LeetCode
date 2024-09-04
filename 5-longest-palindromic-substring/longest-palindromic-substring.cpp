@@ -2,13 +2,13 @@ class Solution {
 public:
     bool isPalindrome(string&s,int i,int j)
     {
-        while(i<=j)
-        {
-            if(s[i]!=s[j]) return false;
-            i++;
-            j--;
+        if(i>j) return true;
+
+        if(s[i]==s[j]){
+            return isPalindrome(s,i+1,j-1);
         }
-        return true;
+        else 
+            return false;
     }
     string longestPalindrome(string s) {
         int n=s.size();
