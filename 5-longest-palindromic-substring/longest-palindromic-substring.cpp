@@ -3,7 +3,8 @@ public:
     int t[1001][1001];
     string longestPalindrome(string s) {
         int n=s.size();
-        int maxLen=1;
+        int maxLen=1;  //every letter is a substring and palindrome
+        //all substrings of length 1 palindrome
         int startingIndex=0;
         memset(t,0,sizeof(t));
         for(int L=1;L<=n;L++)
