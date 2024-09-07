@@ -21,33 +21,28 @@
  */
 class Solution {
 public:
-    bool isPath(ListNode*head,TreeNode*root)
+    bool isMatch(ListNode*head,TreeNode*root)
     {
         if(head==NULL) return true;
         if(root==NULL) return false;
+        if(head->val!=root->val) return false;
 
-         if (head->val != root->val) return false; // Values don't match
-
-        bool left=isPath(head->next,root->left);
-        bool right= isPath(head->next,root->right);
-
-        return left||right;
-
+        return isMatch(head->next,root->left)||isMatch(head->next,root->right);
     }
-    bool solve(ListNode*head,TreeNode*root)
+    bool isPath(ListNode*head,TreeNode*root)
     {
         if(root==NULL) return false;
-        
-        if(head->val==root->val && isPath(head,root)) return true;
 
-        bool left=solve(head,root->left);
-        bool right=solve(head,root->right);
+        if(head->val==root->val)
+        {
+            if(isMatch(head,root)) return true;
+        }
+        bool left=isPath(head,root->left);
+        bool right=isPath(head,root->right);
 
         return left||right;
-
-       
     }
     bool isSubPath(ListNode* head, TreeNode* root) {
-        return solve(head,root);
+       return  isPath(head,root);
     }
 };
