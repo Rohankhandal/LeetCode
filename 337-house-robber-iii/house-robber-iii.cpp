@@ -1,41 +1,38 @@
-#include <unordered_map>
-
 class Solution {
 public:
-    // Memoization map: stores {TreeNode*, pair<robbed, notRobbed>}
-    unordered_map<TreeNode*, pair<int, int>> memo;
-
+    // Memoization map: stores {TreeNode* -> [robbed, notRobbed]}
+    unordered_map<TreeNode*, vector<int>> memo;
+    
     int rob(TreeNode* root) {
-        pair<int, int> result = solve(root);
-        return max(result.first, result.second); // max(robbed, notRobbed)
+        return max(solve(root, true), solve(root, false));
     }
     
-    // solve function returns a pair {robbed, notRobbed}
-    pair<int, int> solve(TreeNode* root) {
+    int solve(TreeNode* root, bool thief) {
         if (root == nullptr) {
-            return {0, 0};  // {robbed = 0, notRobbed = 0}
+            return 0;
         }
         
-        // Check memoization
-        // if (memo.find(root) != memo.end()) {
-        //     return memo[root];
-        // }
+        // Check memoization map
+        if (memo.find(root) != memo.end()) {
+            if (memo[root][thief] != -1) {
+                return memo[root][thief];
+            }
+        } else {
+            // Initialize memo for this node with two -1 values
+            memo[root] = vector<int>(2, -1);  // -1 indicates not yet computed
+        }
         
-        // Recursively solve for left and right subtrees
-        pair<int, int> left = solve(root->left);
-        pair<int, int> right = solve(root->right);
+        int take = 0, skip = 0;
         
-        // If we rob this node, we cannot rob its children
-        int robbed = root->val + left.second + right.second;
+        if (thief) {
+            take = root->val + solve(root->left, false) + solve(root->right, false);
+        }
         
-        // If we don't rob this node, we can choose to rob or not rob its children
-        int notRobbed = max(left.first, left.second) + max(right.first, right.second);
+        skip = solve(root->left, true) + solve(root->right, true);
         
         // Store the result in memo map
-        // memo[root] = {robbed, notRobbed};
+        memo[root][thief] = max(take, skip);
         
-        // return memo[root];
-        return {robbed, notRobbed};
-
+        return memo[root][thief];
     }
 };
