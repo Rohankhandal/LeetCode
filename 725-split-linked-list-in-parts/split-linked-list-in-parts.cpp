@@ -10,58 +10,47 @@
  */
 class Solution {
 public:
-int getLength(ListNode* head)
-{
-    int len=0;
-    ListNode*temp=head;
-    while(temp!=NULL)
+    int getLength(ListNode*head)
     {
-        len++;
-        temp=temp->next;
-    }
-    return len;
-}
-    vector<ListNode*> splitListToParts(ListNode* head, int k) {
-        vector<ListNode*>ans;
-        if(head==NULL)
+        ListNode*temp=head;
+        int len=0;
+        while(temp!=NULL)
         {
-            while(k--)
-            {
-                ans.push_back({});
-            }
-            return ans;
+            temp=temp->next;
+            len++;
         }
+        return len;
+    }
+    vector<ListNode*> splitListToParts(ListNode* head, int k) {
         int len=getLength(head);
-        int divPart=len/k;
+        cout<<len<<endl;
+        int size=len/k;
         int rem=len%k;
         ListNode*temp=head;
-        ListNode*prev=NULL;
+        vector<ListNode*>ans;
+        while(temp!=NULL)
+        {
+            ans.push_back(temp);
+            ListNode* del=temp;
+            int cnt=1;
+            while(cnt<size+(rem>0))
+            {
+                temp=temp->next;
+                cnt++;
+            }
+            rem--;
+             
+            del=temp;
+            if(temp!=NULL)
+                temp=temp->next;
+            if(del!=NULL)
+            del->next=NULL;
+            k--;
+        }
         while(k--)
         {
-            prev=NULL;
-            ans.push_back(temp);
-            int count=0;
-            while(count<divPart && temp)
-            {
-                prev=temp;
-                temp=temp->next;
-                count++;
-                // cout<<"WHILE"<<endl;
-                
-            }
-            
-            if(rem && temp)  //insert one by one rem part in split part if exist
-            {
-                prev=temp;
-                temp=temp->next;
-                rem--;
-                // cout<<"IF"<<endl;
-            }
-            // if(temp)cout<<"J"<<temp->val<<endl;
-            // if(prev)cout<<"P:"<<prev->val<<endl;
-            if(prev) prev->next=NULL;
+            ans.push_back(NULL);
         }
-
         return ans;
     }
 };
