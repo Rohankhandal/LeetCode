@@ -11,40 +11,45 @@
 class Solution {
 public:
     vector<vector<int>> spiralMatrix(int m, int n, ListNode* head) {
-        vector<vector<int>>ans(m,vector<int>(n,-1)); //intial value of matrix is -1
-        ListNode* temp=head;
-        int rowStart=0;
-        int rowEnd=m-1;
-        int colStart=0;
-        int colEnd=n-1;
-        
-        while(temp)
+        vector<vector<int>>ans(m,vector<int>(n,-1));
+
+        int total=m*n;
+        int rStart=0;
+        int rEnd=m-1;
+        int cStart=0;
+        int cEnd=n-1;
+        while(head!=NULL)
         {
-            for(int i=colStart;i<=colEnd&&temp;i++)
+            for(int i=cStart;i<=cEnd && head!=NULL;i++)
             {
-                ans[rowStart][i]=temp->val;
-                temp=temp->next;
+                ans[rStart][i]=head->val;
+                head=head->next;
+               
             }
-            rowStart++;
-            for(int i=rowStart;i<=rowEnd&&temp;i++)
+            rStart++;
+
+            for(int i=rStart;i<=rEnd && head!=NULL;i++)
             {
-                ans[i][colEnd]=temp->val;
-                temp=temp->next;
+                ans[i][cEnd]=head->val;
+                head=head->next;
             }
-            colEnd--;
-            for(int i=colEnd;i>=colStart&&temp;i--)
+            cEnd--;
+
+            for(int i=cEnd;i>=cStart && head!=NULL;i--)
             {
-                ans[rowEnd][i]=temp->val;
-                temp=temp->next;
+                ans[rEnd][i]=head->val;
+                head=head->next;
             }
-            rowEnd--;
-            for(int i=rowEnd;i>=rowStart&&temp;i--)
+            rEnd--;
+
+            for(int i=rEnd;i>=rStart && head!=NULL;i--)
             {
-                ans[i][colStart]=temp->val;
-                temp=temp->next;
+                ans[i][cStart]=head->val;
+                head=head->next;
             }
-            colStart++;
-        }
+            cStart++;
+            
+        }   
         return ans;
     }
 };
