@@ -1,46 +1,47 @@
+//The make_tree function traverses the entire tree once, taking O(n) time.
+// During this traversal, it populates the ans vector with the sizes of perfect subtrees.
+// After the traversal, sorting the ans vector takes O(p log p) time, where p is the number of perfect subtrees found (which is at most n).
+
+// Therefore, the overall time complexity is O(n + p log p), where n is the number of nodes in the tree and p is the number of perfect subtrees.
 class Solution {
 public:
-    bool check(TreeNode* root, int &size, int &height) {
-        if (!root->left && !root->right) {  // Leaf node is perfect, height = 0
-            height = 0;
-            return true;
+    vector<int> ans;  // Stores sizes of perfect subtrees
+
+    // Recursive function to check for perfect subtrees and collect their sizes
+    pair<bool,int> make_tree(TreeNode* root) {
+        if (root == NULL) {
+            return {true, 0};  // Empty tree is considered perfect
         }
-        if (root->left == NULL || root->right == NULL) return false;  // One child is missing
-        
-        int leftSize = 1, rightSize = 1;
-        int leftHeight = 0, rightHeight = 0;
-        
-        // Check if left and right subtrees are perfect and calculate their sizes and heights
-        bool left = check(root->left, leftSize, leftHeight);
-        bool right = check(root->right, rightSize, rightHeight);
 
-        // Both subtrees must be perfect and of equal height for the whole subtree to be perfect
-        if (left && right && leftHeight == rightHeight) {
-            size = leftSize + rightSize + 1;  // Total size includes left, right and root
-            height = leftHeight + 1;  // The height of the current subtree is 1 + height of its children
-            return true;
-        } else {
-            size = 0;  // If not perfect, reset size
-            return false;
+        // Recursively check left and right subtrees
+        pair<bool,int> l = make_tree(root->left);
+        pair<bool,int> r = make_tree(root->right);
+
+        // If both subtrees are perfect and have the same size
+        if (l.first && r.first && l.second == r.second) {
+            int s = l.second + r.second + 1;  // Size of current subtree
+            ans.push_back(s);  // Add size to our list
+            return {true, s};  // Current subtree is perfect
         }
-    }
 
-    void solve(TreeNode* root, vector<int>& arr) {
-        if (root == NULL) return;
-
-        solve(root->left, arr);
-        solve(root->right, arr);
-
-        int size = 1, height = 0;
-        if (check(root, size, height)) arr.push_back(size);  // If perfect subtree, add its size to arr
+        return {false, 0};  // Not a perfect subtree
     }
 
     int kthLargestPerfectSubtree(TreeNode* root, int k) {
-        vector<int> arr;
-        solve(root, arr);
-        sort(arr.rbegin(), arr.rend());  // Sort in descending order
+        if (root == NULL) {
+            return -1;
+        }
 
-        if (k > arr.size()) return -1;  // Edge case: Not enough perfect subtrees
-        return arr[k-1];  // Return the k-th largest (1-based index)
+        ans.clear();  // Reset our list of sizes
+        make_tree(root);  // Populate ans with sizes of perfect subtrees
+
+        // Sort sizes in descending order
+        sort(ans.begin(), ans.end(), greater<int>());
+
+        // Return kth largest if it exists, else -1
+        if (ans.size() >= k) {
+            return ans[k-1];
+        }
+        return -1;
     }
 };
