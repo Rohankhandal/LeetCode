@@ -8,52 +8,50 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-
 class Solution {
 public:
-    // Function to reverse the linked list
-    ListNode* reverseLL(ListNode* head) {
-        ListNode* prev = nullptr;
-        ListNode* curr = head;
-        while (curr != nullptr) {
-            ListNode* next = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = next;
+    ListNode *reverseLL(ListNode*head)
+    {
+        ListNode *prev=NULL;
+        ListNode *curr=head;
+        ListNode *forward=head->next;
+        while(curr!=NULL)
+        {
+            forward=curr->next;
+
+            curr->next=prev;
+
+            prev=curr;
+            curr=forward;
         }
         return prev;
+
     }
-
     vector<int> nextLargerNodes(ListNode* head) {
-        if (!head) return {};
-
-        // Reverse the linked list
-        head = reverseLL(head);
-
-        // Stack to keep track of next larger nodes
-        stack<int> st;
-        vector<int> result;
-
-        ListNode* temp = head;
-        while (temp != nullptr) {
-            while (!st.empty() && st.top() <= temp->val) {
+        stack<int>st;
+        vector<int>ans;
+        head=reverseLL(head);
+        ListNode*temp=head->next;
+        ans.push_back(0);
+        st.push(head->val);
+        while(temp!=NULL)
+        {
+            while(!st.empty() && temp->val>=st.top())
+            {
                 st.pop();
             }
-            if (st.empty()) {
-                result.push_back(0);
-            } else {
-                result.push_back(st.top());
+            if(st.empty())
+            {
+                ans.push_back(0);
+            }
+            else
+            {
+                ans.push_back(st.top());
             }
             st.push(temp->val);
-            temp = temp->next;
+            temp=temp->next;
         }
-
-        // Reverse the result to match the original order
-        reverse(result.begin(),result.end());
-
-        // Reverse the linked list back to original order (optional)
-        // head = reverseLL(head);
-
-        return result;
+        reverse(ans.begin(),ans.end());
+        return ans;
     }
 };
