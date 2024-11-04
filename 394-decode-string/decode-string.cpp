@@ -1,62 +1,89 @@
 class Solution {
 public:
     string decodeString(string s) {
-        string ans = "";
         stack<char> st;
-        stack<int> m;
-        for(int i = 0; i < s.size() ; i++){
-            if(isdigit(s[i])){
-                string t = "";
-                t.push_back(s[i]);
-                for(int j = i+1 ; j < s.size();j++){  //if there are mutiple number in a sequence like 100[a];
-                    if(isdigit(s[j])){
-                        t.push_back(s[j]);
-                    }
-                    else{
-                        i = j - 1;
-                        break;
-                    }
-                }
-                int num = stoi(t);  //convert string int number
-                m.push(num);
-            }
-            else if(s[i] == ']'){
-                int rep = m.top();
-                m.pop();
+        int n = s.size();
+        for (int i = 0; i < n; i++) {
+            char ch = s[i];
+            if (ch == ']') {
                 string temp = "";
-                while(!st.empty() && st.top() != '['){
-                    temp += st.top();
+                while (!st.empty() && st.top() != '[') {
+                    temp = st.top() + temp;
                     st.pop();
                 }
+
                 st.pop();
-                reverse(temp.begin(),temp.end()); 
 
-                string str = temp;
-                for(int j = 1; j < rep; j++){
-                    str += temp;
+                string numStr = "";
+                while (!st.empty() && isdigit(st.top())) {
+                    numStr = st.top() + numStr; // Collect digits in reverse
+                    st.pop();
                 }
 
-                if(!st.empty()){
-                    for(int k = 0; k < str.size(); k++){
-                        st.push(str[k]);
-                    }
+                int rep = stoi(numStr);
+                
+                string d = "";
+                for (int j = 0; j < rep; j++) {
+                    d += temp;
                 }
-                else{
-                    ans += str;
-                }
-            }
-            else{
-                st.push(s[i]);
+                for (char it : d) {
+                     st.push(it);
+                 }
+            } else
+            {
+                st.push(ch);
             }
         }
-        string te = "";
-        while(!st.empty()){  //add remaining answer in te
-            te += st.top();
+
+        string ans = "";
+        while (!st.empty()) {
+            ans = st.top() + ans;
             st.pop();
         }
-        reverse(te.begin(),te.end());  
-
-        ans += te;  //actual answer
         return ans;
     }
 };
+
+// stack<char> st;
+//         int n = s.size();
+
+//         for (int i = 0; i < n; i++) {
+//             char ch = s[i];
+//             if (ch == ']') {
+//                 string temp = "";
+
+//                 while (!st.empty() && st.top() != '[') {
+//                     temp = st.top() + temp;
+//                     st.pop();
+//                 }
+
+//                 st.pop();
+
+//                 string numStr = "";
+//                 while (!st.empty() && isdigit(st.top())) {
+//                     numStr = st.top() + numStr;  // Collect digits in reverse
+//                     st.pop();
+//                 }
+
+//                 int rep = stoi(numStr);
+
+//                 string d = "";
+//                 for (int j = 0; j < rep; j++) {
+//                     d += temp;
+//                 }
+
+//                 for (char it : d) {
+//                     st.push(it);
+//                 }
+//             } else {
+//                 st.push(ch);
+//             }
+//         }
+
+//         string ans = "";
+//         while (!st.empty()) {
+//             ans = st.top() + ans;
+//             st.pop();
+//         }
+
+//         return ans;
