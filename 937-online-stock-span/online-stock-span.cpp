@@ -1,24 +1,28 @@
 class StockSpanner {
-private:
-    // Stack pair stores {price, span}
-    stack<pair<int, int>> st;
-    
 public:
-    StockSpanner() {}
+    int span=1;
+    stack<pair<int,int>>st;
+
+    StockSpanner() {
+        
+    }
     
     int next(int price) {
-        int span = 1;
-        
-        // Pop elements from stack while they are smaller/equal to current price
-        // Add their spans to current span
-        while (!st.empty() && st.top().first <= price) {
-            span += st.top().second;
-            st.pop();
+        int time=1;
+        if(st.empty())
+        {
+            st.push({price,1});
         }
-        
-        // Push current price and its span
-        st.push({price, span});
-        return span;
+        else
+        {
+            while(!st.empty() && st.top().first<=price)
+            {
+                time+=st.top().second;
+                st.pop();
+            }
+            st.push({price,time});
+        }
+        return time;    
     }
 };
 
