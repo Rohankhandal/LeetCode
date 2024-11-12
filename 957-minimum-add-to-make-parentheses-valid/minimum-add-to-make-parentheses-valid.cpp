@@ -1,4 +1,3 @@
-// "()))(("
 class Solution {
 public:
     int minAddToMakeValid(string s) {
@@ -6,21 +5,16 @@ public:
         int n=s.size();
         for(int i=0;i<n;i++)
         {
-            if(s[i]=='(')
-            {
-                st.push(s[i]);
-            }
-            else
+            char ch=s[i];
+            if(ch==')')
             {
                 if(!st.empty() && st.top()=='(')
                 {
                     st.pop();
                 }
-                else
-                {
-                    st.push(')');
-                }
+                else st.push(ch);
             }
+            else st.push(ch);
         }
         return st.size();
     }
