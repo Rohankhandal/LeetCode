@@ -1,57 +1,58 @@
-class Node{
-    public:
-    string  str;
-    Node *prev;
-    Node*next;
-    
-    Node(string s)
-    {
-        str=s;
-        prev=NULL;
-        next=NULL;
-    }
-};
 class BrowserHistory {
 public:
+    class Node{
+        public :
+        string str;
+        Node*prev;
+        Node*next;
+
+        
+        Node()
+        {
+            str="";prev=nullptr,next=nullptr;
+        }
+        Node(string s)
+        {
+            str=s;prev=nullptr,next=nullptr;
+        }
+    };
+
     Node *head=NULL;
-    Node *ptr=NULL;
+    Node *tail=NULL;
+    Node *curr=NULL;
+
+
+    
     BrowserHistory(string homepage) {
-        Node*temp=new Node(homepage);
+        Node *temp=new Node(homepage);
         head=temp;
-        ptr=head;
+        tail=temp;
+        curr=temp;
     }
     
     void visit(string url) {
-        Node *temp=new Node(url);
-        ptr->next=temp;
-        temp->prev=ptr;
-        //update the location
-        ptr=temp;
+        Node*temp=new Node(url);
+        curr->next=temp;
+        temp->prev=curr;
+        curr=temp;
     }
     
     string back(int steps) {
-        int count=0;
-        while(ptr->prev!=NULL)
+        while(steps>0 && curr->prev!=NULL)
         {
-            ptr=ptr->prev;
-            count++;
-            if(count==steps)
-            {
-                break;
-            }
+            curr=curr->prev;
+            steps--;
         }
-        return ptr->str;
+        return curr->str;
     }
     
     string forward(int steps) {
-        int count=0;
-        while(ptr->next!=NULL)
+        while(steps>0 && curr->next!=NULL)
         {
-            ptr=ptr->next;
-            count++;
-            if(count==steps) break;
+            curr=curr->next;
+            steps--;
         }
-        return ptr->str;
+        return curr->str;
     }
 };
 
