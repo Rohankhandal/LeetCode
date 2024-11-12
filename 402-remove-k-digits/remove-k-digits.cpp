@@ -1,75 +1,40 @@
-//Using simple Monotonic Nature of Numbers
-//T.C : O(n)
-//S.C : O(1) - I am ignoring the space taken for result variable
-// class Solution {
-// public:
-//     string removeKdigits(string num, int k) {
-        
-//         string result = ""; //it will act like a stack
-//         int n = num.length();
-        
-//         for(int i = 0; i < n; i++) {
-            
-//             while(result.length() > 0 && result.back() > num[i] && k > 0) {
-//                 result.pop_back();
-//                 k--;
-//             }
-            
-//             if(result.length() > 0 || num[i] != '0') {     //GOOD CONDITION
-//                 result.push_back(num[i]); //to avoid the case when we have preceeding zeros
-//             }
-            
-//         }
-        
-        
-//         while(result.length() > 0 && k > 0) {
-//             result.pop_back();
-//             k--;
-//         }
-
-//         if(result == "") {
-//             return "0";
-//         }
-        
-//         return result;
-        
-//     }
-// };
-
 class Solution {
 public:
     string removeKdigits(string num, int k) {
-        string ans="";
-        int i=0;
-        while(i<num.size())
-        {
-            while(ans.size()>0 && ans.back()>num[i] && k)
-            {
-                ans.pop_back();
-                k--;
-
+        string ans;
+        stack<char> st;
+        for (auto digit : num) {
+            if (k > 0) {
+                while (!st.empty() && st.top() > digit) {
+                    st.pop();
+                    k--;
+                    if (k == 0)
+                        break;
+                }
             }
-            ans.push_back(num[i]);
-            i++;
+            st.push(digit);
         }
-        
-        while(ans.size()>0 && k)
-        {
-            ans.pop_back();
-            k--;
-        }
-        //we have to deal with preceding zeros in answer
-        string result="";
-        i=0;
-        while(ans[i]=='0')
-        {
-            i++;
-        }
-        
-        result=ans.substr(i,ans.size());
-        
-        if(result=="") return "0";
 
-        return result;
+        if (k > 0) {
+            while (!st.empty() && k) {
+                st.pop();
+                k--;
+            }
+        }
+
+        while (!st.empty()) {
+            ans.push_back(st.top());
+            st.pop();
+        }
+
+        // removing leading zeros (which will be at last)
+        while (ans.size() > 0 && ans.back() == '0')
+            ans.pop_back();
+
+        // get real ans
+        reverse(ans.begin(), ans.end());
+
+        return ans == "" ? "0" : ans; // e.g:-10 and k=2 then answer is "0" but
+                                      // code gives ""
     }
 };
