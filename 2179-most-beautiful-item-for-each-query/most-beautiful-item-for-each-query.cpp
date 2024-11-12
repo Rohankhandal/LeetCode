@@ -19,7 +19,7 @@ public:
         vector<pair<int, int>> v(mp.begin(), mp.end());
         sort(v.begin(), v.end());
 
-        // Build prefix max array for beauties
+        // Build prefix max array for beauties      => (IMP)
         int sz = v.size();
         for (int i = 1; i < sz; i++) {
             v[i].second = max(v[i].second, v[i - 1].second);
