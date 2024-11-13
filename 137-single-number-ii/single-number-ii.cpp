@@ -1,18 +1,20 @@
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-        int result = 0;
-        for (int i = 0; i < 32; i++) {
-            int sum = 0;
-            for (int num : nums) {
-                if ((num >> i) & 1) {
-                    sum++;
+        vector<int> bitArr(32, 0);
+        for (int num : nums) {
+            for (int i = 0; i < 32; i++) {
+                if (num & (1 << i)) {
+                    bitArr[i]++;
                 }
             }
-            if (sum % 3 != 0) {
-                result |= (1 << i);
-            }
         }
-        return result;
+
+        long long ans = 0;
+        for (int i = 0; i < 32; i++) {
+            bitArr[i] %= 3;
+            ans += bitArr[i] * (1LL << i);
+        }
+        return static_cast<int>(ans);
     }
 };
