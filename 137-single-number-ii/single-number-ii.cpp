@@ -13,7 +13,7 @@ public:
         long long ans = 0;
         for (int i = 0; i < 32; i++) {
             bitArr[i] %= 3;
-            ans += bitArr[i] * (1LL << i);
+            ans += bitArr[i] * pow(2,i)*1LL;
         }
         return static_cast<int>(ans);
     }
