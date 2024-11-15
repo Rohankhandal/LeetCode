@@ -56,11 +56,13 @@ public:
         
         for(int i = 0; i < n; i++) {
             
+            //1.Reveal
             int idx = que.front();
             que.pop();
-            
             result[idx] = deck[i];
             
+
+            //2.Push front to bottom
             if(!que.empty()) {
                 que.push(que.front());
                 que.pop();
@@ -71,5 +73,4 @@ public:
         return result;
     }
 };
-
 
