@@ -1,31 +1,24 @@
 class Solution {
 public:
-    vector<int> resultsArray(vector<int>& nums, int k)
-    {
+    vector<int> resultsArray(vector<int>& nums, int k) {
         int n=nums.size();
-        int t=0;
-        for(int i=1;i<k;i++) // k window size evaluated first
+        vector<int>ans(n-k+1,-1);
+
+        int consecutiveCnt=1;
+        for(int i=0;i<n;i++)
         {
-            if(nums[i-1]+1==nums[i]) t++; //storing the count of trues
-        }    
-        vector<int>ans;
-        int j=k,i=1;
-        while(j<n)
-        {
-            if(t==k-1)
+            if(i>0 && nums[i]==nums[i-1]+1)
             {
-                ans.push_back(nums[j-1]);
+                consecutiveCnt++;
             }
-            else ans.push_back(-1);
+            else
+            {
+                consecutiveCnt=1;
+            }
 
-            if(nums[i-1]+1==nums[i]) t--;
-
-            if(nums[j-1]+1==nums[j]) t++;
-            j++;
-            i++;
+            if(consecutiveCnt>=k) ans[i-k+1]=nums[i];
         }
-        if(t==k-1) ans.push_back(nums[n-1]);
-        else ans.push_back(-1);
+
         return ans;
     }
 };
