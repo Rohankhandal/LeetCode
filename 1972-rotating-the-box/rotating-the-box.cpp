@@ -1,42 +1,26 @@
 class Solution {
 public:
     vector<vector<char>> rotateTheBox(vector<vector<char>>& box) {
-        int m=box.size();
-        int n=box[0].size();
-        vector<vector<char>>ans(n,vector<char>(m));
-        for(int i=m-1;i>=0;i--)
-        {
-            for(int j=n-1;j>=0;j--)
-            {
-                if(box[i][j]=='#')
-                {
-                    //move right till obstacles or boundary
-                    int temp=j+1;
-                    while(temp<n && box[i][temp]!='*' && box[i][temp]!='#')
-                    {
-                        temp++;
-                    }
-                    swap(box[i][j],box[i][temp-1]);
-                }
+        int rows = box.size();
+    int cols = box[0].size();
+
+    // Create a new rotated grid with flipped dimensions
+    vector<vector<char>> rotated(cols, vector<char>(rows, '.'));
+
+    // Perform rotation and gravity effect simultaneously
+    for (int i = 0; i < rows; ++i) {
+        int empty = cols - 1; // Tracks the position to place '*'
+        for (int j = cols - 1; j >= 0; --j) {
+            if (box[i][j] == '*') {
+                rotated[j][rows - 1 - i] = '*'; // Rotate '*'
+                empty = j - 1;                  // Reset empty after '*'
+            } else if (box[i][j] == '#') {
+                rotated[empty][rows - 1 - i] = '#'; // Drop '#' to the lowest valid position
+                empty--;                            // Update empty for next stone
             }
         }
-        for(int i=0;i<m;i++)
-        {
-            for(int j=0;j<n;j++)
-            {
-                cout<<box[i][j]<<" ";
-            }
-            cout<<endl;
-        }
-        //traverse
-        
-        for(int i=0;i<m;i++)
-        {
-            for(int j=0;j<n;j++)
-            {
-                ans[j][m - 1 - i] = box[i][j];
-            }
-        }
-        return ans;
+    }
+
+    return rotated;
     }
 };
