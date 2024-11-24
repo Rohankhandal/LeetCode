@@ -1,41 +1,30 @@
 class Solution {
 public:
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-        vector<int>temp(nums2.size(),-1);
-        stack<int>st;
-        st.push(nums2[nums2.size()-1]);
-        for(int i=nums2.size()-2;i>=0;i--)
-        {
-            if(nums2[i]<st.top())
-            {
-                temp[i]=st.top();
+        unordered_map<int, int> nextGreater; // Maps elements of nums2 to their next greater element
+        stack<int> st;
+
+        // Compute the next greater element for each number in nums2
+        for (int num : nums2) {
+            while (!st.empty() && st.top() < num) {
+                nextGreater[st.top()] = num;
+                st.pop();
             }
-            else
-            {
-                while(!st.empty() && nums2[i]>=st.top())
-                {
-                    st.pop();
-                }
-                if(!st.empty()) 
-                {
-                    temp[i]=st.top();
-                }
-            }
-
-            st.push(nums2[i]);
-
-        }
-        unordered_map<int,int>mp;
-        for(int i=0;i<nums2.size();i++)
-        {
-            mp[nums2[i]]=i;
+            st.push(num);
         }
 
-        vector<int>ans(nums1.size(),0);
-        for(int i=0;i<nums1.size();i++)
-        {
-            ans[i]=temp[mp[nums1[i]]];
+        // For remaining elements in the stack, there is no next greater element
+        while (!st.empty()) {
+            nextGreater[st.top()] = -1;
+            st.pop();
         }
+
+        // Map the results for nums1 using the precomputed nextGreater map
+        vector<int> ans(nums1.size());
+        for (int i = 0; i < nums1.size(); ++i) {
+            ans[i] = nextGreater[nums1[i]];
+        }
+
         return ans;
     }
 };
