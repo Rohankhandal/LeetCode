@@ -1,7 +1,9 @@
 class Solution {
 public:
-    int slidingPuzzle(vector<vector<int>>& board) {
-        string target = "123450"; // Goal state
+   
+    int solve(vector<vector<int>>&board)
+    {
+       string target = "123450"; // Goal state
     string start = "";
     for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 3; ++j) {
@@ -45,5 +47,9 @@ public:
     }
     
     return -1; // If no solution found
+
+    }
+    int slidingPuzzle(vector<vector<int>>& board) {
+        return solve(board);
     }
 };
