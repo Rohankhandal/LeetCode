@@ -1,22 +1,26 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        vector<int>mp(256,0);
-        int l=0,r=0;
-        int n=s.size();
-        int ans=0;
-       while(r<n)
-        {
-            while(mp[s[r]]>0)
-            {
-                
-                mp[s[l]]--;
-                l++;
+        if (s.empty()) return 0;
+        
+        unordered_map<char, int> mp;
+        int n = s.size();
+        int start = 0;
+        int maxLen = 0;
+        
+        for (int i = 0; i < n; i++) {
+            // If the character is already in the map and its index is >= start, move the start
+            if (mp.find(s[i]) != mp.end() && mp[s[i]] >= start) {
+                start = mp[s[i]] + 1;  // Move start just after the previous occurrence of s[i]
             }
-            ans=max(ans,r-l+1);
-            mp[s[r]]++;
-            r++;
+            
+            // Update the character's latest index in the map
+            mp[s[i]] = i;
+            
+            // Calculate maxLen with the current window size
+            maxLen = max(maxLen, i - start + 1);
         }
-        return ans;
+        
+        return maxLen;
     }
 };
