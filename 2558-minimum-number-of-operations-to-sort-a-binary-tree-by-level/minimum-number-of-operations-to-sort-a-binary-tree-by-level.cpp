@@ -11,16 +11,16 @@
  */
 class Solution {
 public:
-    void solve(TreeNode* root, int &ans) {
+    void solve(TreeNode* root, int &ans) {  //O(nlogn)
         if (root == NULL) return;
         queue<TreeNode*> q;
         q.push(root);
         
-        while (!q.empty()) {
+        while (!q.empty()) {   //O(N)
             int sz = q.size();
             vector<int> temp;
             
-            for (int i = 0; i < sz; i++) {
+            for (int i = 0; i < sz; i++) {  //level*w*logW=> w is the width of that level
                 TreeNode* node = q.front();
                 q.pop();
                 temp.push_back(node->val);
