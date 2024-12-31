@@ -1,90 +1,94 @@
+// //Approach-1 (Recursion + Memoized)  [Time : O(max_day)] [Space : O(n)] //n = size of days vector
+// class Solution {
+// public:
+//     int t[366];
+//     int memoized(vector<int>& days, vector<int>& costs, int& n, int idx) {
+//         if(idx >= n)
+//             return 0; //you can't travel, so no cost
+                
+//         if(t[idx] != -1)
+//             return t[idx];
+        
+//         //if i take 1-day pass at idx
+//         int cost_1 = costs[0] + memoized(days, costs, n, idx+1);
+        
+        
+//         //if i take 7-day pass at idx
+//         int i          = idx;
+//         while(i < n && days[i] < days[idx]+7) {
+//             i++;
+//         }
+//         int cost_7 = costs[1] + memoized(days, costs, n, i);
+        
+        
+//         //if i take 30-day pass at idx
+//         int j      = idx;
+//         while(j < n && days[j] < days[idx]+30) {
+//             j++;
+//         }
+//         int cost_30 = costs[2] + memoized(days, costs, n, j);
+        
+        
+//         return t[idx] = min({cost_1, cost_7, cost_30});
+//     }
+    
+//     int mincostTickets(vector<int>& days, vector<int>& costs) {
+//         memset(t, -1, sizeof(t));
+//         int n = days.size();
+//         return memoized(days, costs, n, 0);
+//     }
+// };
+//Approach-3 (Moving from i = n-1 to 0
+//Simply replacing recursive calls with t
 class Solution {
 public:
-    int solve(vector<int>& days, vector<int>& costs, int i) {
-        if (i >= days.size()) {
-            return 0;
+    
+    int solve_bottom_up(vector<int>& days, vector<int>& costs, int n ) {
+        
+        vector<int> t(n+1, INT_MAX);
+        t[n] = 0;
+        
+        for(int i = n-1; i>=0; i--) {
+            
+            //1 day pass
+            int cost_1 = costs[0] + t[i+1];
+
+
+            //7 day pass
+            int j = i;
+            int max_day = days[i] + 7;
+
+            while(j < n && days[j] < max_day) {
+                j++;
+            }
+
+            int cost_7 = costs[1] + t[j];
+            
+            
+            //30 day pass
+            j = i;
+            max_day = days[i] + 30;
+
+            while(j < n && days[j] < max_day) {
+                j++;
+            }
+
+            int cost_30 = costs[2] + t[j] ;
+
+            t[i] = min({cost_1, cost_7, cost_30});
         }
-        int option1 = costs[0] + solve(days, costs, i + 1);
-
-        int index = i;
-        int j;
-        for (j = i; j < days.size() && days[j] < days[index] + 7; j++)
-            ;
-        int option2 = costs[1] + solve(days, costs, j);
-
-        index = i;
-        for (j = i; j < days.size() && days[j] < days[index] + 30; j++)
-            ;
-        int option3 = costs[2] + solve(days, costs, j);
-
-        return min({option1, option2, option3});
+        
+        return t[0];
     }
-
-    // Memoization
-    int solveMem(vector<int>& days, vector<int>& costs, int i,
-                 vector<int>& dp) {
-        if (i >= days.size()) {
-            return 0;
-        }
-        if (dp[i] != -1)
-            return dp[i];
-
-        // 1-Day cost
-        int option1 = costs[0] + solveMem(days, costs, i + 1, dp);
-
-        // 2-Day cost
-        int index = i;
-        int j;
-        for (j = i; j < days.size() && days[j] < days[index] + 7; j++)
-            ;
-        int option2 = costs[1] + solveMem(days, costs, j, dp);
-
-        // 3-Day cost
-        index = i;
-        for (j = i; j < days.size() && days[j] < days[index] + 30; j++)
-            ;
-        int option3 = costs[2] + solveMem(days, costs, j, dp);
-
-        return dp[i] = min({option1, option2, option3});
-    }
-
-    // Tabulation
-    int solveTab(vector<int>& days, vector<int>& costs) {
-        int n = days.size();
-        vector<int> dp(n + 1, 0);
-        dp[n] = 0;
-
-        for (int k = n - 1; k >= 0; k--) {
-
-            int j;
-
-            // 1-Day cost
-            int option1 = costs[0] + dp[k + 1];
-
-            // 2-Day cost
-            int index = k;
-            for (j = k; j < days.size() && days[j] < days[index] + 7; j++) ;
-            int option2 = costs[1] + dp[j];
-
-            // 3-Day cost
-            index = k;
-            for (j = k; j < days.size() && days[j] < days[index] + 30; j++);
-            int option3 = costs[2] + dp[j];
-
-            dp[k] = min({option1, option2, option3});
-        }
-        return dp[0];
-    }
+    
     int mincostTickets(vector<int>& days, vector<int>& costs) {
-        // return solve(days,costs,0);
-
-        // 2.Memoization
-        // int n = days.size();
-        // vector<int> dp(n + 1, -1);
-        // return solveMem(days, costs, 0, dp);
-
-        // 3.Tabulation
-        //  int n=days.size();
-         return solveTab(days,costs);
+        int n = days.size();
+        
+        // memset(t, -1, sizeof(t));
+        
+        //return solve(days, costs, n, 0);
+        
+        return solve_bottom_up(days, costs, n);
+        
     }
 };
