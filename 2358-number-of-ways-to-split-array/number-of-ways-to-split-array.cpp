@@ -1,29 +1,20 @@
 class Solution {
 public:
     int waysToSplitArray(vector<int>& nums) {
-        int n = nums.size();
-        // Prefix sum array to store cumulative sums
-        vector<long long> prefSum(n);
-        prefSum[0] = nums[0];
-
-        // Build prefix sum array
-        for (int i = 1; i < n; i++) {
-            prefSum[i] = prefSum[i - 1] + nums[i];
+        int n=nums.size();
+        vector<long long>preSum(n,0);
+        for(int i=0;i<n;i++) preSum[i]=nums[i];
+        for(int i=1;i<n;i++)
+        {
+            preSum[i]+=preSum[i-1];
+        }   
+        int ans=0;
+        for(int i=0;i<n-1;i++)
+        {
+            long long  left=preSum[i];
+             long long  right=preSum[n-1]-preSum[i];
+            if(left>=right) ans++;
         }
-
-        int count = 0;
-        // Check each possible split position
-        for (int i = 0; i < n - 1; i++) {
-            // Sum of left part (0 to i)
-            long long leftSum = prefSum[i];
-            // Sum of right part (i+1 to n-1)
-            long long rightSum = prefSum[n - 1] - prefSum[i];
-
-            if (leftSum >= rightSum) {
-                count++;
-            }
-        }
-
-        return count;
+        return ans;
     }
 };
