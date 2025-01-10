@@ -1,46 +1,33 @@
 class Solution {
 public:
     vector<string> wordSubsets(vector<string>& words1, vector<string>& words2) {
-        vector<string>ans;
-        map<char,int>maxfreq;
-        for(auto &s:words2)
-        {
-            map<char,int>mp;
-            for(auto &it:s)
-            {
-                mp[it]++;
+        vector<int> maxfreq(26, 0);
+        for (const string& word : words2) {
+            vector<int> freq(26, 0);
+            for (char c : word) {
+                freq[c - 'a']++;
             }
-            for(auto &it:mp)
-            {
-                maxfreq[it.first]=max(maxfreq[it.first],it.second);
+            for (int i = 0; i < 26; ++i) {
+                maxfreq[i] = max(maxfreq[i], freq[i]);
             }
         }
-        for(auto &it:maxfreq)
-        {
-            cout<<it.first<<" "<<it.second<<endl;
-        }
 
-        for(auto &s:words1)
-        {
-            map<char,int>temp;
-            for(auto &it:s)
-            {
-                temp[it]++;
+        vector<string> ans;
+        for (const string& word : words1) {
+            vector<int> freq(26, 0);
+            for (char c : word) {
+                freq[c - 'a']++;
             }
-
-            if(temp.size()<maxfreq.size()) continue;
-
-            bool isValid=true;
-            for(auto &it:maxfreq)
-            {
-                if(it.second>temp[it.first])
-                {
-                    isValid=false;
+            bool isValid = true;
+            for (int i = 0; i < 26; ++i) {
+                if (freq[i] < maxfreq[i]) {
+                    isValid = false;
                     break;
                 }
             }
-            if(isValid) ans.push_back(s);
+            if (isValid) ans.push_back(word);
         }
+
         return ans;
     }
 };
