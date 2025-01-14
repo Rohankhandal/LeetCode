@@ -1,36 +1,22 @@
 class Solution {
 public:
     int numMatchingSubseq(string s, vector<string>& words) {
-        int ans=0;
-        int n=s.size();
-        unordered_map<string,bool>mp;
-        for(auto &str:words)
+        int count = 0;
+        for (int i = 0; i < words.size(); ++i)
         {
-            if(mp.find(str)!=mp.end() && mp[str]==true)
+            int start = 0,flag= 1, k;
+            for (int j = 0; j < words[i].size(); ++j)
             {
-                ans++;
-                continue;
-            }
-            int i=0; //s
-            int j=0; //str
-            while(i<n && j<str.size())
-            {
-                if(str[j]==s[i])
+                k= s.find(words[i][j],start);
+                if (k == -1) 
                 {
-                    i++;j++;
+                    flag = 0;
+                    break;
                 }
-                else{
-                    i++;
-                }
+                start = k+1;
             }
-            if(j==str.size()) 
-            {
-                mp[str]=true;
-                ans++;
-            }
-            else mp[str]=false;
-
+            count += flag;
         }
-        return ans;
+        return count;
     }
 };
