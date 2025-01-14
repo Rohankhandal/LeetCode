@@ -1,33 +1,33 @@
 class Solution {
 public:
-bool isPossible(vector<int>&arr,int capacity,int days)
-{
-    int sum=0;
-    int totalDays=1;  //first day
-    for(int i=0;i<arr.size();i++)
-    {
-        if(sum+arr[i]<=capacity)
-        {
-            sum+=arr[i];
+    bool isValid(vector<int>& weights, int days, int tar) {
+    int cnt = 1; // Start with the first day
+    int sum = 0;
+
+    for (int i = 0; i < weights.size(); i++) {
+        if (weights[i] > tar) {
+            return false; // If a single weight exceeds tar, it's invalid
         }
-        else
-        {
-            sum=arr[i];
-            totalDays++; //move to next day
+        if (sum + weights[i] <= tar) {
+            sum += weights[i];
+        } else {
+            cnt++;        // Start a new day
+            sum = weights[i]; // Reset sum to the current weight
         }
     }
-    return totalDays<=days;
+
+    return (cnt <= days);
 }
+
     int shipWithinDays(vector<int>& weights, int days) {
-        int l=*max_element(weights.begin() , weights.end());
-        // int l=1;  don't start from 1 e.g. 1,2,3,1,1 bcz their no capacity which hold 
-        //max value from array if we take less than capacity from max value of element
-        int r=accumulate(weights.begin() , weights.end() , 0);
+        int total=accumulate(weights.begin(),weights.end(),0);
+        int l=1,r=total;
         int ans=0;
+        int n=weights.size();
         while(l<=r)
         {
-            int mid=l+(r-l)/2;
-            if(isPossible(weights,mid,days))
+            int mid=(l+r)/2;
+            if(isValid(weights,days,mid))
             {
                 ans=mid;
                 r=mid-1;
