@@ -22,7 +22,7 @@ void computeFactorials(int n) {
     }
     invFact[n] = modPow(fact[n], MOD - 2, MOD);
     for (int i = n - 1; i >= 1; i--) {
-        invFact[i] = invFact[i + 1] * (i + 1) % MOD;
+        invFact[i] = modPow(fact[i], MOD - 2, MOD);
     }
 }
 
