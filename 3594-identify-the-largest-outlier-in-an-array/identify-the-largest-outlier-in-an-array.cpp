@@ -12,10 +12,11 @@ public:
         int maxOutlier = INT_MIN;
         for (int num : nums) {
             long long requiredSum = totalSum - num;
-            if (requiredSum % 2 != 0) continue;
+            if (requiredSum % 2 != 0) continue; //Not possible Answer
 
             long long potentialSum = requiredSum / 2;
-            freqMap[num] -= 1;
+
+            freqMap[num] -= 1;  //Other than outlier , Sum is present or not //(EDGE CASE)
             int sumElement = static_cast<int>(potentialSum);
             int count = freqMap.count(sumElement) ? freqMap[sumElement] : 0;
             if (count > 0) maxOutlier = max(maxOutlier, num);
