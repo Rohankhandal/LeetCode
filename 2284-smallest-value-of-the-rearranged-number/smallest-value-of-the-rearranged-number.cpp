@@ -1,3 +1,4 @@
+// time complexity is O(log n × log(log n)),
 class Solution {
 public:
     long long smallestNumber(long long num) {
