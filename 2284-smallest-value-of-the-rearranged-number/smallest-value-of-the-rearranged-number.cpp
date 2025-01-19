@@ -1,58 +1,24 @@
 class Solution {
 public:
     long long smallestNumber(long long num) {
-        long long ans=0;
-        vector<int>arr;
-        bool neg=false;;
-        if(num<0) neg=true;
-
-        long long temp=num;
-        int zero=0;
-        while(temp)
-        {
-            long long bit=temp%10;
-            if(bit==0) zero++;
-            else
-            arr.push_back(abs(bit));
-
-            temp=temp/10;
-        }
-        if(neg)
-        {
-            sort(arr.rbegin(),arr.rend());
-
-            // for(auto &it:arr) cout<<it<<" ";
-
-            for(auto &it:arr)
-            {
-                ans=ans*10+it;
+        if (num < 0) {
+            // Handle negative numbers
+            string s = to_string(-num);  // Convert absolute value to string
+            sort(s.begin(), s.end(), greater<char>());  // Sort in descending order
+            return -stoll(s);  // Convert back to long long and negate
+        } else {
+            // Handle non-negative numbers
+            string s = to_string(num);  // Convert to string
+            sort(s.begin(), s.end());  // Sort in ascending order
+            
+            // Find the first non-zero digit and swap with the leading digit
+            for (int i = 0; i < s.size(); ++i) {
+                if (s[i] != '0') {
+                    swap(s[0], s[i]);
+                    break;
+                }
             }
-            while(zero){
-                ans=ans*10;
-                zero--;
-            }
-            return -ans;
+            return stoll(s);  // Convert back to long long
         }
-        else
-        sort(arr.begin(),arr.end());
-
-        bool first=true;
-        for(auto &it:arr)
-        {
-            ans=ans*10+it;
-            while(zero&&first)
-            {
-                ans=ans*10; 
-                zero--;  
-            }
-            first=false;
-        }
-        return ans;
-
-        
-
-
-
-
     }
 };
