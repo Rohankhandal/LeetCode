@@ -28,7 +28,7 @@ void computeFactorials(int n) {
 
 ll nCr(int n, int r) {
     if (r > n || r < 0) return 0;
-    return fact[n] * invFact[r] % MOD * invFact[n - r] % MOD;
+    return (fact[n] * (invFact[r] % MOD * invFact[n - r] % MOD)%MOD)%MOD;
 }
 
 class Solution {
