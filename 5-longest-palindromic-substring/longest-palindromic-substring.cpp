@@ -1,42 +1,33 @@
 class Solution {
 public:
-    int t[1001][1001];
+    bool isPalindrome(string &s,int l,int r)
+    {
+        while(l<r)
+        {
+            if(s[l]!=s[r]) return false;
+            l++;r--;
+        }
+        return true;
+    }
     string longestPalindrome(string s) {
         int n=s.size();
-        int maxLen=1;  //every letter is a substring and palindrome
-        //all substrings of length 1 palindrome
-        int startingIndex=0;
-        memset(t,0,sizeof(t));
-        for(int L=1;L<=n;L++)
+        string ans="";
+        int maxLen=0;
+        for(int i=0;i<n;i++)
         {
-            for(int i=0;i+L-1<n;i++)
+            for(int j=i;j<n;j++)
             {
-                int j=i+L-1;
-
-                if(i==j)  //1 length string
+                if(isPalindrome(s,i,j))
                 {
-                    t[i][j]=1;
-                }
-                else if(s[i]==s[j] && L==2) //2 length string
-                {
-                    t[i][j]=1;
-                    maxLen=2;
-                    startingIndex=i;
-                }
-                else if(s[i]==s[j] && t[i+1][j-1]==true){
-                    t[i][j]=1;
-                    if(maxLen<(j-i+1))
+                    int len=j-i+1;
+                    if(len>maxLen)
                     {
-                        maxLen=(j-i+1);
-                        startingIndex=i;
+                        maxLen=len;
+                        ans=s.substr(i,j-i+1);
                     }
-                }
-                else
-                {
-                    t[i][j]=0;
                 }
             }
         }
-        return s.substr(startingIndex,maxLen);
+        return ans;
     }
-}; 
+};
