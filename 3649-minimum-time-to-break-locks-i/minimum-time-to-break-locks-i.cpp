@@ -15,9 +15,9 @@ public:
         for (int i = 0; i < n; ++i) {
             int required = perm[i];
 
-            // Calculate the time to reach the required energy
+              // Calculate the time to reach the required energy
             if (energy < required) {
-                time += (required - energy + x - 1) / x; // Ceiling division
+                time += (required ) / x+(required%x!=0); // Ceiling division
                 energy = required;
             }
 
