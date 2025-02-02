@@ -1,16 +1,17 @@
-//count where increasing order is break including last one number
 class Solution {
 public:
     bool check(vector<int>& nums) {
         int n=nums.size();
-        int cnt=0;
-        for(int i=1;i<n;i++)
+        for(int rotate=0;rotate<n;rotate++)
         {
-            if(nums[i-1]>nums[i]) cnt++;
+            vector<int>temp(n,0);
+            for(int j=0;j<n;j++)
+            {
+                temp[((rotate+j)%n)]=nums[j];
+            }
+            if(is_sorted(temp.begin(),temp.end())) return true;
         }
-
-        if(nums[n-1]>nums[0]) cnt++;
-
-        return (cnt<=1);  //including case where all elements are same in array.
+        return false;
+        
     }
 };
