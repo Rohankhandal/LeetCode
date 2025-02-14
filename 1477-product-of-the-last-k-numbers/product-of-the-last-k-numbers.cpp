@@ -1,22 +1,22 @@
 class ProductOfNumbers {
 public:
-    vector<int>arr;
+     std::vector<int> prefixProducts;
+public:
     ProductOfNumbers() {
-        
+        prefixProducts = {1}; 
     }
     
     void add(int num) {
-        arr.push_back(num);
+        if (num == 0) {
+            prefixProducts = {1}; // Reset on zero
+        } else {
+            prefixProducts.push_back(prefixProducts.back() * num);
+        }
     }
     
     int getProduct(int k) {
-        int n=arr.size();
-        int prod=1;
-        for(int i=n-1;i>=0,k>0;i--){
-            prod*=arr[i];
-            k--;
-        }
-        return prod;
+        if (k >= prefixProducts.size()) return 0; // If k exceeds available range, there was a zero
+        return prefixProducts.back() / prefixProducts[prefixProducts.size() - k - 1];
     }
 };
 
