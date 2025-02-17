@@ -7,49 +7,58 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-
- //Another method of doing is level order traversing
 class Codec {
 public:
 
     // Encodes a tree to a single string.
-    string serialize(TreeNode* root) {
-        //Using preorder traversal 
-        if(root==NULL) return "X";
-        string leftSerialize=serialize(root->left);
-        string rightSerialize=serialize(root->right);
+    void serial(TreeNode*root,string &ans)
+    {
+        if(root==NULL)
+        {
+            ans+="X,";return ;
+        }
 
-        return to_string(root->val)+","+leftSerialize+","+rightSerialize;
+        ans+=to_string(root->val)+",";
+        serial(root->left,ans);
+        serial(root->right,ans);
+
+    }
+    string serialize(TreeNode* root) {
+        string ans="";
+        serial(root,ans);
+        // cout<<ans<<endl;
+        return ans;
     }
 
+    void deserial(vector<string>&arr,TreeNode*&ans,int &idx)
+    {
+        if(idx>=arr.size() || arr[idx]=="X")
+        {
+            ans=NULL;
+            idx++;
+            return ;
+        } 
+
+        ans=new TreeNode(stoi(arr[idx]));
+        idx++;
+        deserial(arr,ans->left,idx);
+        deserial(arr,ans->right,idx);
+
+    }
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
-        if(data.size()==0) return NULL;
-        string s;
-        queue<string>q;
-        for(int i=0;i<data.size();i++)
+        vector<string>v;
+        string temp;
+        stringstream str(data);
+        while(getline(str, temp, ','))
         {
-            if(data[i]==',')
-            {
-                q.push(s);
-                s="";
-                continue;
-            }
-            s+=data[i];
+            v.push_back(temp);
         }
-        if(s.size()!=0) q.push(s);
-
-        return deserialize_helper(q);
-    }
-    TreeNode* deserialize_helper(queue<string> &q)
-    {
-        string s=q.front();
-        q.pop();
-        if(s=="X") return NULL;
-        TreeNode* root=new TreeNode(stoi(s));
-        root->left=deserialize_helper(q);
-        root->right=deserialize_helper(q);
+        TreeNode*root=NULL;
+        int idx=0;
+        deserial(v,root,idx);
         return root;
+        
     }
 };
 
