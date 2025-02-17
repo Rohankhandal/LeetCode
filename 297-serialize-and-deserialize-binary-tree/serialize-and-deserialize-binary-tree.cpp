@@ -11,54 +11,51 @@ class Codec {
 public:
 
     // Encodes a tree to a single string.
-    void serial(TreeNode*root,string &ans)
-    {
-        if(root==NULL)
-        {
-            ans+="X,";return ;
+    void serial(TreeNode* root, string& ans) {
+        if (root == NULL) {
+            ans += "X,";
+            return;
         }
 
-        ans+=to_string(root->val)+",";
-        serial(root->left,ans);
-        serial(root->right,ans);
-
+        ans += to_string(root->val) + ",";
+        serial(root->left, ans);
+        serial(root->right, ans);
     }
+
+    // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
-        string ans="";
-        serial(root,ans);
-        // cout<<ans<<endl;
+        string ans = "";
+        serial(root, ans);
         return ans;
     }
 
-    void deserial(vector<string>&arr,TreeNode*&ans,int &idx)
-    {
-        if(idx>=arr.size() || arr[idx]=="X")
-        {
-            ans=NULL;
+    // Helper function for deserialization
+    void deserial(vector<string>& arr, TreeNode*& ans, int& idx) {
+        if (idx >= arr.size() || arr[idx] == "X") {
             idx++;
-            return ;
-        } 
+            return;
+        }
 
-        ans=new TreeNode(stoi(arr[idx]));
+        ans = new TreeNode(stoi(arr[idx]));
         idx++;
-        deserial(arr,ans->left,idx);
-        deserial(arr,ans->right,idx);
-
+        deserial(arr, ans->left, idx);
+        deserial(arr, ans->right, idx);
     }
-    // Decodes your encoded data to tree.
+
+    // Decodes the encoded data to tree.
     TreeNode* deserialize(string data) {
-        vector<string>v;
+        vector<string> v;
         string temp;
         stringstream str(data);
-        while(getline(str, temp, ','))
-        {
+
+        while (getline(str, temp, ',')) {
             v.push_back(temp);
         }
-        TreeNode*root=NULL;
-        int idx=0;
-        deserial(v,root,idx);
+
+        TreeNode* root = NULL;
+        int idx = 0;
+        deserial(v, root, idx);
         return root;
-        
     }
 };
 
