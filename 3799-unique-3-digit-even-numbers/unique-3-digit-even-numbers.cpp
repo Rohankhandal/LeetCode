@@ -1,37 +1,32 @@
 class Solution {
 public:
-    void f(vector<int>&digits,set<string>&st,string temp,int n,unordered_map<int,int>&mp)
-    {
-        if(temp.size()==3) 
-        {
-            if((temp[2]-'0')%2==0 && temp[0]!='0')
-            {
-                st.insert(temp);
-                // cout<<temp<<endl;
+    void generateNumbers(vector<int>& digits, unordered_set<int>& st, int num, int count, vector<int>& freq) {
+        if (count == 3) {
+            if (num % 2 == 0) {
+                st.insert(num);
             }
-            return ;
+            return;
         }
 
-        for(int idx=0;idx<n;idx++)
-        {
-            if(mp[digits[idx]]>0)
-            {
-                temp.push_back(digits[idx]+'0');
-                mp[digits[idx]]--;
-                f(digits,st,temp,n ,mp);
-                mp[digits[idx]]++;
-                temp.pop_back();
+        for (int i = 0; i < 10; i++) {
+            if (freq[i] > 0) {
+                // Ensure first digit is non-zero
+                if (count == 0 && i == 0) continue; 
+
+                freq[i]--;
+                generateNumbers(digits, st, num * 10 + i, count + 1, freq);
+                freq[i]++;
             }
-            
         }
     }
+
     int totalNumbers(vector<int>& digits) {
-        int n=digits.size();
-        set<string>st;
-        string temp="";
-        unordered_map<int,int>mp;
-        for(auto &it:digits) mp[it]++;
-        f(digits,st,temp,n,mp);
+        vector<int> freq(10, 0);
+        for (int d : digits) freq[d]++;
+
+        unordered_set<int> st;
+        generateNumbers(digits, st, 0, 0, freq);
+        
         return st.size();
     }
 };
