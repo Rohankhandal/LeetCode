@@ -2,30 +2,24 @@ class Solution {
 public:
     int minOperations(vector<int>& nums) {
         int n=nums.size();
-        int ans=0;
-        for(int i=0;i<n-2;i++)
+        vector<int>flip(n,0);
+        int cnt=0;
+        for(int i=0;i<=n-3;i++)
         {
-            if(nums[i]==0)
+            if((flip[i]+nums[i])%2==0)
             {
-                for(int j=i;j<i+3;j++)
+                for(int j=i;j<i+3&&j<n;j++)
                 {
-                    nums[j]=(nums[j]+1)%2;
-                    // cout<<j<<" "<<nums[j]<<endl;
+                    flip[j]++;
                 }
-                ans++;
+                cnt++;
             }
-           
         }
-        bool flag=true;
+
         for(int i=0;i<n;i++)
         {
-            if(nums[i]!=1)
-            {
-                flag=false;
-                break;
-            }
+            if((flip[i]+nums[i])%2==0) return -1;
         }
-        if(!flag) return -1;
-        return ans;
+        return cnt;
     }
 };
