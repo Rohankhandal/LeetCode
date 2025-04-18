@@ -11,12 +11,12 @@ public:
         {
             char ch=s[i];
             int cnt=0;
-            while(ch==s[i])
+            while(i<s.size() && ch==s[i])
             {
                 i++;
                 cnt++;
             }
-            ans=ans+(char)(cnt+'0')+ch;
+            ans=ans+to_string(cnt)+ch;
         }
         return ans;
     }
