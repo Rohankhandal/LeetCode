@@ -1,26 +1,26 @@
 class Solution {
 public:
-    string countAndSay(int n) {
+    string solve(int n)
+    {
         if(n==1) return "1";
 
-        string s=countAndSay(n-1);
-
-       
+        string str=solve(n-1);
         string ans="";
         int i=0;
-        while(i<s.size())
+        while(i<str.size())
         {
-            char ch=s[i];
-            int cnt=0;
-            while(ch==s[i])
-            {
+            char ch=str[i];
+            int count=0;
+            while(i<str.size()&&str[i]==ch){
+                count++;
                 i++;
-                cnt++;
             }
-
-            ans=ans+(char)(cnt+'0')+ch;
+            ans+=to_string(count) + ch;
         }
-
+        cout<<ans<<endl;
         return ans;
+    }
+    string countAndSay(int n) {
+        return solve(n);
     }
 };
