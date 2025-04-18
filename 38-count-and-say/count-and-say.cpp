@@ -1,25 +1,26 @@
 class Solution {
 public:
     string countAndSay(int n) {
-        if(n==1)
-        {
-            return "1";
+        if(n==1) return "1";
 
-        }
-        string say=countAndSay(n-1);
-        string result="";
-        //now process that say string
-        for(int i=0;i<say.length();i++)
+        string s=countAndSay(n-1);
+
+       
+        string ans="";
+        int i=0;
+        while(i<s.size())
         {
-            char ch=say[i];
-            int count=1;
-            while(i<say.size()-1 && say[i]==say[i+1])
+            char ch=s[i];
+            int cnt=0;
+            while(ch==s[i])
             {
-                count++;
                 i++;
+                cnt++;
             }
-            result+=to_string(count)+string(1,ch);   //IMP we convert ch into string through string(1,ch) gives length 1 string which is ch.
+
+            ans=ans+(char)(cnt+'0')+ch;
         }
-        return result;
+
+        return ans;
     }
 };
