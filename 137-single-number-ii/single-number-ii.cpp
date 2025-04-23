@@ -1,26 +1,28 @@
-class Solution
-{
-    public:
-        int singleNumber(vector<int> &nums)
-        {
-            vector<int> bitArr(32, 0);
-            for (int num: nums)
+class Solution {
+public:
+    int singleNumber(vector<int>& arr) {
+        vector<int>bits(32,0);
+        int n=arr.size();
+        for(int i=0;i<32;i++){
+            int cnt=0;
+            for(auto &num:arr)
             {
-                for (int i = 0; i < 32; i++)
+                if((num>>i)&1)
                 {
-                    if (num &(1 << i))
-                    {
-                        bitArr[i]++;
-                    }
+                    cnt++;
                 }
             }
-
-            long long ans = 0;
-            for (int i = 0; i < 32; i++)
-            {
-                bitArr[i] %= 3;
-                ans += bitArr[i] *(1LL << i);
-            }
-            return static_cast<int> (ans);
+            
+            bits[i]=cnt%3;
         }
+        
+        long long ans=0;
+        long long power=1;
+        for(int i=0;i<32;i++){
+            if(bits[i])
+                ans=ans+power;
+            power*=2;
+        }
+        return ans;
+    }
 };
