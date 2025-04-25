@@ -2,20 +2,21 @@ class Solution {
 public:
     int minOperations(vector<int>& nums, int k) {
         int xorVal=0;
-        for(auto &i:nums)
+        for(auto &num:nums)
         {
-            xorVal^=i;
+            xorVal^=num;
         }
-        int ans=0;
-        while(xorVal || k)
-        {
-            if((xorVal&1) != (k&1))
-            {
-                ans++;
-            }
-            xorVal>>=1;
-            k>>=1;
+
+        int cnt=0;
+        while(xorVal>0 || k>0){
+            int a=xorVal&1;
+            int b=k&1;
+
+            if(a!=b) cnt++;
+
+            if(xorVal>0) xorVal>>=1;
+            if(k>0) k>>=1;
         }
-        return ans;
+        return cnt;
     }
 };
