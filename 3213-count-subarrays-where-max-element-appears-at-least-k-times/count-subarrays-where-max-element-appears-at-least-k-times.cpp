@@ -1,33 +1,26 @@
-//Approach-1 (Classic sliding window)
-//T.C : O(n)
-//S.C : O(1)
 class Solution {
 public:
     long long countSubarrays(vector<int>& nums, int k) {
-        int maxE = *max_element(begin(nums), end(nums));
+        long long ans=0;
+        int maxEle=*max_element(nums.begin(),nums.end());
         
-        int n = nums.size();
-        int i = 0, j = 0;
-        
-        long long result = 0;
-        int countMax = 0;
-        
-        while(j < n) {
-            if(nums[j] == maxE) {
-                countMax++;
+        int l=0,r=0;
+        int n=nums.size();
+
+        int freqMax=0;
+        while(r<n){
+            if(nums[r]==maxEle) freqMax++;
+
+            while(l<=r && freqMax>=k)
+            {
+                ans+=(n-r);
+                if(nums[l]==maxEle) freqMax--;
+                l++;
             }
-            
-            while(countMax >= k) {
-                result += n-j;          //IMP   (DRY RUN)
-                
-                if(nums[i] == maxE) {
-                    countMax--;
-                }
-                i++;
-            }
-            j++;
+
+            r++;
         }
+        return ans;
         
-        return result;
     }
 };
