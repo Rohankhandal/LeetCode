@@ -1,11 +1,22 @@
 class Solution {
 public:
     string triangleType(vector<int>& nums) {
-        set<int>s(nums.begin(),nums.end());
-        sort(nums.begin(),nums.end());
-        if((nums[0] + nums[1])<=nums[2]) return "none";
-        if(s.size() == 1) return "equilateral";
-        if(s.size() == 2) return "isosceles";
-        return "scalene";
+        int a=nums[0];
+        int b=nums[1];
+        int c=nums[2];
+        if(!(a+b>c && b+c>a && a+c>b)) return "none";
+        if(a==b & b==c) 
+        {
+            return "equilateral";
+        }
+        else if(a== b || b== c || a==c){
+            return "isosceles";
+        }
+        else if(a+b>c && b+c>a && a+c>b)
+        {
+            return "scalene";
+        }
+        else return "none";
     }
+   
 };
