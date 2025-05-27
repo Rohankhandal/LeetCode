@@ -47,7 +47,7 @@ public:
             if (p[j] == '*')
                 dp[n][j] = true;
             else
-                break; // no point continuing if current isn't '*'            //IMP PIONT
+                break; // no point continuing if current isn't '*'            //IMP POINT
         }
 
         // Fill the table from bottom up
@@ -67,10 +67,47 @@ public:
         return dp[0][0];
     }
 
+
+    int fSpace(string s,string p)
+    {
+        int n = s.size(), m = p.size();
+
+        // dp[j] represents dp[i+1][j]
+        vector<bool> prev(m + 1, false), curr(m + 1, false);
+
+        // Base case: empty string and empty pattern match
+        prev[m] = true;
+
+        // Fill last row (i = n): when s is exhausted
+        for (int j = m - 1; j >= 0; --j) {
+            if (p[j] == '*')
+                prev[j] = true;
+            else
+                break;
+        }
+
+        // Process from i = n-1 to 0
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = m - 1; j >= 0; --j) {
+                if (p[j] == s[i] || p[j] == '?') {
+                    curr[j] = prev[j + 1];
+                } else if (p[j] == '*') {
+                    curr[j] = prev[j] || curr[j + 1];
+                } else {
+                    curr[j] = false;
+                }
+            }
+
+            prev = curr;
+        }
+
+        return prev[0]; // result for dp[0][0]
+    }
     bool isMatch(string s, string p) {
         // int n = s.size(), m = p.size();
         // dp.assign(n + 1, vector<int>(m + 1, -1));
         // return f(s, p, 0, 0);
-        return fTab(s,p);
+        // return fTab(s,p);
+        return fSpace(s,p);
     }
 };
