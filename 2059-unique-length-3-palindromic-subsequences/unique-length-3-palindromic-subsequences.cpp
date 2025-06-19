@@ -1,36 +1,36 @@
 class Solution {
 public:
     int countPalindromicSubsequence(string s) {
-        int n=s.size();
-        map<char,pair<int,int>>mp;
-        for(char ch='a';ch<='z';ch++)
-        {
-            mp[ch]={-1,-1};
+        int n = s.size();
+        vector<int> right(26, 0);
+
+        for (int i = 0; i < n; i++) {
+            right[s[i] - 'a']++;
         }
 
-        for(int i=0;i<n;i++)
-        {
-            if(mp[s[i]].first==-1) mp[s[i]].first=i;
-        }
-        for(int i=n-1;i>=0;i--)
-        {
-            if(mp[s[i]].second==-1) mp[s[i]].second=i;
-        }
+        vector<int> left(26, 0);
+        unordered_set<string> seen;
+        int cnt = 0;
 
-        int ans=0;
-        for(auto &it:mp)
-        {
-            char ch=it.first;
-            int start=it.second.first;
-            int end=it.second.second;
+        left[s[0] - 'a']++;
+        right[s[0] - 'a']--;
 
-            map<char,int>mp;
-            for(int i=start+1;i<end;i++)
-            {
-                mp[s[i]]++;
+        for (int i = 1; i < n; i++) {
+            right[s[i] - 'a']--;
+
+            for (int ch = 0; ch < 26; ch++) {
+                if (left[ch] > 0 && right[ch] > 0) {
+                    string pattern = string(1, ch + 'a') + s[i] + string(1, ch + 'a');
+                    if (!seen.count(pattern)) {
+                        cnt++;
+                        seen.insert(pattern);
+                    }
+                }
             }
-            ans+=mp.size();
+
+            left[s[i] - 'a']++;
         }
-        return ans;
+
+        return cnt;
     }
 };
