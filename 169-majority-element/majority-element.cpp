@@ -1,51 +1,27 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        int maj;           //Boyer-Moore Vooting Algorithm  S.C O(1)
-        int count=0;
-        for(int i=0;i<nums.size();i++)
+        int n=nums.size();
+        int val=NULL;
+        int cnt=0;
+
+        for(int i=0;i<n;i++)
         {
-            if(nums[i]==maj)
+            if(cnt==0)
             {
-                count++;
+                val=nums[i];
+                cnt++;
             }
-            else if(count==0)
+            else if(val==nums[i])
             {
-                maj=nums[i];
-                count=1;
+                cnt++;
             }
             else
             {
-                count--;
+                cnt--;
             }
         }
-        return  maj;   //if don't do verify that maj is really a majority element bcz in question given that there is always exist a maj. element.
-        
+
+        return val;
     }
 };
-
-
-//Using map S.c O(n);
-// class Solution {
-// public:
-//     int majorityElement(vector<int>& nums) {
-//         unordered_map<int,int>mp;
-//         int n=nums.size();
-//         for(int i=0;i<n;i++)
-//         {
-//             mp[nums[i]]++;
-//         }
-//         //chech majority
-//         for(auto &it:mp)
-//         {
-//             int freq=it.second;
-//             if(freq>n/2)
-//             {
-//                 return it.first;
-//             }
-//         }
-
-//         return -1;
-        
-//     }
-// };
