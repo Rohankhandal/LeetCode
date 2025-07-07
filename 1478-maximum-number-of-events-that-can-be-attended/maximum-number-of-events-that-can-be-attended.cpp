@@ -1,50 +1,42 @@
-// 1.sort the array according to end day
-// 2.pick the nearest day avaiable
-// (Greedy Method)
-
+//Approach (Using Sorting and heap and hreedily picking the ones ending earliest)
+//T.C : O(nlogn)
+//S.C : O(n)
 class Solution {
 public:
-    static bool cmp(vector<int>&a,vector<int>&b)  //we must have to sort data according to end time bcz 
-    //if last end time come early then nearest days is used 
-    //e.g [[1,2],[1,2],[3,3],[1,5],[1,5]]
-    //after sort according to first day
-        // 1 2
-        // 1 2
-        // 1 5
-        // 1 5
-        // 3 3
-    {
-        if(a[1]<b[1]) return true;
-        else if(a[1]==b[1]) return a[0]<b[0];
-        return false;
-    }
     int maxEvents(vector<vector<int>>& events) {
-        
-        sort(events.begin(),events.end(),cmp);
-        // for(int i=0;i<events.size();i++)
-        // {
-        //    cout<<events[i][0]<<" "<<events[i][1]<<endl;
-        // }
-        int cnt=0;
-        set<int>days;
-        for(int i=1;i<=100000;i++)  days.insert(i);
+        int n = events.size();
 
-        for(auto &event:events)
-        {
-            int s=event[0];int e=event[1];
-            auto it=days.lower_bound(s);
-            if(it == days.end() || *it>e)
-            {
-                continue;
-            }
-            else
-            {
-                ++cnt;
-                days.erase(it);
+        sort(begin(events), end(events));
+
+        priority_queue<int, vector<int>, greater<int>> pq; //min-heap
+        int day = events[0][0]; //5
+        int i   = 0;
+        int count = 0; //result number of events attended
+
+        while(!pq.empty() || i < n) {
+            
+            if(pq.empty()) {
+                day = events[i][0];
             }
 
+            while(i < n && events[i][0] == day) {
+                pq.push(events[i][1]);
+                i++;
+            }
+
+            if(!pq.empty()) {
+                pq.pop(); //1 event attended on this day
+                count++; //counting the result
+            }
+
+            day++;
+
+            //skip those events whose endDay < day
+            while(!pq.empty() && pq.top() < day) {
+                pq.pop();
+            }
         }
-        return cnt;
 
+        return count;
     }
 };
