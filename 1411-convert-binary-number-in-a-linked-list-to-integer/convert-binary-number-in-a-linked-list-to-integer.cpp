@@ -10,33 +10,17 @@
  */
 class Solution {
 public:
-ListNode* reverse(ListNode*head)
-{
-    if(head==NULL || head->next==NULL) return head;
-    ListNode*curr=head;
-    ListNode*prev=NULL;
-    ListNode*forward=head;
-    while(curr!=NULL)
-    {
-        forward=curr->next;
-        curr->next=prev;
-
-        prev=curr;
-        curr=forward;
-    }
-    return prev;
-}
     int getDecimalValue(ListNode* head) {
-        //reverse the LL
-        head=reverse(head);
-        int ans=0;
-        int i=0;
-        while(head!=NULL)
+        int num=0;
+        if(head==NULL) return num;
+        ListNode*temp=head;
+
+        while(temp!=NULL)
         {
-            ans+=pow(2,i)*head->val;
-            head=head->next;
-            i++;
+            int val=temp->val;
+            num=num*2+val;
+            temp=temp->next;
         }
-        return ans;
+        return num;
     }
 };
