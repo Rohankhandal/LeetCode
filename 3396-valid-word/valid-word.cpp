@@ -1,45 +1,27 @@
 class Solution {
 public:
-bool isVowel(char c) {
-  return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' ||
-          c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U');
-}
-bool isWord(string s)
-{
-    for(auto  &it:s)
-    {
-        if(!isdigit(it) && !isalpha(it)) return false;
+    bool isVowel(char ch) {
+        ch = std::tolower(ch); // Convert to lowercase for case-insensitivity
+        return (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u');
     }
-    return true;
-}
     bool isValid(string word) {
-        int n=word.size();
-        bool flag=isWord(word);
-        if(flag==false) return false; 
-        if(n>=3)
-        {
-            bool Vowel=false;
-            bool Consonant=false;
-            for(auto &it:word)
+        // int charCnt=0;
+        int vowel=0;
+        int consnant=0;
+        if(word.size()<3) return false; 
+        for(auto &ch:word){
+            if(isalnum(ch))
             {
-               
-                if(isdigit(it)|| isalpha(it))
+                if(!isdigit(ch))
                 {
-                    if(!isdigit(it) && isVowel(it))
-                    {
-                        Vowel=true;
-                    }
-                    else if(!isdigit(it))
-                    {
-                        Consonant=true;
-                    }
-                    if(Vowel && Consonant) return true;
+                    // charCnt++;
+                    if(isVowel(ch)) vowel++;
+                    else consnant++;
                 }
-                else return false;
             }
+            else return false;
         }
-        else return false;
 
-        return false;
+        return (vowel>=1 && consnant>=1) && true;
     }
 };
