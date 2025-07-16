@@ -1,53 +1,66 @@
 class Solution {
 public:
     int maximumLength(vector<int>& nums) {
-        
-        //we have to count maximum from (total no. of even elements or total no. of odd element, or pattern of even-odd, or pattern of odd-even)
         int n=nums.size();
-
-        int evenCnt=0;
         for(int i=0;i<n;i++)
         {
-            if(!(nums[i]&1)) evenCnt++;
+            nums[i]=nums[i]%2;
         }
 
-        int oddCnt=n-evenCnt;
-
-        //now find even-odd pairs
-        int flag=0;
-        int evenToOdd=0;
+        int ans=0;
+        int len=0;
+        //all even
         for(int i=0;i<n;i++)
         {
-            if(nums[i]%2==0 && flag==0)
-            {
-                evenToOdd++;
-                flag=1;
-            }
-
-            if(nums[i]%2==1 && flag==1)
-            {
-                evenToOdd++;
-                flag=0;
-            }
+            if(nums[i]==0) len++;
         }
+        ans=max(ans,len);
 
-        //now find odd-Even
-        flag=1;
-        int oddToEven=0;
+        //all odd
+        len=0;
         for(int i=0;i<n;i++)
         {
-            if(nums[i]%2==1 && flag==1)
+            if(nums[i]==1) len++;
+        }
+        ans=max(ans,len);
+
+        //all even-odd
+        bool even=true;
+        len=0;
+        for(int i=0;i<n;i++)
+        {
+            if(nums[i]==0 && even)
             {
-                oddToEven++;
-                flag=0;
+                even=false;
+                len++;
             }
-            if(nums[i]%2==0 && flag==0)
+            else if(nums[i]==1 && !even) 
             {
-                oddToEven++;
-                flag=1;
+                even=true;
+                len++;
             }
         }
+        ans=max(ans,len);
 
-        return max({evenCnt,oddCnt,oddToEven,evenToOdd});
+        //all odd-even
+        bool odd=true;
+        len=0;
+        for(int i=0;i<n;i++)
+        {
+            if(nums[i]==1 && odd)
+            {
+                odd=false;
+                len++;
+            }
+            else if(nums[i]==0 && !odd) 
+            {
+                odd=true;
+                len++;
+            }
+
+        }
+        ans=max(ans,len);
+
+        return ans;
     }
 };
