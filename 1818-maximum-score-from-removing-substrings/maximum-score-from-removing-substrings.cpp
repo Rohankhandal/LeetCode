@@ -1,39 +1,39 @@
 class Solution {
 public:
     int maximumGain(string s, int x, int y) {
-        int n = s.size();
-        string first = (x > y) ? "ab" : "ba";
-        string second = (x > y) ? "ba" : "ab";
-        int fhigh = (x > y) ? x : y;
-        int shigh = (x > y) ? y : x;
-        int ans = 0;
-
-        stack<char> st;
-        // Process the string to maximize the removal of first pattern
-        for (int i = 0; i < n; ++i) {
-            if (!st.empty() && st.top() == first[0] && s[i] == first[1]) {
+        int n=s.size();
+        string fString=(x>y)?"ab":"ba";
+        string sString=(x>y)?"ba":"ab";
+        int fHigh=(x>y)?x:y;
+        int sHigh=(x>y)?y:x;
+        int ans=0;
+        stack<char>st;
+        for(int i=0;i<n;i++)
+        {
+            if(!st.empty() && st.top()==fString[0] && s[i]==fString[1])
+            {
                 st.pop();
-                ans += fhigh;
-            } else {
-                st.push(s[i]);
+                ans+=fHigh;
             }
+            else st.push(s[i]);
         }
-
-        // Now process the remaining string to maximize the removal of second pattern
-        string temp;
-        while (!st.empty()) {
-            temp.push_back(st.top());
+        string temp="";
+        while(!st.empty())
+        {
+            temp+=st.top();
             st.pop();
         }
-        reverse(temp.begin(), temp.end());
 
-        for (int i = 0; i < temp.size(); ++i) {
-            if (!st.empty() && st.top() == second[0] && temp[i] == second[1]) {
+        reverse(temp.begin(),temp.end());
+
+         for(int i=0;i<temp.size();i++)
+        {
+            if(!st.empty() && st.top()==sString[0] && temp[i]==sString[1])
+            {
                 st.pop();
-                ans += shigh;
-            } else {
-                st.push(temp[i]);
+                ans+=sHigh;
             }
+            else st.push(temp[i]);
         }
 
         return ans;
