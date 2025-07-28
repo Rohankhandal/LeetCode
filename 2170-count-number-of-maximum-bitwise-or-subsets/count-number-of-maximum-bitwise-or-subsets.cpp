@@ -1,26 +1,27 @@
 class Solution {
 public:
     int countMaxOrSubsets(vector<int>& nums) {
-        int n = nums.size();
-        int maxOr = INT_MIN;
-        unordered_map<int, int> mp;
-        for (int i = 1; i < pow(2, n); i++) {
-            int res = 0;
-            int j = i;
-            int idx = 0;
-            while (j) {
-                if (j & 1) {
-                    res |= nums[idx];
-                    if (res > maxOr) {
-                        maxOr = res;
-                    }
-                }
-                idx++;
-                j >>= 1;
+       int n=nums.size();
+       int maxOr=0;
+       for(auto &num:nums)
+       {
+        maxOr|=num;
+       }
+       int cnt=0;
+
+       int total=(1<<n);
+       for(int i=0;i<total;i++)
+       {
+         int orVal=0;
+         for(int j=0;j<n;j++)
+         {
+            if(i&(1<<j)){
+                orVal|=nums[j];
             }
-            mp[res]++;
-        }
-        cout << maxOr;
-        return mp[maxOr];
+         }
+      
+         cnt+=(orVal==maxOr);
+       }
+       return cnt;
     }
 };
