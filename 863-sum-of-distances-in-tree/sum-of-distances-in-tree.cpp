@@ -1,63 +1,49 @@
-//Time : O(n), Space : O(n)
 class Solution {
 public:
-    //store count of subtrees of each node
-    long result_base_node = 0;
     vector<int> count;
+    int baseCount;
     int N;
-    int dfsBase(unordered_map<int, vector<int>> &adj, int curr_node, int prev_node, int curr_depth) {
-        int total_node = 1;
-        
-        result_base_node += curr_depth;
-        
-        for(int &child : adj[curr_node]) {
-            if(child == prev_node)
-                continue;
-            
-            total_node += dfsBase(adj, child, curr_node, curr_depth+1);
+
+    int dfs(unordered_map<int, vector<int>>& adj, int src, int parent, int curr_depth) {
+        int total = 1;
+        baseCount += curr_depth;
+
+        for (auto& v : adj[src]) {
+            if (v != parent) {
+                total += dfs(adj, v, src, curr_depth + 1);
+            }
         }
-        
-        //store count of subtrees of each node
-        count[curr_node] = total_node;
-        
-        return total_node;
+
+        count[src] = total;
+        return total;
     }
-    
-    void DFS(unordered_map<int, vector<int>> &adj, int parent_node, int prev_node, vector<int>& result) {
-        
-        for(int &child : adj[parent_node]) {
-            if(child == prev_node)
-                continue;
-            
-            result[child] = result[parent_node] - count[child] + (N - count[child]);
-            DFS(adj, child, parent_node, result);
+
+    void dfs2(unordered_map<int, vector<int>>& adj, int src, int parent, vector<int>& ans) {
+        for (auto& v : adj[src]) {
+            if (v != parent) {
+                ans[v] = ans[src] - count[v] + (N - count[v]);
+                dfs2(adj, v, src, ans);
+            }
         }
-        
     }
-    
+
     vector<int> sumOfDistancesInTree(int n, vector<vector<int>>& edges) {
         unordered_map<int, vector<int>> adj;
-        N = n;
-        count.resize(n, 0);
-        for(auto &vec : edges) {
-            int u = vec[0];
-            int v = vec[1];
-            
-            adj[u].push_back(v);
-            adj[v].push_back(u);
+        for (auto& e : edges) {
+            adj[e[0]].push_back(e[1]);
+            adj[e[1]].push_back(e[0]);
         }
-        
-        
-        result_base_node = 0;
-        
-        dfsBase(adj, 0, -1, 0);
-        
-        vector<int> result(n, 0);
-        
-        result[0] = result_base_node;
-        
-        DFS(adj, 0, -1, result);
-        
-        return result;
+
+        N = n;
+        baseCount = 0;
+        count.resize(n, 0);
+
+        dfs(adj, 0, -1, 0);  // Build subtree sizes and root distances
+
+        vector<int> ans(n, 0);
+        ans[0] = baseCount;
+        dfs2(adj, 0, -1, ans);  // Propagate distances
+
+        return ans;
     }
 };
