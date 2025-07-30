@@ -1,44 +1,63 @@
+//Time : O(n), Space : O(n)
 class Solution {
-private:
-    unordered_map<int, vector<int>> graph;
-    vector<int> count;
-    vector<int> res;
-
-    void dfs(int node, int parent) {
-        for (int child : graph[node]) {
-            if (child != parent) {
-                dfs(child, node);
-                count[node] += count[child];
-                res[node] += res[child] + count[child];
-            }
-        }
-    }
-
-    void dfs2(int node, int parent) {
-        for (int child : graph[node]) {
-            if (child != parent) {
-                res[child] = res[node] - count[child] + (count.size() - count[child]);
-                dfs2(child, node);
-            }
-        }
-    }
-
 public:
-    vector<int> sumOfDistancesInTree(int n, vector<vector<int>>& edges) {
-        graph.clear();
-        count = vector<int>(n, 1);
-        res = vector<int>(n, 0);
-
-        for (auto& edge : edges) {
-            int u = edge[0];
-            int v = edge[1];
-            graph[u].push_back(v);
-            graph[v].push_back(u);
+    //store count of subtrees of each node
+    long result_base_node = 0;
+    vector<int> count;
+    int N;
+    int dfsBase(unordered_map<int, vector<int>> &adj, int curr_node, int prev_node, int curr_depth) {
+        int total_node = 1;
+        
+        result_base_node += curr_depth;
+        
+        for(int &child : adj[curr_node]) {
+            if(child == prev_node)
+                continue;
+            
+            total_node += dfsBase(adj, child, curr_node, curr_depth+1);
         }
-
-        dfs(0, -1);
-        dfs2(0, -1);
-
-        return res;
+        
+        //store count of subtrees of each node
+        count[curr_node] = total_node;
+        
+        return total_node;
+    }
+    
+    void DFS(unordered_map<int, vector<int>> &adj, int parent_node, int prev_node, vector<int>& result) {
+        
+        for(int &child : adj[parent_node]) {
+            if(child == prev_node)
+                continue;
+            
+            result[child] = result[parent_node] - count[child] + (N - count[child]);
+            DFS(adj, child, parent_node, result);
+        }
+        
+    }
+    
+    vector<int> sumOfDistancesInTree(int n, vector<vector<int>>& edges) {
+        unordered_map<int, vector<int>> adj;
+        N = n;
+        count.resize(n, 0);
+        for(auto &vec : edges) {
+            int u = vec[0];
+            int v = vec[1];
+            
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        
+        
+        result_base_node = 0;
+        
+        dfsBase(adj, 0, -1, 0);
+        
+        vector<int> result(n, 0);
+        
+        result[0] = result_base_node;
+        
+        DFS(adj, 0, -1, result);
+        
+        return result;
     }
 };
