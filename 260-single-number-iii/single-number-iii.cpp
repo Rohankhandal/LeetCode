@@ -8,7 +8,7 @@ public:
         }
         int n=arr.size();
         
-        long long  firstRightSet=(xorVal&(xorVal-1) ^ xorVal);
+        long long  firstRightSet=xorVal&(~(xorVal-1));
         // cout<<firstRightSet<<endl;
         int a=0,b=0;
         for(int i=0;i<n;i++)
