@@ -1,28 +1,26 @@
 class Solution {
 public:
     int totalFruit(vector<int>& fruits) {
-        unordered_map<int, int> basket;
-        int left = 0;
-        int right = 0;
-        int maxFruits = 0;
+        int n = fruits.size();
+        int ans=0;
+        unordered_map<int,int>mp;
 
-        for (right = 0; right < fruits.size(); right++) {
-            // Add current to basket
-            basket[fruits[right]] ++;
+        int l=0,r=0;
+        while(r<n)
+        {
+            mp[fruits[r]]++;
 
-            // If basket has more than 2 types of fruits,
-            // start emptying the basket
-            while (basket.size() > 2) {
-                int fruitCount = basket[fruits[left]];
-                if (fruitCount == 1)
-                    basket.erase(fruits[left]);
-                else
-                    basket[fruits[left]] = fruitCount - 1;
-                left++;
+            while(l<=r && mp.size()>2)
+            {
+                mp[fruits[l]]--;
+                if(mp[fruits[l]]==0) mp.erase(fruits[l]);
+                l++;
             }
 
-            maxFruits =max(maxFruits, right - left + 1);
+
+            ans=max(ans,r-l+1);
+            r++;
         }
-        return maxFruits;
+        return ans;
     }
 };
