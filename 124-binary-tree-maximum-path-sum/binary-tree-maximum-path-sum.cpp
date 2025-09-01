@@ -11,38 +11,18 @@
  */
 class Solution {
 public:
-    
-    int maxSum;
-    
-    int solve(TreeNode* root) {
-        if(root == NULL)
-            return 0;
+    int f(TreeNode*root,int &ans){
+        if(!root) return 0;
+
+        int l=f(root->left,ans);
+        int r=f(root->right,ans);
         
-        int l = solve(root->left);
-        int r = solve(root->right);
-        
-        int neeche_hi_milgaya_answer = l + r + root->val; //(1)
-        //we can't return neeche_hi_milgaya_answer variable bcz we contain a path 
-        //from left to root to right 
-        
-        int koi_ek_acha = max(l, r) + root->val; //(2)
-        
-        int only_root_acha = root->val; //(3)
-        
-        maxSum = max({maxSum, neeche_hi_milgaya_answer, koi_ek_acha, only_root_acha});
-        
-        
-        //most important part
-        return max(koi_ek_acha, only_root_acha);
-        
+        ans=max({ans,l+r+root->val,root->val+max(l,r),root->val});
+        return max(root->val+max(l,r),root->val);
     }
-    
     int maxPathSum(TreeNode* root) {
-        maxSum = INT_MIN;
-        
-        solve(root);
-        
-        return maxSum;
-        
+        int ans=INT_MIN;
+        f(root,ans);
+        return ans;   
     }
 };
