@@ -1,62 +1,42 @@
 class LRUCache {
 public:
-    list<int>arr;
-    unordered_map<int,pair<list<int>::iterator,int>>cache;
-    int n;
-    LRUCache(int capacity) {
-        this->n=capacity;
-    }
-    void makeRecentUse(int key)
-    {
-        int value=cache[key].second;
-        // delete from linked list
-        arr.erase(cache[key].first);
-        //insert in begin
-        arr.push_front(key);
+     int cap;
+    list<pair<int, int>> dll; // {key, value} - front = most recent, back = least recent
+    unordered_map<int, list<pair<int, int>>::iterator> mp; // key -> iterator in list
 
-        // also update the address of key in map
-        cache.erase(key);
-        cache[key]={arr.begin(),value};
+    LRUCache(int capacity){
+        cap = capacity;
     }
+
     int get(int key) {
-        //first check whether key value is present or not;
-        if(cache.find(key)==cache.end())
-        {
-            return -1;
-        }
+        // If key not found
+        if (mp.find(key) == mp.end()) return -1;
 
-        //if present
-        //make the key recent use
-        makeRecentUse(key);
+        // Move accessed item to front (most recently used)
+        auto it = mp[key];
+        int value = it->second;
+        dll.erase(it);
+        dll.push_front({key, value});
+        mp[key] = dll.begin();
 
-        return cache[key].second;
+        return value;
     }
-    
+
     void put(int key, int value) {
-        //check whether key is present or not
-        if(cache.find(key)!=cache.end())
-        {
-            arr.erase(cache[key].first);
-            arr.push_front(key);
-            cache.erase(key);
-            cache[key]={arr.begin(),value};
+        // If key already exists, erase it first
+        if (mp.find(key) != mp.end()) {
+            dll.erase(mp[key]);
+        }
+        // If capacity full, remove least recently used (back)
+        else if (dll.size() == cap) {
+            auto last = dll.back();
+            mp.erase(last.first);
+            dll.pop_back();
         }
 
-        //if not present insert it
-        else
-        {
-                n--;
-                arr.push_front(key);
-                cache[key]={arr.begin(),value};
-                
-                if(n<0)
-                {
-                    cache.erase(arr.back());
-                    arr.pop_back();
-                    n++;
-                }
-        }
-
+        // Insert new key-value at front
+        dll.push_front({key, value});
+        mp[key] = dll.begin();
     }
 };
 
